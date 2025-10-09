@@ -5,6 +5,10 @@ import express from "express";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import mongoSanitize from "express-mongo-sanitize";
+import xss from "xss-clean";
+import helmet from "helmet";
+import {globalLimiter} from "./utils/rateLimit.js";
 import AuthRouter from "./routes/authRoute.js";
 import UserRouter from "./routes/userRoute.js";
 import PostRouter from "./routes/postRoute.js";
@@ -24,6 +28,11 @@ app.use(cors({
   origin: "http://localhost:5173",
   credentials: true, // allows sending cookies
 }));
+app.use(mongoSanitize()); // Prevent NoSQL injection
+app.use(xss()); // Prevent XSS attacks
+app.use(helmet()); // Set security-related HTTP headers
+app.use(globalLimiter); // Rate limiting
+
 
 
 // Connect MongoDB
@@ -52,6 +61,20 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   const { status = 500, message = "Internal Server Error" } = err;
   return res.status(status).json({ success: false, message, error: message });
+});
+
+// Multer error handler
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    if (err.code === "LIMIT_FILE_SIZE") {
+      return res.status(400).json({ success: false, message: "File too large. Max 10MB allowed." });
+    }
+    return res.status(400).json({ success: false, message: err.message });
+  }
+  if (err.message === "Invalid file type. Only images and videos are allowed.") {
+    return res.status(400).json({ success: false, message: err.message });
+  }
+  next(err);
 });
 
 export default app;

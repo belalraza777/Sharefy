@@ -1,7 +1,5 @@
 import express from "express";
-import multer from "multer";
 import verifyAuth from "../utils/verifyAuth.js";
-import { storage } from "../utils/cloudinary.js";
 import asyncWrapper from "../utils/asyncWrapper.js";
 import {
     getUserProfile,
@@ -12,9 +10,9 @@ import {
     getFollowers,
     getFollowing
 } from "../controllers/userController.js";
+import upload from "../utils/uploadMiddleware.js"; 
 
 const router = express.Router();
-const upload = multer({ storage });
 
 
 // Get user profile (with posts)

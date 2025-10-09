@@ -44,6 +44,9 @@ export const getFeed = async (req, res) => {
 export const createPost = async (req, res) => {
     const file = req.file; // Multer provides this
     const caption = req.body?.caption || "";
+    if (caption.length > 2200) {
+        return res.status(400).json({ success: false, message: "Caption exceeds maximum length of 2200 characters" });
+    }
     //Important: Validate file existence
     if (!file) {
         return res.status(400).json({ success: false, message: "File is required" });
@@ -118,6 +121,7 @@ export const getPostById = async (req, res) => {
         data: post,
     });
 };
+
 
 //Like a post
 export const likePost = async (req, res) => {

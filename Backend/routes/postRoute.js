@@ -1,8 +1,8 @@
 import express from "express";
-import multer from "multer";
-import { storage } from "../utils/cloudinary.js";
 import verifyAuth from "../utils/verifyAuth.js";
 import asyncWrapper from "../utils/asyncWrapper.js";
+import {postLimiter} from "../utils/rateLimit.js";
+
 import {
     getFeed,
     createPost,
@@ -11,15 +11,16 @@ import {
     unlikePost,
     deletePost
 } from "../controllers/postController.js";
+import upload from "../utils/uploadMiddleware.js"; 
+
 
 const router = express.Router();
-const upload = multer({ storage });
 
 // Routes (clean + error-safe with asyncWrapper)
 //Get feed
 router.get("/feed", verifyAuth, asyncWrapper(getFeed));
 //Create post
-router.post("/", verifyAuth, upload.single("file"), asyncWrapper(createPost));
+router.post("/", verifyAuth, postLimiter, upload.single("file"), asyncWrapper(createPost));
 //Get post by id
 router.get("/:id", verifyAuth, asyncWrapper(getPostById));
 //Like and unlike post
