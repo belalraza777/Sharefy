@@ -10,7 +10,7 @@ import UserRouter from "./routes/userRoute.js";
 import PostRouter from "./routes/postRoute.js";
 import CommentRouter from "./routes/commentRoute.js";
 import NotificationRouter from "./routes/notificationRoute.js";
-import savedRoutes from "./routes/savedPostRoute.js";
+import SavedPostRouter from "./routes/savedPostRoute.js";
 import SearchRouter from "./routes/searchRoute.js";
 import ErrorHandle from "./utils/errorClass.js";
 
@@ -33,13 +33,15 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Routes
 app.get("/", (req, res) => res.send("Welcome to Sharefy"));
-app.use("/api/auth/", AuthRouter);
-app.use("/api/users/", UserRouter);
-app.use("/api/posts/", PostRouter);
-app.use("/api/comments/", CommentRouter);
-app.use("/api/notifications/", NotificationRouter);
-app.use('/api/saved/', savedRoutes);
-app.use("/api/search", SearchRouter);
+app.get("/api/v1/health", (req, res) => res.status(200).json({ success: true, message: "Server is running " }));
+
+app.use("/api/v1/auth", AuthRouter);
+app.use("/api/v1/users", UserRouter);
+app.use("/api/v1/posts", PostRouter);
+app.use("/api/v1/comments", CommentRouter);
+app.use("/api/v1/notifications", NotificationRouter);
+app.use("/api/v1/saved-posts", SavedPostRouter);
+app.use("/api/v1/search", SearchRouter);
 
 // Unknown route
 app.use((req, res, next) => {
