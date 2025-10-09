@@ -1,0 +1,98 @@
+/* LeftSidebar.css */
+.left-sidebar {
+  width: 250px;
+  background: #ffffff;
+  border: 1px solid #d1d6db;
+  height: calc(100vh - 80px);
+  position: sticky;
+  top: 90px;
+  overflow-y: auto;
+  margin: 10px 0px;
+  margin-right: 10px;
+  border-radius: 18px;
+box-shadow: 0px 0px 3px 0px  rgb(0, 0, 0, 0.2);
+}
+
+.sidebar-nav {
+  padding: 2rem 0;
+}
+
+.nav-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin-bottom: 0.5rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  color: #2d3436;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.nav-link:hover {
+  background: #f8f9fa;
+  color: #6c5ce7;
+  border-left-color: #6c5ce7;
+}
+
+.nav-link.active {
+  background: linear-gradient(90deg, rgba(108, 92, 231, 0.1), transparent);
+  color: #6c5ce7;
+  border-left-color: #6c5ce7;
+  font-weight: 600;
+}
+
+.nav-icon {
+  font-size: 1.25rem;
+  margin-right: 1rem;
+  width: 24px;
+  text-align: center;
+}
+
+.nav-label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Custom Scrollbar for Sidebar */
+.left-sidebar::-webkit-scrollbar {
+  width: 3px;
+}
+
+.left-sidebar::-webkit-scrollbar-track {
+  background: #f8f9fa;
+  border-radius: 2px;
+}
+
+.left-sidebar::-webkit-scrollbar-thumb {
+  background: #8678f0;
+  border-radius: 2px;
+}
+
+.left-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #5b4bd4;
+}
+
+@media (max-width: 1024px) {
+  .left-sidebar {
+    width: 200px;
+  }
+  
+  .nav-link {
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .left-sidebar {
+    display: none;
+  }
+}

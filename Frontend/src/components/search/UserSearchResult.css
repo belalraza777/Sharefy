@@ -1,0 +1,63 @@
+.search-results-full {
+    padding: 1rem 0;
+}
+
+.search-results-title {
+    margin-bottom: 1rem;
+    color: #2d3436;
+    font-size: 1.25rem;
+}
+
+.search-result-item-full {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid #f1f3f4;
+    transition: background-color 0.2s ease;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.search-result-item-full:hover {
+    background: #f8f9fa;
+}
+
+.search-result-item-full img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.username {
+    font-weight: 600;
+    color: #2d3436;
+    font-size: 1rem;
+}
+
+.full-name {
+    color: #636e72;
+    font-size: 0.9rem;
+}
+
+.search-loading, .search-error, .search-no-results-full {
+    padding: 2rem;
+    text-align: center;
+    color: #636e72;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.search-error {
+    color: #d63031;
+    background: #ffeaea;
+}

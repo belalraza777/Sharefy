@@ -1,0 +1,76 @@
+# Frontend Development Plan for Sharefy
+
+## 1. Core Technologies
+
+*   **Framework:** React.js
+*   **Language:** JavaScript (with JSX)
+*   **Package Manager:** npm
+*   **State Management:** Zustand
+*   **Routing:** React Router
+*   **Styling:** Styled Components or CSS Modules with a focus on a modular and reusable design system.
+*   **API Communication:** Axios for making HTTP requests to the backend.
+
+## 2. Project Structure
+
+/src
+|-- /api (or /services)
+|   |-- authApi.js
+|   |-- postApi.js
+|   |-- userApi.js
+|-- /store
+|   |-- authStore.js
+|   |-- postStore.js
+|-- /components
+|   |-- /common
+|   |   |-- Button.js
+|   |   |-- Input.js
+|   |   |-- Spinner.js
+|   |-- /feed
+|   |   |-- Post.js
+|   |   |-- PostList.js
+|   |-- /layout
+|   |   |-- Navbar.js
+|   |   |-- Sidebar.js
+|   |-- /profile
+|   |   |-- ProfileHeader.js
+|-- /hooks
+|   |-- useAuth.js
+|-- /pages
+|   |-- HomePage.js
+|   |-- LoginPage.js
+|   |-- ProfilePage.js
+|   |-- SignupPage.js
+|-- /styles
+|   |-- global.css
+|-- /utils
+|-- App.js
+|-- index.js
+
+## 3. Key Features & Pages
+
+*   **Authentication:**
+    *   Login Page (`/login`)
+    *   Signup Page (`/signup`)
+    *   Password Reset functionality
+*   **Core App:**
+    *   **Home/Feed Page (`/`):** Displays a feed of posts from followed users.
+    *   **Post:** Component to display a single post with author, content, likes, comments.
+    *   **Create Post:** Functionality to create a new post (text, image/video).
+    *   **Comments:** View and add comments on a post.
+    *   **Likes:** Like/unlike a post.
+*   **User Profile:**
+    *   **Profile Page (`/profile/:userId`):** Displays user information, their posts, followers, and following count.
+    *   **Edit Profile:** Allow users to update their profile information (bio, profile picture).
+*   **Social:**
+    *   **Follow/Unfollow:** Ability to follow and unfollow other users.
+    *   **Notifications:** Display notifications for likes, comments, and new followers.
+
+## 4. Development Workflow
+
+1.  **Setup:** Initialize React project using Create React App.
+2.  **Install Dependencies:** `react-router-dom`, `zustand`, `axios`, `styled-components`.
+3.  **Component Scaffolding:** Create the basic folder structure and empty component files.
+4.  **Authentication:** Implement login/signup pages and Zustand state for authentication.
+5.  **Core Features:** Build out the main feed, post creation, and user profile features.
+6.  **Styling:** Apply consistent styling and create a reusable component library.
+7.  **Testing:** Write unit and integration tests for components and Zustand logic.

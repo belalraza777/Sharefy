@@ -1,0 +1,35 @@
+.like-button {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem; /* like gap-1 */
+  font-size: 1.5rem; /* like text-2xl */
+  transition: transform 0.2s ease-in-out; /* transition-all duration-200 */
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.like-button:hover {
+  transform: scale(1.1); /* hover:scale-110 */
+}
+
+.like-button:focus {
+  outline: none; /* focus:outline-none */
+}
+
+.like-button.loading {
+  opacity: 0.5; /* opacity-50 */
+  cursor: not-allowed; /* cursor-not-allowed */
+  transform: none; /* disable hover scale */
+}
+
+.liked-icon {
+  color: red;
+}
+
+.like-text {
+  font-size: 0.875rem; /* text-sm */
+  color: black;
+  font-weight: 400; /* font-normal */
+}

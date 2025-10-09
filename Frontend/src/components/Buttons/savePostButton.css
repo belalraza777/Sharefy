@@ -1,0 +1,24 @@
+.save-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .save-button.loading {
+    cursor: not-allowed;
+  }
+  
+  .saved-icon,
+  .unsaved-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }
+  
+  .saved-icon {
+    color: #007bff;
+  }
+  

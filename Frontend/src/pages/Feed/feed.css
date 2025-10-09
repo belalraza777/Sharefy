@@ -1,0 +1,315 @@
+/* Feed.css - Improved UX without direct post creation */
+.feed-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0;
+  background: #f8f9fa;
+  position: relative;
+}
+
+/* Create Post Prompt */
+.create-post-prompt {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e1e5e9;
+  transition: all 0.3s ease;
+}
+
+.create-post-prompt:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+.prompt-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.prompt-content .user-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
+  flex-shrink: 0;
+}
+
+.post-prompt-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 25px;
+  background: #ffffff;
+  font-size: 0.9rem;
+  color: #636e72;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.post-prompt-input:hover {
+  background: #f8f9fa;
+  border-color: #6c5ce7;
+  color: #2d3436;
+}
+
+.prompt-actions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e1e5e9;
+}
+
+.prompt-action {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: #ffffff;
+  border: 2px solid #e1e5e9;
+  border-radius: 10px;
+  color: #2d3436;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+  font-weight: 500;
+  flex: 1;
+  justify-content: center;
+  margin: 0 0.25rem;
+}
+
+.prompt-action:hover {
+  background: #6c5ce7;
+  color: white;
+  border-color: #6c5ce7;
+  transform: translateY(-1px);
+}
+
+.action-icon {
+  font-size: 1rem;
+}
+
+.action-text {
+  font-weight: 500;
+}
+
+/* Floating Action Button */
+.floating-create-btn {
+  position: fixed;
+  bottom: 5rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  border: none;
+  cursor: pointer;
+}
+
+.floating-create-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(108, 92, 231, 0.6);
+}
+
+.plus-icon {
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+/* Empty State */
+.empty-feed {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: #ffffff;
+  border-radius: 16px;
+  margin: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e1e5e9;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+.empty-feed h3 {
+  color: #2d3436;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.empty-feed p {
+  color: #636e72;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.create-first-post-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
+}
+
+.create-first-post-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+}
+
+/* Posts Feed */
+.posts-feed {
+  padding: 0 1rem;
+}
+
+/* Post Card Styles (keep your existing post card styles) */
+.post-card {
+  background: #ffffff;
+  border-radius: 16px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e1e5e9;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.infinite-scroll-end {
+  text-align: center;
+  padding: 1.5rem;
+  margin: 1rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-radius: 16px;
+  border: 1px solid #e1e5e9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.infinite-scroll-end p {
+  margin: 0;
+  color: var(--dark-light);
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.infinite-scroll-end p::before {
+  content: "✨";
+  font-size: 1.1rem;
+}
+
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .feed-container {
+    padding: 0;
+    background: #ffffff;
+  }
+  
+  .create-post-prompt {
+    margin: 0.5rem;
+    border-radius: 12px;
+  }
+  
+  .posts-feed {
+    padding: 0 0.5rem;
+  }
+  
+  .post-card {
+    border-radius: 12px;
+    margin-bottom: 1rem;
+  }
+  
+  .floating-create-btn {
+    bottom: 4rem;
+    right: 1rem;
+    width: 56px;
+    height: 56px;
+  }
+  
+  .prompt-actions {
+    justify-content: space-between;
+  }
+  
+  .prompt-action {
+    flex: none;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-post-prompt {
+    padding: 1rem;
+  }
+  
+  .prompt-content .user-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .post-prompt-input {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.85rem;
+  }
+  
+  .prompt-action {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .action-icon {
+    font-size: 0.9rem;
+  }
+  
+  .floating-create-btn {
+    width: 52px;
+    height: 52px;
+    bottom: 3.5rem;
+  }
+  
+  .plus-icon {
+    font-size: 1.25rem;
+  }
+}
+
+/* Hide floating button on desktop if you prefer */
+@media (min-width: 769px) {
+  .floating-create-btn {
+    display: none;
+  }
+}

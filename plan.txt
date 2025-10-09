@@ -1,0 +1,62 @@
+# Sharefy Application Plan
+
+## Pages
+
+### Existing Pages:
+- **Authentication:**
+  - `src/pages/auth/login.jsx`: User login.
+  - `src/pages/auth/signup.jsx`: User registration.
+- **Feed:**
+  - `src/pages/Feed/feed.jsx`: Main content feed.
+  - `src/pages/Feed/post.jsx`: Individual post component (likely used in the feed).
+- **Post:**
+  - `src/pages/Post/singlePost.jsx`: View a single, detailed post.
+- **User Profile:**
+  - `src/pages/Profile/Profile.jsx`: Display user information, posts, and activity.
+- **Settings:**
+  - `src/pages/Settings/Settings.jsx`: Allow users to edit their profile, account settings, and preferences.
+- **Notifications:**
+  - `src/pages/Notification/Notification.jsx`: Display user notifications.
+- **Search/Explore:**
+  - `src/pages/Explore/Explore.jsx`: Allow users to discover new content and users.
+
+## Components
+
+### Existing Components:
+- **Layout:**
+  - `src/components/layout/Header.jsx`: Top navigation bar with logo, search, and user info.
+  - `src/components/layout/LeftSidebar.jsx`: Main navigation for desktop.
+  - `src/components/layout/RightSidebar.jsx`: Friend requests and trending posts.
+  - `src/components/layout/MobileBottomNav.jsx`: Main navigation for mobile.
+  - `src/components/layout/Layout.jsx`: Puts everything together.
+- `src/components/common/`: Directory for common/reusable components is present but empty.
+
+### Proposed New Components:
+
+- **Layout:**
+  - `src/components/layout/Footer.jsx`: Application footer.
+
+- **Common/UI:**
+  - `src/components/common/Button.jsx`: A customizable button component.
+  - `src/components/common/Input.jsx`: A standardized input field.
+  - `src/components/common/Modal.jsx`: A modal/dialog component.
+  - `src/components/common/Spinner.jsx`: A loading spinner.
+
+- **Feed & Post:**
+  - `src/components/feed/PostCard.jsx`: A card to display a single post in the feed.
+  - `src/components/post/Comment.jsx`: Display a single comment.
+  - `src/components/post/CommentList.jsx`: A list of comments for a post.
+  - `src/components/post/LikeButton.jsx`: A button to like/unlike a post.
+  - `src/components/post/ShareButton.jsx`: A button to share a post.
+
+- **User:**
+  - `src/components/user/FollowButton.jsx`: A button to follow/unfollow a user.
+  - `src/components/user/UserProfileHeader.jsx`: The header section of a user's profile.
+  - `src/components/user/EditProfileForm.jsx`: A form to edit user profile details.
+
+- **Notifications:**
+  - `src/components/notifications/NotificationItem.jsx`: Component to display a single notification.
+
+- **Search:**
+    - `src/components/search/SearchBar.jsx`: A search bar for finding users or posts.
+    - `src/components/search/UserSearchResult.jsx`: Component to display a user in search results.
