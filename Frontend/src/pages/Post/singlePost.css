@@ -123,7 +123,6 @@
   object-fit: cover;         /* maintain aspect ratio and cover area */
   border-radius: 10px;       /* match card rounding */
   display: block;            /* remove inline spacing issues */
-  background: #000;          /* fallback for unloaded video */
 }
 
 /* Optional: add hover effect (like slight scale) */

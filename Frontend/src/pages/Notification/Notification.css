@@ -1,25 +1,43 @@
-/* Notification.css */
+/* Enhanced Notification Styles */
 .notifications-page {
-  max-width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
   padding: 0;
-  overflow-y: scroll;
-  
 }
 
 .notifications-page h2 {
   color: var(--dark);
-  font-size: 1.75rem;
-  margin-bottom: 1.5rem;
-  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: var(--space-xl);
+  font-weight: var(--font-weight-bold);
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
 }
 
-/* Empty State */
+/* Enhanced Empty State */
 .empty-notifications {
   text-align: center;
-  padding: 3rem 2rem;
-  background: var(--white);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: var(--space-3xl) var(--space-xl);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(108, 92, 231, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.empty-notifications::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--primary-gradient);
 }
 
 .empty-notifications p {
@@ -28,24 +46,43 @@
   margin: 0;
 }
 
-/* Notifications List */
+/* Enhanced Notifications List */
 .notifications-list {
-  background: var(--white);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(108, 92, 231, 0.1);
   overflow: hidden;
+  position: relative;
 }
 
-/* Individual Notification */
+.notifications-list::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--primary-gradient);
+}
+
+/* Enhanced Individual Notification */
 .notification {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
-  padding: 1.25rem;
-  border-bottom: 1px solid var(--light-gray);
+  gap: var(--space-lg);
+  padding: var(--space-xl);
+  border-bottom: 1px solid rgba(108, 92, 231, 0.06);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-normal);
   position: relative;
+  background: transparent;
+}
+
+.notification:hover {
+  background: rgba(108, 92, 231, 0.04);
+  transform: translateY(-2px);
 }
 
 .notification:last-child {

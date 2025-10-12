@@ -1,84 +1,168 @@
-/* LeftSidebar.css */
+/* Enhanced LeftSidebar Styles */
 .left-sidebar {
-  width: 250px;
-  background: #ffffff;
-  border: 1px solid #d1d6db;
-  height: calc(100vh - 80px);
+  width: 260px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(108, 92, 231, 0.1);
+  height: calc(100vh - 100px);
   position: sticky;
-  top: 90px;
+  top: 100px;
   overflow-y: auto;
-  margin: 10px 0px;
-  margin-right: 10px;
-  border-radius: 18px;
-box-shadow: 0px 0px 3px 0px  rgb(0, 0, 0, 0.2);
+  overflow-x: hidden;
+  margin: var(--space-md) 0;
+  margin-right: var(--space-md);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  transition: all var(--transition-normal);
+}
+
+.left-sidebar:hover {
+  box-shadow: var(--shadow-xl);
 }
 
 .sidebar-nav {
-  padding: 2rem 0;
+  padding: var(--space-xl) 0;
 }
 
 .nav-menu {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
 }
 
 .nav-item {
-  margin-bottom: 0.5rem;
+  margin: 0;
 }
 
 .nav-link {
   display: flex;
   align-items: center;
-  padding: 1rem 2rem;
-  color: #2d3436;
+  padding: var(--space-md) var(--space-xl);
+  color: var(--dark);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all var(--transition-normal);
   border-left: 4px solid transparent;
+  margin: 0 var(--space-sm);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--primary-gradient);
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: all var(--transition-normal);
+  z-index: -1;
 }
 
 .nav-link:hover {
-  background: #f8f9fa;
-  color: #6c5ce7;
-  border-left-color: #6c5ce7;
+  background: rgba(108, 92, 231, 0.08);
+  color: var(--primary);
+  border-left-color: var(--primary);
+  transform: translateX(8px);
+  box-shadow: var(--shadow-md);
+}
+
+.nav-link:hover::before {
+  opacity: 0.05;
+  transform: translateX(0);
 }
 
 .nav-link.active {
-  background: linear-gradient(90deg, rgba(108, 92, 231, 0.1), transparent);
-  color: #6c5ce7;
-  border-left-color: #6c5ce7;
-  font-weight: 600;
+  background: rgba(108, 92, 231, 0.12);
+  color: var(--primary);
+  border-left-color: var(--primary);
+  font-weight: var(--font-weight-semibold);
+  transform: translateX(8px);
+  box-shadow: var(--shadow-primary);
+}
+
+.nav-link.active::before {
+  opacity: 0.1;
+  transform: translateX(0);
 }
 
 .nav-icon {
-  font-size: 1.25rem;
-  margin-right: 1rem;
-  width: 24px;
+  font-size: 1.4rem;
+  margin-right: var(--space-md);
+  width: 28px;
   text-align: center;
+  transition: all var(--transition-normal);
+  position: relative;
+}
+
+.nav-link:hover .nav-icon {
+  transform: scale(1.1);
+}
+
+.nav-link.active .nav-icon {
+  transform: scale(1.15);
 }
 
 .nav-label {
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.01em;
+  transition: all var(--transition-fast);
 }
 
-/* Custom Scrollbar for Sidebar */
+.nav-link.active .nav-label {
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Enhanced Custom Scrollbar */
 .left-sidebar::-webkit-scrollbar {
-  width: 3px;
+  width: 6px;
 }
 
 .left-sidebar::-webkit-scrollbar-track {
-  background: #f8f9fa;
-  border-radius: 2px;
+  background: transparent;
+  border-radius: var(--radius-full);
 }
 
 .left-sidebar::-webkit-scrollbar-thumb {
-  background: #8678f0;
-  border-radius: 2px;
+  background: var(--primary-light);
+  border-radius: var(--radius-full);
+  transition: background var(--transition-fast);
 }
 
 .left-sidebar::-webkit-scrollbar-thumb:hover {
-  background: #5b4bd4;
+  background: var(--primary);
+}
+
+/* Add a subtle gradient at the top and bottom for scroll indication */
+.left-sidebar::before {
+  content: '';
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 1), transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.left-sidebar::after {
+  content: '';
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(to top, rgba(255, 255, 255, 1), transparent);
+  z-index: 1;
+  pointer-events: none;
 }
 
 @media (max-width: 1024px) {

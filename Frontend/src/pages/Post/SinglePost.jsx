@@ -17,7 +17,9 @@ export default function SinglePost() {
   const { getPostById, post } = usePostStore();
   const { addComment, deleteComment } = useCommentStore();
   const [moreOpen, setMoreOpen] = useState(false);
-
+  
+  console.log(post);
+  
 
   useEffect(() => {
     getPostById(postId);

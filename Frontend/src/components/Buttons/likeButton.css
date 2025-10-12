@@ -1,35 +1,101 @@
+/* Consistent Like Button Styles */
 .like-button {
   display: flex;
   align-items: center;
-  gap: 0.25rem; /* like gap-1 */
-  font-size: 1.5rem; /* like text-2xl */
-  transition: transform 0.2s ease-in-out; /* transition-all duration-200 */
-  border: none;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0;
   background: none;
+  border: none;
+  color: inherit;
+  font-size: 0.98rem;
+  font-weight: 500;
   cursor: pointer;
+  transition: color 0.18s;
+  border-radius: 0;
+  height: auto;
+  min-height: unset;
+  box-sizing: border-box;
+  position: relative;
   outline: none;
 }
 
 .like-button:hover {
-  transform: scale(1.1); /* hover:scale-110 */
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  transform: translateY(-1px);
 }
 
 .like-button:focus {
-  outline: none; /* focus:outline-none */
+  outline: 2px solid rgba(239, 68, 68, 0.2);
+  outline-offset: 2px;
 }
 
 .like-button.loading {
-  opacity: 0.5; /* opacity-50 */
-  cursor: not-allowed; /* cursor-not-allowed */
-  transform: none; /* disable hover scale */
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.like-button.loading .like-icon {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Consistent Like Icon */
+.like-icon {
+  font-size: 1.4rem;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
 .liked-icon {
-  color: red;
+  color: #ef4444;
+  font-size: 1.4rem;
+  animation: heartBeat 0.6s ease-in-out;
 }
 
+.unliked-icon {
+  color: #64748b;
+  font-size: 1.4rem;
+}
+
+.like-button:hover .unliked-icon {
+  color: #ef4444;
+}
+
+.like-button:hover .liked-icon,
+.like-button:hover .unliked-icon {
+  transform: scale(1.1);
+}
+
+/* Like Text */
 .like-text {
-  font-size: 0.875rem; /* text-sm */
-  color: black;
-  font-weight: 400; /* font-normal */
+  font-size: 0.95rem;
+  color: inherit;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+/* Animations */
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Like count badge effect */
+.like-text.has-likes {
+  background: rgba(255, 48, 64, 0.1);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+  color: #ff3040;
+  font-weight: var(--font-weight-semibold);
 }

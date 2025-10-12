@@ -26,11 +26,11 @@ export default function SavedPost() {
             {savedPosts.length === 0 ? (
                 <p>No saved posts yet.</p>
             ) : (
-                <div className="posts-grid">
+                <div className="profile-posts-grid">
                     {savedPosts.map((post) => (
                         <div
                             key={post.post._id}
-                            className="post-thumbnail"
+                            className="profile-post-item"
                             onClick={() => handlePostClick(post.post._id)}
                         >
                             {/* Show image or video */}

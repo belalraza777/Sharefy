@@ -77,22 +77,20 @@ export default function Profile() {
             <div className="profile-header">
                 {/* Profile Picture */}
                 <div className="profile-avatar-section">
-                    <div className="profile-avatar">
-                        <img
-                            src={user?.profileImage || defaultAvatar}
-                            alt={user.username}
-                            onError={(e) => {
-                                e.target.src = defaultAvatar; // Fallback image
-                            }}
-                        />
-                    </div>
+                    <img
+                        className="profile-avatar"
+                        src={user?.profileImage || defaultAvatar}
+                        alt={user.username}
+                        onError={(e) => {
+                            e.target.src = defaultAvatar; // Fallback image
+                        }}
+                    />
                 </div>
 
                 {/* Profile Information */}
                 <div className="profile-info">
-                    <div className="profile-top">
-                        <h1 className="username">@{user.username}</h1>
-
+                    <div className="profile-name-section">
+                        <span className="profile-name">@{user.username}</span>
                         {/* Show edit buttons for own profile, follow button for others */}
                         {isOwnProfile ? (
                             <div className="profile-actions">
@@ -105,36 +103,32 @@ export default function Profile() {
                             </div>
                         ) : (
                             <div className="profile-actions">
-                                <FollowButton
-                                    userId={user._id}
-                                />
-                                <button className="message-btn">
-                                    Message
-                                </button>
+                                <FollowButton userId={user._id} />
+                                <button className="message-btn secondary-btn">Message</button>
                             </div>
                         )}
                     </div>
 
                     {/* Profile Stats */}
                     <div className="profile-stats">
-                        <div className="stat">
-                            <strong>{postsCount}</strong>
+                        <div className="stat-item">
+                            <span>{postsCount}</span>
                             <span>posts</span>
                         </div>
-                        <div className="stat">
-                            <strong>{followersCount}</strong>
+                        <div className="stat-item">
+                            <span>{followersCount}</span>
                             <span>followers</span>
                         </div>
-                        <div className="stat">
-                            <strong>{followingCount}</strong>
+                        <div className="stat-item">
+                            <span>{followingCount}</span>
                             <span>following</span>
                         </div>
                     </div>
 
                     {/* User Details */}
                     <div className="profile-details">
-                        <h2 className="full-name">{user.fullName}</h2>
-                        {user.bio && <p className="bio">{user.bio}</p>}
+                        <h3>{user.fullName}</h3>
+                        {user.bio && <p>{user.bio}</p>}
                     </div>
                 </div>
             </div>
@@ -147,8 +141,6 @@ export default function Profile() {
                 >
                     <MdOutlineGridOn /> Posts
                 </button>
-
-                {/* Only show saved tab for own profile */}
                 {isOwnProfile && (
                     <button
                         className={`tab ${activeTab === 'saved' ? 'active' : ''}`}
@@ -163,36 +155,28 @@ export default function Profile() {
             <div className="profile-posts">
                 {activeTab === 'posts' && (
                     <>
-                        {/* Show message if no posts */}
                         {userPosts.length === 0 ? (
                             <div className="no-posts">
                                 <div className="no-posts-icon">📷</div>
                                 <h3>No Posts Yet</h3>
-                                {isOwnProfile && (
-                                    <p>Share your first photo or video!</p>
-                                )}
+                                {isOwnProfile && <p>Share your first photo or video!</p>}
                             </div>
                         ) : (
-                            /* Show posts grid */
-                            <div className="posts-grid">
+                            <div className="profile-posts-grid">
                                 {userPosts.map(post => (
                                     <div
                                         key={post._id}
-                                        className="post-thumbnail"
+                                        className="profile-post-item"
                                         onClick={() => handlePostClick(post._id)}
                                     >
-                                        {/* Show image or video */}
                                         {post.media.type === 'video' ? (
                                             <video src={post.media.url} muted />
                                         ) : (
                                             <img src={post.media.url} alt={post.caption} />
                                         )}
-                                        {/* Show likes/comments on hover */}
                                         <div className="post-overlay">
-                                            <span><FaHeart />
-                                                {post.likes?.length || 0}</span>
-                                            <span><FaComment />
-                                                {post.comments?.length || 0}</span>
+                                            <span><FaHeart />{post.likes?.length || 0}</span>
+                                            <span><FaComment />{post.comments?.length || 0}</span>
                                         </div>
                                     </div>
                                 ))}
@@ -200,8 +184,6 @@ export default function Profile() {
                         )}
                     </>
                 )}
-
-                {/* Saved posts tab (only for own profile) */}
                 {activeTab === 'saved' && isOwnProfile && (
                     <div className="saved-posts">
                         <SavedPost />
