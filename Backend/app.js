@@ -5,10 +5,10 @@ import express from "express";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import mongoSanitize from "express-mongo-sanitize";
-import xss from "xss-clean";
+import multer from "multer";
 import helmet from "helmet";
-import {globalLimiter} from "./utils/rateLimit.js";
+import morgan from "morgan"; 
+import { globalLimiter } from "./utils/rateLimit.js";
 import AuthRouter from "./routes/authRoute.js";
 import UserRouter from "./routes/userRoute.js";
 import PostRouter from "./routes/postRoute.js";
@@ -28,11 +28,9 @@ app.use(cors({
   origin: "http://localhost:5173",
   credentials: true, // allows sending cookies
 }));
-app.use(mongoSanitize()); // Prevent NoSQL injection
-app.use(xss()); // Prevent XSS attacks
 app.use(helmet()); // Set security-related HTTP headers
 app.use(globalLimiter); // Rate limiting
-
+app.use(morgan("dev")); // Logging HTTP requests
 
 
 // Connect MongoDB
@@ -42,7 +40,14 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Routes
 app.get("/", (req, res) => res.send("Welcome to Sharefy"));
-app.get("/api/v1/health", (req, res) => res.status(200).json({ success: true, message: "Server is running " }));
+app.get("/api/v1/health", (req, res) => {
+  const health = {
+    status: 'ok',
+    uptime: process.uptime(),
+    timestamp: new Date(),
+  };
+  res.status(200).json(health);
+});
 
 app.use("/api/v1/auth", AuthRouter);
 app.use("/api/v1/users", UserRouter);
@@ -59,8 +64,23 @@ app.use((req, res, next) => {
 
 // Error handling
 app.use((err, req, res, next) => {
-  const { status = 500, message = "Internal Server Error" } = err;
-  return res.status(status).json({ success: false, message, error: message });
+  const status = err.status || 500;
+  const message = err.message || "Internal Server Error";
+  const isProd = process.env.NODE_ENV === 'production';
+
+  // Log detailed error information to the server console for debugging
+  console.error(`\n[Error] ${req.method} ${req.originalUrl}`);
+  if (err.stack) console.error(err.stack);
+
+  // In development, include the stack to quickly identify the source
+  const payload = {
+    success: false,
+    message,
+    error: message,
+    ...(isProd ? {} : { stack: err.stack })
+  };
+
+  return res.status(status).json(payload);
 });
 
 // Multer error handler
