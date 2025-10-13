@@ -2,6 +2,7 @@ import express from "express";
 import verifyAuth from "../utils/verifyAuth.js";
 import asyncWrapper from "../utils/asyncWrapper.js";
 import {postLimiter} from "../utils/rateLimit.js";
+import { postValidation } from "../utils/joiValidation.js";
 
 import {
     getFeed,
@@ -20,7 +21,7 @@ const router = express.Router();
 //Get feed
 router.get("/feed", verifyAuth, asyncWrapper(getFeed));
 //Create post
-router.post("/", verifyAuth, postLimiter, upload.single("file"), asyncWrapper(createPost));
+router.post("/", verifyAuth, postLimiter, upload.single("file"), postValidation, asyncWrapper(createPost));
 //Get post by id
 router.get("/:id", verifyAuth, asyncWrapper(getPostById));
 //Like and unlike post

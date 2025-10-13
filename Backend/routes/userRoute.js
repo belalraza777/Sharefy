@@ -1,6 +1,7 @@
 import express from "express";
 import verifyAuth from "../utils/verifyAuth.js";
 import asyncWrapper from "../utils/asyncWrapper.js";
+import { profileUpdateValidation } from "../utils/joiValidation.js";
 import {
     getUserProfile,
     updateProfile,
@@ -19,7 +20,7 @@ const router = express.Router();
 router.get('/:username', verifyAuth, asyncWrapper(getUserProfile));
 
 //Update user profile details
-router.patch('/', verifyAuth, asyncWrapper(updateProfile));
+router.patch('/', verifyAuth, profileUpdateValidation, asyncWrapper(updateProfile));
 
 //Upload or update profile picture
 router.post('/profile', verifyAuth, upload.single("file"), asyncWrapper(uploadProfilePic));

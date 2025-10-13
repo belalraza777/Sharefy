@@ -3,8 +3,13 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 1rem;
-  background: #f8f9fa;
+  background: #f8f9fa !important;
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
 }
 
 /* Loading State */
@@ -34,20 +39,27 @@
 
 /* Post Card */
 .single-post-container .post-card {
-  background: #ffffff;
+  background: #ffffff !important;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid #e1e5e9;
   overflow: hidden;
+  position: relative;
+  z-index: 2;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
 }
 
 /* Post Header */
 .single-post-container .post-header {
-  display: flex;
+  display: flex !important;
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem;
   border-bottom: 1px solid #e1e5e9;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .single-post-container .post-user {
@@ -97,10 +109,12 @@
 /* Post Caption */
 .single-post-container .post-caption {
   padding: 1.25rem;
-  color: #2d3436;
+  color: #2d3436 !important;
   line-height: 1.5;
-  font-size: 1rem;
+  font-size: 1rem !important;
   border-bottom: 1px solid #e1e5e9;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 /* Post Media */
@@ -113,7 +127,9 @@
   height: auto;
   max-height: 500px;
   object-fit: cover;
-  display: block;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 /* Post media video styling */
