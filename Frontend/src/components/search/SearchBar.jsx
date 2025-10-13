@@ -2,6 +2,8 @@ import { useState } from 'react';
 import useSearchStore from '../../store/searchStore';
 import debounce from 'debounce';
 import { Link } from 'react-router-dom';
+import { HiSearch, HiUsers } from 'react-icons/hi';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import './SearchBar.css';
 
 /**
@@ -34,19 +36,25 @@ const SearchBar = ({ isDropdown = true }) => {
 
     return (
         <div className="search-bar">
-            <input
-                type="text"
-                value={query}
-                onChange={handleInputChange}
-                placeholder="Search for users..."
-                aria-label="Search users"
-            />
+            <div className="search-input-container">
+                <HiSearch className="search-icon" />
+                <input
+                    type="text"
+                    value={query}
+                    onChange={handleInputChange}
+                    placeholder="Search for users..."
+                    aria-label="Search users"
+                />
+            </div>
 
             {/* Dropdown Results */}
             {(showResults && isDropdown) && (
                 <div className="search-results-dropdown">
                     {loading ? (
-                        <div className="search-loading">Searching...</div>
+                        <div className="search-loading">
+                            <AiOutlineLoading3Quarters className="loading-spinner" />
+                            Searching...
+                        </div>
                     ) : result && result.length > 0 ? (
                         result.map((user) => (
                             <Link
@@ -60,7 +68,10 @@ const SearchBar = ({ isDropdown = true }) => {
                             </Link>
                         ))
                     ) : (
-                        <div className="search-no-results">No users found</div>
+                        <div className="search-no-results">
+                            <HiUsers className="no-results-icon" />
+                            No users found
+                        </div>
                     )}
                 </div>
             )}

@@ -8,8 +8,6 @@ import cors from "cors";
 import multer from "multer";
 import helmet from "helmet";
 import morgan from "morgan"; 
-import xss from "xss-clean";
-import mongoSanitize from "express-mongo-sanitize";
 import { globalLimiter } from "./utils/rateLimit.js";
 import AuthRouter from "./routes/authRoute.js";
 import UserRouter from "./routes/userRoute.js";
@@ -31,8 +29,6 @@ app.use(cors({
   credentials: true, // allows sending cookies
 }));
 app.use(helmet()); // Set security-related HTTP headers
-app.use(xss()); // Clean user input from malicious HTML
-app.use(mongoSanitize()); // Prevent NoSQL injection attacks
 app.use(globalLimiter); // Rate limiting
 app.use(morgan("dev")); // Logging HTTP requests
 
