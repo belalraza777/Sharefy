@@ -19,6 +19,10 @@ const removeUser = (socketId) => {
   console.log("Online users:", onlineUsers);
 };
 
+const getReceiverSocketId = (userId) => {
+  return onlineUsers[userId];
+}
+
 export function initSocketServer(server) {
   io = new Server(server, {
     cors: {
@@ -45,7 +49,7 @@ export function initSocketServer(server) {
 
   io.on('connection', (socket) => {
     console.log(`User connected: ${socket.user.id} with socket ID: ${socket.id}`);
-    
+
     addUser(socket.user.id, socket.id);
 
     socket.on('disconnect', () => {
@@ -58,4 +62,4 @@ export function initSocketServer(server) {
 }
 
 // Export io and onlineUsers for use in other parts of the application
-export { io, onlineUsers };
+export { io, onlineUsers, getReceiverSocketId };

@@ -93,7 +93,6 @@ const AppRoute = () => {
       }
       />
 
-
     </Routes>
   );
 };

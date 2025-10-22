@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import multer from "multer";
 import helmet from "helmet";
-import morgan from "morgan"; 
+import morgan from "morgan";
 import { globalLimiter } from "./utils/rateLimit.js";
 import AuthRouter from "./routes/authRoute.js";
 import UserRouter from "./routes/userRoute.js";
@@ -16,6 +16,7 @@ import CommentRouter from "./routes/commentRoute.js";
 import NotificationRouter from "./routes/notificationRoute.js";
 import SavedPostRouter from "./routes/savedPostRoute.js";
 import SearchRouter from "./routes/searchRoute.js";
+import ChatRouter from "./routes/chatRoute.js";
 import ErrorHandle from "./utils/errorClass.js";
 
 const app = express();
@@ -56,6 +57,7 @@ app.use("/api/v1/comments", CommentRouter);
 app.use("/api/v1/notifications", NotificationRouter);
 app.use("/api/v1/saved-posts", SavedPostRouter);
 app.use("/api/v1/search", SearchRouter);
+app.use("/api/v1/chat", ChatRouter);
 
 // Unknown route
 app.use((req, res, next) => {

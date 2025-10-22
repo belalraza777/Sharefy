@@ -31,6 +31,12 @@ export const connectSocket = (token) => {
     // In the future, we can trigger a UI update from here
   });
 
+  // Forward incoming chat messages to any listeners
+  socket.on('newMessage', (msg) => {
+    console.log('Received newMessage', msg);
+    // Not doing UI logic here — components will register handlers via getSocket()
+  });
+
   return socket;
 };
 
@@ -43,4 +49,9 @@ export const disconnectSocket = () => {
 
 export const getSocket = () => {
   return socket;
+};
+
+export const emitMessage = (event, payload) => {
+  if (!socket) return;
+  socket.emit(event, payload);
 };
