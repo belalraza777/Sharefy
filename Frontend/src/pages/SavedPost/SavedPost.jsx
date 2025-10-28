@@ -9,7 +9,7 @@ export default function SavedPost() {
 
     useEffect(() => {
         getSavedPosts();
-    }, [getSavedPosts]);
+    }, []);
 
     const handlePostClick = (postId) => {
         console.log("Clicked post:", postId);

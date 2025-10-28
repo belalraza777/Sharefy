@@ -9,7 +9,7 @@ export default function SavePostButton({ post }) {
     // Get user from auth context
     const { user } = useAuth();
     // Get save and unsave functions from saved post store
-    const { savePost, unSavePost, savedPosts, getSavedPosts } = useSavedPostStore();
+    const { savePost, unSavePost, savedPosts, ensureSavedPosts } = useSavedPostStore();
 
     // State to track if the post is saved
     const [saved, setSaved] = useState(false);
@@ -17,9 +17,10 @@ export default function SavePostButton({ post }) {
 
     useEffect(() => {
         if (user) {
-            getSavedPosts(); // Fetch saved posts from backend
+            // Fetch saved posts only once per session to avoid repeated network calls
+            ensureSavedPosts();
         }
-    }, [user, getSavedPosts]);
+    }, [user, ensureSavedPosts]);
 
     // Check if the post is already saved by the user
     useEffect(() => {
@@ -27,8 +28,6 @@ export default function SavePostButton({ post }) {
             setSaved(savedPosts.some((savedPost) => savedPost.post._id === post._id));
         }
     }, [savedPosts, post, user]);
-
-    console.log("Saved posts:", savedPosts);
     
 
     // Handle save and unsave toggle

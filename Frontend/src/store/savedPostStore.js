@@ -5,10 +5,13 @@ import {
   getSavedPosts as getSavedPostsApi,
 } from '../api/savedPostApi';
 
-const useSavedPostStore = create((set) => ({
+// Centralized saved-posts store
+// Adds an `initialized` flag to avoid repeated fetching across many buttons/components
+const useSavedPostStore = create((set, get) => ({
   savedPosts: [],
   loading: false,
   error: null,
+  initialized: false,
 
   // Save a post
   savePost: async (postId) => {
@@ -19,6 +22,8 @@ const useSavedPostStore = create((set) => ({
       set((state) => ({
         savedPosts: [result.data, ...state.savedPosts],
       }));
+      // Once a post is saved successfully, the store can be considered initialized
+      if (!get().initialized) set({ initialized: true });
     }
     return result;
   },
@@ -33,6 +38,7 @@ const useSavedPostStore = create((set) => ({
           (post) => post._id !== result.data._id
         ),
       }));
+      // Keep initialized as-is; unsaving doesn't change the loaded state
     }
     return result;
   },
@@ -42,10 +48,18 @@ const useSavedPostStore = create((set) => ({
     set({ loading: true, error: null });
     const result = await getSavedPostsApi();
     if (result.success) {
-      set({ savedPosts: result.data, loading: false });
+      set({ savedPosts: result.data, loading: false, initialized: true });
     } else {
       set({ error: result.message, loading: false });
     }
+    return result;
+  },
+
+  // Ensure we only fetch once per session/mount cascades
+  ensureSavedPosts: async () => {
+    const { initialized, loading } = get();
+    if (initialized || loading) return;
+    await get().getSavedPosts();
   },
 }));
 
