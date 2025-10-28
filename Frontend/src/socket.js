@@ -1,20 +1,26 @@
-// src/socket.js
+// Socket.IO client for real-time notifications and chat
 import { io } from "socket.io-client";
+import useNotificationStore from "./store/notificationStore";
 
+// Single shared socket instance
 let socket;
 
+// Connect to server with JWT token
 export const connectSocket = (token) => {
-  // Disconnect existing socket before creating a new one
+  // Clean up old connection if exists
   if (socket) {
     socket.disconnect();
   }
 
-  // Create a new socket connection with the provided token
+  // Connect with authentication
   socket = io("http://localhost:8000", {
-    auth: {
-      token,
-    },
+    auth: { token },
   });
+
+  // Request notification permission once
+  if ("Notification" in window && Notification.permission === "default") {
+    Notification.requestPermission();
+  }
 
   socket.on("connect", () => {
     console.log("Socket.IO connected successfully!");
@@ -24,22 +30,28 @@ export const connectSocket = (token) => {
     console.log("Socket.IO disconnected.");
   });
 
-  // Add a listener for new notifications
+  // Listen for new notifications
   socket.on("new_notification", (notification) => {
-    console.log("A new notification was received:", notification);
-    alert(notification.message)
-    // In the future, we can trigger a UI update from here
+    console.log("New notification received:", notification);
+
+    // Add to store using getState()
+    useNotificationStore.getState().addNotification(notification);
+
+    // Show browser notification
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification(notification.message, { icon: "/favicon.ico" });
+    }
   });
 
-  // Forward incoming chat messages to any listeners
+  // Listen for chat messages (components will handle via getSocket())
   socket.on('newMessage', (msg) => {
     console.log('Received newMessage', msg);
-    // Not doing UI logic here — components will register handlers via getSocket()
   });
 
   return socket;
 };
 
+// Disconnect and clean up
 export const disconnectSocket = () => {
   if (socket) {
     socket.disconnect();
@@ -47,10 +59,12 @@ export const disconnectSocket = () => {
   }
 };
 
+// Get current socket instance for components
 export const getSocket = () => {
   return socket;
 };
 
+// Send custom events to server
 export const emitMessage = (event, payload) => {
   if (!socket) return;
   socket.emit(event, payload);

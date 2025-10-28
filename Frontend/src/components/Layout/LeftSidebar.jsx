@@ -10,10 +10,12 @@ import {
   FiFeather,
   FiSettings,
 } from 'react-icons/fi';
+import useNotificationStore from '../../store/notificationStore';
 import './LeftSidebar.css';
 
 const LeftSidebar = () => {
   const location = useLocation();
+  const { unreadCount } = useNotificationStore();
 
   const menuItems = [
     { path: '/', icon: <FiHome />, label: 'Home' },
@@ -36,7 +38,12 @@ const LeftSidebar = () => {
                 to={item.path}
                 className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
               >
-                <span className="nav-icon">{item.icon}</span>
+                <span className="nav-icon">
+                  {item.icon}
+                  {item.path === '/notifications' && unreadCount > 0 && (
+                    <span className="notification-badge">{unreadCount}</span>
+                  )}
+                </span>
                 <span className="nav-label">{item.label}</span>
               </Link>
             </li>
