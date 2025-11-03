@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
 // Get all users that the logged-in user has chatted with
 export const getConversations = async () => {
   try {
-    const response = await axiosInstance.get('/chat/users');
+    const response = await axiosInstance.get('/chat/users');    
     return { success: true, message: response.data.message, data: response.data.data };
   } catch (error) {
     console.error('Error fetching conversations:', error);

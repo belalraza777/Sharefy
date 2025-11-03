@@ -13,6 +13,7 @@ import Explore from '../pages/Explore/Explore';
 import ResetPasswordForm from '../components/user/ResetPasswordForm';
 import SavedPost from '../pages/SavedPost/SavedPost';
 import Search from '../pages/Search/Search';
+import ChatPage from '../pages/Chat/ChatPage';
 
 const AppRoute = () => {
   return (
@@ -89,6 +90,20 @@ const AppRoute = () => {
       <Route path="/search" element={
         <ProtectedRoute>
           <Search />
+        </ProtectedRoute>
+      }
+      />
+
+      <Route path="/chat" element={
+        <ProtectedRoute>
+          <ChatPage />
+        </ProtectedRoute>
+      }
+      />
+
+      <Route path="/chat/:userId" element={
+        <ProtectedRoute>
+          <ChatPage />
         </ProtectedRoute>
       }
       />

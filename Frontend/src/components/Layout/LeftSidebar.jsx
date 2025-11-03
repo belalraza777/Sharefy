@@ -21,7 +21,7 @@ const LeftSidebar = () => {
     { path: '/', icon: <FiHome />, label: 'Home' },
     { path: '/search', icon: <FiSearch />, label: 'Explore' },
     { path: '/notifications', icon: <FiBell />, label: 'Notifications' },
-    { path: '/messages', icon: <FiMessageCircle />, label: 'Messages' },
+    { path: '/chat', icon: <FiMessageCircle />, label: 'Messages' },
     { path: '/saved', icon: <FiBookmark />, label: 'Saved' },
     { path: '/analytics', icon: <FiBarChart2 />, label: 'Analytics' },
     { path: '/theme', icon: <FiFeather />, label: 'Theme' },
