@@ -1,25 +1,39 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import usePostStore from '../../store/postStore';
 import useCommentStore from '../../store/commentStore';
 import LikeButton from '../../components/Buttons/likeButton';
-import { FaRegComment, FaShare } from 'react-icons/fa';
+import ShareButton from '../../components/Buttons/shareButton';
+import { FaRegComment } from 'react-icons/fa';
 import defaultAvatar from '../../assets/defaultAvatar.png';
 import Comment from './comment';
 import CommentForm from './commentForm';
 import './singlePost.css';
-import { useState } from 'react';
-import DeletePostButton from '../../components/Buttons/deletePostButton';
+import PostOptionsMenu from '../../components/post/PostOptionsMenu';
+import { toast } from 'sonner';
 
 
 export default function SinglePost() {
   const { postId } = useParams();
+  const navigate = useNavigate();
   const { getPostById, post } = usePostStore();
   const { addComment, deleteComment } = useCommentStore();
   const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef();
   
   console.log(post);
-  
+
+  // Close more options when clicking outside
+  useEffect(() => {
+    if (!moreOpen) return;
+    function handleClick(e) {
+      if (moreRef.current && !moreRef.current.contains(e.target)) {
+        setMoreOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [moreOpen]);
 
   useEffect(() => {
     getPostById(postId);
@@ -43,12 +57,16 @@ export default function SinglePost() {
     setMoreOpen(!moreOpen);
   };
 
+  const handleProfileClick = () => {
+    navigate(`/profile/${post.user.username}`);
+  };
+
   return (
     <div className="single-post-container">
       <div className="post-card">
         {/* Post Header */}
         <div className="post-header">
-          <div className="post-user">
+          <div className="post-user" onClick={handleProfileClick} style={{ cursor: 'pointer' }}>
             <img
               src={post.user?.profileImage || defaultAvatar}
               alt={`${post.user?.username || 'User'}'s avatar`}
@@ -66,9 +84,8 @@ export default function SinglePost() {
           <div className="more-container" style={{ position: 'relative' }}>
             <button className="more-btn" onClick={handleMoreClick}>⋯</button>
             {moreOpen && (
-              <div className="more-options">
-                <DeletePostButton post={post} />
-                Options coming soon...
+              <div ref={moreRef}>
+                <PostOptionsMenu post={post} onClose={() => setMoreOpen(false)} />
               </div>
             )}
           </div>
@@ -104,9 +121,7 @@ export default function SinglePost() {
         <button className="action-btn">
           <FaRegComment /> {post.comments.length} Comment
         </button>
-        <button className="action-btn">
-          <FaShare /> Share
-        </button>
+        <ShareButton post={post} />
       </div>
 
       {/* Comments Section */}
