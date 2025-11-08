@@ -40,7 +40,7 @@ export const sendMessage = async (req, res) => {
     }
 
     // 5. Send success response
-    res.status(201).json({ success: true, message: "Message sended Successfully", data: newMessage });
+    res.status(201).json({ success: true, message: "Message sent Successfully", data: newMessage });
 
 };
 
@@ -51,7 +51,7 @@ export const sendMessage = async (req, res) => {
 export const getMessages = async (req, res) => {
 
     const { id: chatUser } = req.params; // The other user's ID
-    const senderId = req.user._id;     // Logged-in user
+    const senderId = req.user.id;     // Logged-in user
 
     // Find the conversation between two users
     const conversation = await Conversation.findOne({
@@ -71,8 +71,7 @@ export const getMessages = async (req, res) => {
  * Returns only users that the logged-in user has chatted with
  */
 export const getUsers = async (req, res) => {
-    try {
-        const loggedInUser = req.user._id;
+    const loggedInUser = req.user.id;
 
         // Find all conversations where user is a member
         const conversations = await Conversation.find({
@@ -91,13 +90,6 @@ export const getUsers = async (req, res) => {
             message: "Conversations fetched successfully", 
             data: chatUsers 
         });
-    } catch (error) {
-        console.log("❌ Error in getUsers:", error);
-        res.status(500).json({ 
-            success: false, 
-            message: "Internal server error", 
-            error: error.message 
-        });
-    }
+    
 };
 

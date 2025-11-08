@@ -12,6 +12,23 @@
   margin-left: auto;
   margin-right: auto;
   box-shadow: none;
+  animation: fadeInUp 0.4s ease-out;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.insta-post-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .insta-post-header {
@@ -62,24 +79,28 @@
 .insta-more-btn {
   background: none;
   border: none;
-  color: #bdbdbd;
+  color: #262626;
   font-size: 1.5rem;
   cursor: pointer;
-  padding: 0 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 50%;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.insta-more-options {
-  position: absolute;
-  top: 2.5rem;
-  right: 0.7rem;
-  background: #fff;
-  border: 1px solid #dbdbdb;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  z-index: 100;
-  padding: 0.7rem 1.2rem;
-  min-width: 160px;
+.insta-more-btn:hover {
+  background: #f5f1ff;
+  color: #6c5ce7;
+  transform: scale(1.05);
 }
+
+.insta-more-btn:active {
+  transform: scale(0.95);
+}
+
+/* Post options menu container positioning */
 
 .insta-post-media {
   width: 100%;
@@ -89,6 +110,8 @@
   justify-content: center;
   border-bottom: 1px solid #efefef;
   min-height: 350px;
+  position: relative;
+  overflow: hidden;
 }
 
 .insta-media-image,
@@ -97,6 +120,11 @@
   max-height: 600px;
   object-fit: cover;
   background: #fafafa;
+  transition: transform 0.3s ease;
+}
+
+.insta-media-image:hover {
+  transform: scale(1.02);
 }
 
 .insta-post-actions {
@@ -114,11 +142,11 @@
   background: none;
   border: none;
   color: #262626;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   cursor: pointer;
-  padding: 0.2rem 0.5rem;
+  padding: 0.35rem 0.55rem;
   border-radius: 50%;
-  transition: background 0.15s, color 0.15s;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -129,6 +157,13 @@
 .insta-post-actions .save-button:hover {
   background: #f5f1ff;
   color: #6c5ce7;
+  transform: scale(1.1);
+}
+
+.insta-post-actions .insta-action-btn:active,
+.insta-post-actions .like-button:active,
+.insta-post-actions .save-button:active {
+  transform: scale(0.95);
 }
 
 .insta-post-actions .save-button {
@@ -139,17 +174,32 @@
   display: flex;
   align-items: center;
   gap: 1.1rem;
-  padding: 0.2rem 1.2rem 0.2rem 1.2rem;
-  font-size: 0.97rem;
+  padding: 0.5rem 1.2rem 0.3rem 1.2rem;
+  font-size: 0.93rem;
   color: #262626;
-  font-weight: 500;
+  font-weight: 600;
+  background: #fff;
+}
+
+.stat-item {
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.stat-item:hover {
+  color: #6c5ce7;
 }
 
 .insta-post-caption {
   padding: 0.2rem 1.2rem 1rem 1.2rem;
-  font-size: 0.97rem;
+  font-size: 0.95rem;
   color: #262626;
   word-break: break-word;
+  line-height: 1.5;
+}
+
+.insta-post-caption .insta-username {
+  margin-right: 0.4rem;
 }
 
 @media (max-width: 600px) {
@@ -165,4 +215,6 @@
     padding-left: 0.7rem;
     padding-right: 0.7rem;
   }
+
+
 }

@@ -41,12 +41,13 @@ const DeletePostButton = ({ post }) => {
 
     return (
         <button
-            className='btn btn-danger'
+            className='btn btn-danger option-item danger'
             onClick={handleDelete}
             disabled={loading}
         >
+            <MdDelete />
             {/* Show loading text or delete text based on loading state */}
-            {loading ? 'Deleting...' : 'Delete'} <MdDelete />
+            {loading ? 'Deleting...' : 'Delete post'}
         </button>
     );
 };

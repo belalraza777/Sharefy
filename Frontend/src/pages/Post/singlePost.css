@@ -66,6 +66,11 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  transition: opacity 0.2s ease;
+}
+
+.single-post-container .post-user:hover {
+  opacity: 0.8;
 }
 
 .single-post-container .user-avatar {
@@ -76,12 +81,22 @@
   border: 2px solid var(--primary);
   box-shadow: 0 2px 8px rgba(194, 64, 234, 0.3);
   background: linear-gradient(45deg, rgb(108, 92, 231), #a29bfe);
+  transition: transform 0.2s ease;
+}
+
+.single-post-container .post-user:hover .user-avatar {
+  transform: scale(1.05);
 }
 
 .single-post-container .user-info .username {
   font-weight: 600;
   color: #2d3436;
   margin-bottom: 0.1rem;
+  transition: color 0.2s ease;
+}
+
+.single-post-container .post-user:hover .username {
+  color: #6c5ce7;
 }
 
 .single-post-container .user-info .post-time {
@@ -90,20 +105,31 @@
 }
 
 .single-post-container .more-btn {
-  background: #f8f9fa;
+  background: none;
   border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  font-size: 1.2rem;
-  color: #636e72;
+  color: #262626;
+  font-size: 1.5rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  padding: 0.4rem 0.6rem;
+  border-radius: 50%;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .single-post-container .more-btn:hover {
-  background: #6c5ce7;
-  color: white;
+  background: #f5f1ff;
+  color: #6c5ce7;
+  transform: scale(1.05);
+}
+
+.single-post-container .more-btn:active {
+  transform: scale(0.95);
+}
+
+.single-post-container .more-container {
+  position: relative;
 }
 
 /* Post Caption */
@@ -199,10 +225,10 @@
 /* Post Actions */
 .single-post-container .post-actions {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
-  padding: 0.75rem;
-  gap: 3rem;;
+  padding: 0.75rem 1.25rem;
+  gap: 2rem;
   border-bottom: 1px solid #e1e5e9;
 }
 
@@ -226,6 +252,11 @@
 .single-post-container .action-btn:hover {
   background: rgb(240, 239, 239);
   color: #000000;
+}
+
+/* ShareButton specific styling in single post */
+.single-post-container .share-button {
+  padding: 0.35rem 0.55rem;
 }
 
 .single-post-container .action-btn svg {

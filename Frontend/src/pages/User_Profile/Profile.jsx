@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import useUserStore from '../../store/userStore.js';
 import './Profile.css';
@@ -104,7 +104,7 @@ export default function Profile() {
                         ) : (
                             <div className="profile-actions">
                                 <FollowButton userId={user._id} />
-                                <button className="message-btn secondary-btn">Message</button>
+                                <button className="message-btn secondary-btn"><Link to={`/chat/${user._id}`}>Message</Link></button>
                             </div>
                         )}
                     </div>

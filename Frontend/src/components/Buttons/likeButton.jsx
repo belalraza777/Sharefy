@@ -3,7 +3,6 @@ import { FcLike } from "react-icons/fc";
 import { FaRegHeart } from "react-icons/fa";
 import usePostStore from "../../store/postStore";
 import { useAuth } from "../../context/authContext";
-import { toast } from "sonner";
 import "./LikeButton.css"; // import CSS file
 
 export default function LikeButton({ post }) {
@@ -37,12 +36,10 @@ export default function LikeButton({ post }) {
         await unlikePost(post._id);
         setLiked(false);
         setLikes(prev => prev - 1);
-        toast.success("Post unliked");
       } else {
         await likePost(post._id);
         setLiked(true);
         setLikes(prev => prev + 1);
-        toast.success("Post liked");
       }
     } catch (error) {
       console.error("Like action failed:", error);

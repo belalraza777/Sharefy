@@ -9,11 +9,28 @@ import MobileBottomNav from './MobileBottomNav';
 const Layout = ({ children }) => {
   const location = useLocation();
   const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
+  const isChatPage = location.pathname.startsWith('/chat');
 
   if (isAuthPage) {
     return (
       <div className="auth-layout">
         {children}
+      </div>
+    );
+  }
+
+  // Chat page gets full width layout
+  if (isChatPage) {
+    return (
+      <div className="app-layout">
+        <Header />
+        <div className="chat-layout-container">
+          <LeftSidebar />
+          <main className="chat-full-area">
+            {children}
+          </main>
+        </div>
+        <MobileBottomNav />
       </div>
     );
   }

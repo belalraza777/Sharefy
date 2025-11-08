@@ -5,7 +5,7 @@ import {
   FiSearch,
   FiPlusSquare,
   FiHeart,
-  FiSettings,
+  FiMessageCircle,
 } from 'react-icons/fi';
 import useNotificationStore from '../../store/notificationStore';
 import './Layout.css'; // Keep your main layout styling
@@ -18,8 +18,8 @@ const MobileBottomNav = () => {
     { path: '/', icon: <FiHome />, label: 'Home' },
     { path: '/search', icon: <FiSearch />, label: 'Explore' },
     { path: '/new-post', icon: <FiPlusSquare />, label: 'Create' },
+    { path: '/chat', icon: <FiMessageCircle />, label: 'Messages' },
     { path: '/notifications', icon: <FiHeart />, label: 'Alerts' },
-    { path: '/settings', icon: <FiSettings />, label: 'Settings' },
   ];
 
   return (

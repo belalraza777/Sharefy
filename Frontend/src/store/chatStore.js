@@ -24,6 +24,8 @@ const useChatStore = create((set, get) => ({
   getConversations: async () => {
     set({ loading: true, error: null });
     const result = await getConversationsApi();
+    console.log(result);
+    
     if (result.success) {
       set({ conversations: result.data, loading: false });
     } else {

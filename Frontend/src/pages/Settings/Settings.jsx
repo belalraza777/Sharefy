@@ -21,10 +21,6 @@ const Settings = () => {
     }
   };
 
-  const handleLogout = () => {
-    console.log('Logout clicked');
-    // Add logout logic here
-  };
 
   return (
     <div className="settings-page">

@@ -193,5 +193,8 @@ export const deletePost = async (req, res) => {
     await cloudinary.uploader.destroy(post.media.publicId);
     //  Delete post from MongoDB
     await Post.findByIdAndDelete(req.params.id);
+    //Delete all comments related to this post
+    await Comment.deleteMany({ post: req.params.id });
+
     res.status(200).json({ success: true, message: "Post deleted successfully" });
 };

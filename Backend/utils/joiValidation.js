@@ -83,6 +83,21 @@ const profileUpdateSchema = joiWithSanitize.object({
   email: joiWithSanitize.string().email().lowercase().trim().sanitize().optional(),
 });
 
+// ------------------ Message Schema ------------------
+const messageSchema = joiWithSanitize.object({
+  message: joiWithSanitize.string()
+    .trim()
+    .min(1)
+    .max(2000)
+    .sanitizeWithFormatting()
+    .required()
+    .messages({
+      "string.empty": "Message cannot be empty",
+      "string.min": "Message cannot be empty",
+      "string.max": "Message is too long (maximum 2000 characters)",
+    }),
+});
+
 // ------------------ Middleware for Validation ------------------
 export const validate = (schema) => (req, res, next) => {
   const { error, value } = schema.validate(req.body, { 
@@ -106,3 +121,4 @@ export const loginValidation = validate(loginSchema);
 export const postValidation = validate(postSchema);
 export const commentValidation = validate(commentSchema);
 export const profileUpdateValidation = validate(profileUpdateSchema);
+export const messageValidation = validate(messageSchema);

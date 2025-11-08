@@ -1,11 +1,12 @@
 import LikeButton from '../../components/Buttons/likeButton';
-import { FaRegComment} from 'react-icons/fa';
+import { LuMessageCircle } from "react-icons/lu";
 import { useNavigate } from 'react-router-dom';
 import './Post.css';
 import defaultAvatar from '../../assets/defaultAvatar.png';
 import { useState, useRef, useEffect } from 'react';
-import DeletePostButton from '../../components/Buttons/deletePostButton';
 import SavePostButton from '../../components/Buttons/savePostButton';
+import ShareButton from '../../components/Buttons/shareButton';
+import PostOptionsMenu from '../../components/post/PostOptionsMenu';
 
 
 export default function Post({ post }) {
@@ -38,7 +39,6 @@ export default function Post({ post }) {
     setMoreOpen(!moreOpen);
   };
 
-
   return (
     <div className="insta-post-card">
       {/* Header: Avatar, Username, More */}
@@ -56,9 +56,8 @@ export default function Post({ post }) {
         </div>
         <button className="insta-more-btn" onClick={handleMoreClick}>⋯</button>
         {moreOpen && (
-          <div ref={moreRef} className="insta-more-options">
-            <DeletePostButton post={post} />
-            Options coming soon...
+          <div ref={moreRef}>
+            <PostOptionsMenu post={post} onClose={() => setMoreOpen(false)} />
           </div>
         )}
       </div>
@@ -89,12 +88,29 @@ export default function Post({ post }) {
       {/* Caption (now below media) */}
       {post.caption && <div className="insta-post-caption"><span className="insta-username">{post.user.username}</span> {post.caption}</div>}
 
-      {/* Actions: Like, Comment, Save */}
+      {/* Stats: Likes and Comments count */}
+      {(post.likes?.length > 0 || post.comments?.length > 0) && (
+        <div className="insta-post-stats">
+          {post.likes?.length > 0 && (
+            <span className="stat-item">{post.likes.length} {post.likes.length === 1 ? 'like' : 'likes'}</span>
+          )}
+          {post.comments?.length > 0 && (
+            <span className="stat-item">{post.comments.length} {post.comments.length === 1 ? 'comment' : 'comments'}</span>
+          )}
+        </div>
+      )}
+
+      {/* Actions: Like, Comment, Share, Save */}
       <div className="insta-post-actions">
         <LikeButton post={post} />
-        <button className="insta-action-btn" onClick={() => navigate(`/post/${post._id}`)}>
-          <FaRegComment />
+        <button 
+          className="insta-action-btn" 
+          onClick={() => navigate(`/post/${post._id}`)}
+          aria-label="Comment on post"
+        >
+          <LuMessageCircle />
         </button>
+        <ShareButton post={post} />
         <SavePostButton post={post} />
       </div>
     </div>
