@@ -95,8 +95,16 @@ const logoutUser = (req, res, next) => {
 // Controller to check user login status and role
 const checkUser = async (req, res, next) => {
     try {
-        // Getting token from cookies
-        const token = req.cookies?.token;
+        // Getting token from cookies or Authorization header
+        let token = req.cookies?.token;
+        
+        if (!token && req.headers.authorization) {
+            const authHeader = req.headers.authorization;
+            if (authHeader.startsWith('Bearer ')) {
+                token = authHeader.substring(7);
+            }
+        }
+        
         // If no token, return unauthorized status
         if (!token) {
             return res.sendStatus(401);
