@@ -141,7 +141,7 @@ export const viewStory = async (req, res) => {
     });
 };
 
-// Delete a story
+// Delete a story own
 export const deleteStory = async (req, res) => {
     const { storyId } = req.params;
     const userId = req.user.id;
