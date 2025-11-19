@@ -423,3 +423,6 @@ a:hover {
     padding: 0 0.5rem;
   }
 }
+
+/* Body scroll lock when modal open */
+.modal-open { overflow: hidden; }

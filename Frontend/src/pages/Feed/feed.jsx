@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import usePostStore from '../../store/postStore';
 import Post from './post';
 import './Feed.css';
+// Story components
+import StoryCircles from '../../components/Story/StoryCircles';
+import StoryViewer from '../../components/Story/StoryViewer';
+import CreateStory from '../../components/Story/CreateStory';
 import { useAuth } from '../../context/authContext';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import { IoImagesOutline } from 'react-icons/io5';
@@ -14,6 +19,17 @@ export default function Feed() {
   const { user } = useAuth();
   const { posts, getFeed, hasMore, loading } = usePostStore();
   const [page, setPage] = useState(1);
+  const [showCreateStory, setShowCreateStory] = useState(false);
+
+  // Lock body scroll when create story modal open
+  useEffect(() => {
+    if (showCreateStory) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    return () => document.body.classList.remove('modal-open');
+  }, [showCreateStory]);
 
 
   // Initial load
@@ -43,8 +59,24 @@ export default function Feed() {
 
   return (
     <div className="feed-container">
+      {/* Stories Bar */}
+      <div className="feed-stories-section">
+        <StoryCircles onAddClick={() => setShowCreateStory(true)} />
+        {showCreateStory && createPortal(
+          <div className="story-create-overlay" onClick={() => setShowCreateStory(false)}>
+            <div className="story-create-modal" onClick={(e) => e.stopPropagation()}>
+              <CreateStory
+                onSuccess={() => setShowCreateStory(false)}
+                onClose={() => setShowCreateStory(false)}
+              />
+            </div>
+          </div>,
+          document.body
+        )}
+        <StoryViewer />
+      </div>
       {/* Create Post Prompt */}
-      <div className="create-post-prompt">
+      {/* <div className="create-post-prompt">
         <div className="prompt-content">
           <div >
             <img src={user.profileImage} alt={user.username} className="user-avatar" />
@@ -63,7 +95,7 @@ export default function Feed() {
             <span className="action-text">Video</span>
           </Link>
         </div>
-      </div>
+      </div> */}
 
       {/* Infinite Scroll Posts Feed */}
       <InfiniteScroll

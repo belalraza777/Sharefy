@@ -49,30 +49,57 @@ export const createStory = async (req, res) => {
 export const getAllStories = async (req, res) => {
     const userId = req.user.id;
 
-    // Get following users + self
-    const followingIds = await Follow.find({ follower: userId }).distinct("following");
-    const userIds = [...followingIds, userId];
+    // get following users + self
+    const following = await Follow.find({ follower: userId }).distinct("following");
+    const userIds = [...following, userId];
 
-    // Get all stories and add view info
     const stories = await Story.find({ user: { $in: userIds } })
-        .populate('user', 'username fullName profileImage')
+        .populate("user", "username fullName profileImage")
         .sort({ createdAt: -1 })
         .lean();
 
-    // Add hasViewed and viewCount (only for own stories)
-    const storiesWithViewInfo = stories.map(story => {
-        const isOwnStory = story.user._id.toString() === userId;
-        return {
+    // group by user
+    const groups = {};
+
+    stories.forEach((story) => {
+        const uid = story.user._id.toString();
+
+        if (!groups[uid]) {
+            groups[uid] = {
+                user: story.user,
+                stories: [],
+                hasUnseen: false,
+                latestStoryAt: story.createdAt,
+            };
+        }
+
+        // push story with hasViewed and viewCount for own stories
+        const isOwnStory = uid === userId;
+        const hasViewed = story.viewers.some((v) => v.toString() === userId);
+        groups[uid].stories.push({
             ...story,
-            viewCount: isOwnStory ? story.viewers.length : undefined, // Only show count for own stories
-            hasViewed: story.viewers.some(viewerId => viewerId.toString() === userId),
-        };
+            hasViewed,
+            viewCount: isOwnStory ? story.viewers.length : undefined,
+        });
+
+        // update group unseen flag
+        if (!hasViewed) groups[uid].hasUnseen = true;
+
+        // update group latest story timestamp
+        if (story.createdAt > groups[uid].latestStoryAt) {
+            groups[uid].latestStoryAt = story.createdAt;
+        }
     });
+
+    // convert object to array & sort
+    const groupedStories = Object.values(groups).sort(
+        (a, b) => b.latestStoryAt - a.latestStoryAt
+    );
 
     res.status(200).json({
         success: true,
         message: "Stories fetched successfully",
-        data: storiesWithViewInfo,
+        data: groupedStories,
     });
 };
 

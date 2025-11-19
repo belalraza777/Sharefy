@@ -1,0 +1,20 @@
+/* CreateStory: basic form for picking media, caption and uploading a story */
+.create-story-container { padding:25px; max-width:360px; width:100%; }
+.create-story-form { display:flex; flex-direction:column; gap:12px; }
+h3{ margin:0; font-size:18px; text-align: center;  }
+.file-picker { display:flex; flex-direction:column; gap:6px; cursor:pointer; font-size:14px; }
+.file-picker input { display:none; }
+.file-picker span { padding:10px 12px; background:#2d2d2d; color:#fff; border-radius:6px; text-align:center; }
+.file-picker span:hover { background:#3a3a3a; }
+.preview-wrapper { width:100%; border:1px solid #333; border-radius:6px; overflow:hidden; }
+.preview-media { width:100%; height:auto; display:block; }
+.caption-input { min-height:80px; resize:vertical; background:#1f1f1f; color:#fff; border:1px solid #333; border-radius:6px; padding:8px; font-size:14px; }
+.caption-input:disabled { opacity:.6; }
+.story-create-error { color:#ff4d4f; font-size:13px; }
+.actions-row { display:flex; gap:8px; justify-content:flex-end; }
+.btn { border:none; padding:8px 14px; border-radius:6px; cursor:pointer; font-size:14px; }
+.btn.primary { background:#ff7a18; color:#fff; }
+.btn.primary:hover { background:#ff8f3d; }
+.btn.secondary { background:#444; color:#fff; }
+.btn.secondary:hover { background:#555; }
+.btn:disabled { opacity:.6; cursor:not-allowed; }

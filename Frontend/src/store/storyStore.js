@@ -1,3 +1,6 @@
+// Story store (Zustand)
+// Keeps a flat list of stories and viewer state.
+// Server may send grouped or flat data — we always flatten.
 import { create } from 'zustand';
 import {
   createStory as createStoryApi,
@@ -6,48 +9,54 @@ import {
   deleteStory as deleteStoryApi,
 } from '../api/storyApi';
 
-// Story shape (simplified) returned by backend:
-// _id, user { _id, username, profileImage }, media { url,type }, caption,
-// viewers[], viewCount (owner only), hasViewed, createdAt
-// We store as-is and only derive minimal UI flags.
+// Each story has: _id, user, media, caption, hasViewed, createdAt, etc.
 
 const useStoryStore = create((set, get) => ({
   // Core state
-  stories: [],              // All fetched stories (flat list)
-  loading: false,           // Fetching stories flag
-  error: null,              // Last fetch error message
-  viewer: { open: false, index: null }, // Current open viewer index
-  creating: { uploading: false, error: null }, // Create story operation state
+  stories: [],              // Flat list of stories for rendering and viewer navigation
+  loading: false,           // Is the store currently fetching stories
+  error: null,              // Last fetch error message (if any)
+  viewer: { open: false, index: null }, // Story viewer modal state
+  creating: { uploading: false, error: null }, // Create story async state
 
-  // Fetch all stories (followed + own)
-  // Fetch all stories once (skip if already loading)
+  // Get stories (followed + own). Flatten if grouped.
   fetchStories: async () => {
-    if (get().loading) return; // simple guard
+    if (get().loading) return; // skip if already loading
     set({ loading: true, error: null });
     const result = await getAllStoriesApi();
     if (result.success) {
-      set({ stories: result.data || [], loading: false });
+      // Server may return groups or a flat list.
+      const payload = result.data || [];
+      let flat = [];
+      if (Array.isArray(payload) && payload.length && payload[0].stories) {
+        // Grouped: take stories from each group in order
+        payload.forEach(g => {
+          (g.stories || []).forEach(s => flat.push(s));
+        });
+      } else {
+        flat = Array.isArray(payload) ? payload : [];
+      }
+      set({ stories: flat, loading: false });
     } else {
       set({ error: result.message, loading: false });
     }
   },
 
-  // Create a new story
-  // Create a new story; prepend optimistically on success
+  // Create a new story. After upload, refresh the list.
   createStory: async (file, caption = '') => {
     set((state) => ({ creating: { ...state.creating, uploading: true, error: null } }));
     const result = await createStoryApi(file, caption);
     set((state) => ({ creating: { ...state.creating, uploading: false } }));
     if (result.success) {
-      set((state) => ({ stories: [result.data, ...state.stories] }));
+      // Keeps order and server-derived flags in sync
+      await get().fetchStories();
     } else {
       set((state) => ({ creating: { ...state.creating, error: result.message, uploading: false } }));
     }
     return result;
   },
 
-  // Open viewer for specific story index
-  // Open viewer for given index; trigger view mark if needed
+  // Open viewer at index; mark as viewed if needed.
   openViewer: (index) => {
     set({ viewer: { open: true, index } });
     const story = get().stories[index];
@@ -56,12 +65,10 @@ const useStoryStore = create((set, get) => ({
     }
   },
 
-  // Close viewer
-  // Close viewer overlay
+  // Close viewer.
   closeViewer: () => set({ viewer: { open: false, index: null } }),
 
-  // View story (mark as viewed)
-  // Mark story viewed (optimistic; rollback if API fails)
+  // Mark story as viewed (optimistic). Update viewCount for own stories.
   viewStory: async (index) => {
     const story = get().stories[index];
     if (!story || story.hasViewed) return;
@@ -80,8 +87,7 @@ const useStoryStore = create((set, get) => ({
     }
   },
 
-  // Delete story
-  // Delete story (optimistic removal with rollback)
+  // Delete a story. Remove optimistically; rollback on error; then refresh.
   deleteStory: async (index) => {
     const story = get().stories[index];
     if (!story) return { success: false, message: 'Story not found' };
@@ -91,6 +97,8 @@ const useStoryStore = create((set, get) => ({
     if (!result.success) {
       set({ stories: previousStories }); // rollback on failure
     }
+    // After delete, refetch to ensure indices remain valid
+    await get().fetchStories();
     return result;
   },
 }));

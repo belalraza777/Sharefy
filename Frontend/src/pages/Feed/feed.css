@@ -20,6 +20,10 @@
   overflow: hidden;
 }
 
+/* Stories Section */
+.feed-stories-section { margin-bottom: 16px; position: relative; }
+/* Old .story-create-modal removed; unified styling handled in Story.css */
+
 .create-post-prompt::before {
   content: '';
   position: absolute;
