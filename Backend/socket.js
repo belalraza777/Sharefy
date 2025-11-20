@@ -9,7 +9,7 @@ let onlineUsers = {};
 // Add user to online users list
 const addUser = (userId, socketId) => {
   onlineUsers[userId] = socketId;
-  console.log("Online users:", onlineUsers);
+  console.log("Online users:", getOnlineUsers());
 };
 
 // Remove user from online users list
@@ -19,17 +19,18 @@ const removeUser = (socketId) => {
       delete onlineUsers[userId];
     }
   });
-  console.log("Online users:", onlineUsers);
+  console.log("Online users:", getOnlineUsers());
 };
 
 // Get socket ID of a specific user
-const getReceiverSocketId = (userId) => {
-  return onlineUsers[userId];
-}
+const getReceiverSocketId = (userId) => onlineUsers[userId] || null;
 
 //Get Online Users
+// Return a plain object userId -> true for presence broadcast
 export const getOnlineUsers = () => {
-  return onlineUsers;
+  const map = {};
+  Object.keys(onlineUsers).forEach(id => { map[id] = true; });
+  return map;
 }
 
 
@@ -63,12 +64,12 @@ export function initSocketServer(server) {
     console.log(`User connected: ${socket.user.id} with socket ID: ${socket.id}`);
 
     addUser(socket.user.id, socket.id);
-
-    io.emit('onlineUsers', getOnlineUsers());
+    io.emit('onlineUsers', getOnlineUsers()); // broadcast current presence
 
     socket.on('disconnect', () => {
       console.log(`User disconnected: ${socket.user.id}`);
       removeUser(socket.id);
+      io.emit('onlineUsers', getOnlineUsers()); // broadcast updated presence
     });
   });
   return io;

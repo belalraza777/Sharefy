@@ -12,10 +12,12 @@ import './ChatPage.css';
 const ChatPage = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
-  const { setActiveUser, addIncomingMessage, getConversations, conversations } = useChatStore();
+  const { setActiveUser, addIncomingMessage, getConversations, conversations, onlineUsers } = useChatStore();
 
   // Get current user info for mobile header
   const currentUser = conversations.find(u => u._id === userId);
+  // Same online logic as ConversationListItem (map of userId -> true)
+  const isOnline = !!(onlineUsers && typeof onlineUsers === 'object' && userId && onlineUsers[userId]);
 
   // Handle back navigation on mobile
   const handleBack = () => {
@@ -61,8 +63,22 @@ const ChatPage = () => {
                 <button className="back-button" onClick={handleBack}>
                   <FiArrowLeft />
                 </button>
+                {currentUser && (
+                  <div className={`chat-header-avatar ${isOnline ? 'online' : ''}`}>
+                    {currentUser.profileImage ? (
+                      <img src={currentUser.profileImage} alt={currentUser.name || currentUser.username} />
+                    ) : (
+                      <div className="chat-header-avatar-placeholder">
+                        {(currentUser.name?.[0] || currentUser.username?.[0] || 'U').toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                )}
                 <div className="chat-header-info">
-                  <h3>{currentUser?.name || currentUser?.username || 'Chat'}</h3>
+                  <h3>
+                    {currentUser?.name || currentUser?.username || 'Chat'}
+                    {isOnline && <span className="chat-online-chip">Online</span>}
+                  </h3>
                   {currentUser?.username && (
                     <span className="chat-username">@{currentUser.username}</span>
                   )}

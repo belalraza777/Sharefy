@@ -18,7 +18,7 @@ const useChatStore = create((set, get) => ({
   loading: false,
   error: null,
   // Online user ids from socket layer
-  onlineUsers: [],
+  onlineUsers: null,
 
   // Select a chat; lazily fetch messages the first time user is opened
   setActiveUser: (userId) => {

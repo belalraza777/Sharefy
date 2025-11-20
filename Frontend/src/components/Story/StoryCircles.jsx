@@ -1,44 +1,42 @@
-// StoryCircles: one circle per user with a story.
-// Data comes from the flat `stories` list in the store.
-// We derive lightweight groups (user -> first story index, hasUnseen) with useMemo.
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import useStoryStore from '../../store/storyStore';
 import { useAuth } from '../../context/authContext';
 import './Story.css';
 
-// Horizontal story bar: shows current user's add button then followed + own stories.
-// Unviewed story: gradient ring; viewed: neutral gray ring.
-// Clicking a story opens viewer via store.openViewer(index).
-// Add button triggers optional external handler (passed as prop) or noop for now.
-
-// Props:
-// onAddClick: optional handler to open a create story modal.
+// StoryCircles
+// Renders one circle per unique user in `stories`.
+// Each circle points to the index of that user's first story.
+// `hasUnseen` is true if any story for that user is not viewed.
+// `onAddClick` optional handler for creating a new story.
 const StoryCircles = ({ onAddClick }) => {
   const { user } = useAuth();
-  const { stories, fetchStories, loading, error, openViewer } = useStoryStore(); // store actions/state
+  const { stories, fetchStories, loading, error, openViewer } = useStoryStore();
 
-  // Load stories once on mount if list is empty.
-  // Load stories once if empty
-  useEffect(() => {
-    if (!stories.length) fetchStories();
-  }, [stories.length, fetchStories]);
+  // Fetch on initial mount if we have no stories yet.
+  useEffect(() => { if (!stories.length) fetchStories(); }, [stories.length, fetchStories]);
 
-  // Build groups: first index for that user, unseen flag, latest timestamp
-  const groups = useMemo(() => {
-    const map = new Map();
-    stories.forEach((s, idx) => {
-      const uid = s.user?._id || (typeof s.user === 'string' ? s.user : undefined);
-      if (!uid) return;
-      if (!map.has(uid)) {
-        map.set(uid, { user: s.user, hasUnseen: !s.hasViewed, latestStoryAt: s.createdAt, startIndex: idx });
-      } else {
-        const g = map.get(uid);
-        if (!s.hasViewed) g.hasUnseen = true;
-        if (new Date(s.createdAt) > new Date(g.latestStoryAt)) g.latestStoryAt = s.createdAt;
-      }
-    });
-    return Array.from(map.values()).sort((a,b) => new Date(b.latestStoryAt) - new Date(a.latestStoryAt));
-  }, [stories]);
+  // Build unique user circles in one pass (O(n)).
+  // pos keeps the index of the circle for a user so we can update its unseen state.
+  const circles = [];  // final list rendered
+  const pos = {};      // maps userId -> index in circles
+  // Iterate each story once:
+  // 1. Determine the owning user id.
+  // 2. If first time seeing this user, create a circle pointing to this story index.
+  // 3. If user already has a circle and current story is unseen, flip hasUnseen to true.
+  for (let i = 0; i < stories.length; i++) {
+    const s = stories[i];
+    const u = s.user; // may be populated object or string id
+    const id = u?._id || (typeof u === 'string' ? u : null);
+    if (!id) continue; // skip malformed entries
+    if (pos[id] === undefined) {
+      // First story encountered for this user -> create circle
+      pos[id] = circles.length;
+      circles.push({ user: u, startIndex: i, hasUnseen: !s.hasViewed });
+    } else if (!s.hasViewed) {
+      // Another story for this user that is unseen -> mark circle unseen
+      circles[pos[id]].hasUnseen = true;
+    }
+  }
 
   return (
     <div className="story-bar-wrapper">
@@ -53,31 +51,24 @@ const StoryCircles = ({ onAddClick }) => {
           <div className="add-inner">+</div>
           <span className="story-username">{user?.username || 'You'}</span>
         </div>
-        {loading && !groups.length && ( // skeleton placeholders while first load
-          Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="story-circle skeleton">
-              <div className="skeleton-inner" />
-              <span className="story-username skeleton-text" />
-            </div>
-          ))
-        )}
-        {groups.map((g, idx) => (
+        {loading && !circles.length && <div className="story-loading">Loading...</div>}
+        {circles.map((c, i) => (
           <div
-            key={g.user?._id || idx}
-            className={`story-circle ${g.hasUnseen ? 'unviewed' : 'viewed'}`}
-            // Open viewer at this user's first story
-            onClick={() => openViewer(g.startIndex)}
-            title={g.user?.username}
+            key={c.user?._id || i}
+            className={`story-circle ${c.hasUnseen ? 'unviewed' : 'viewed'}`}
+            // Open viewer at this user's first story index
+            onClick={() => openViewer(c.startIndex)}
+            title={c.user?.username}
           >
             <div className="story-avatar-wrap">
               <img
-                src={g.user?.profileImage || '/default-avatar.png'}
-                alt={g.user?.username || 'story'}
+                src={c.user?.profileImage || '/default-avatar.png'}
+                alt={c.user?.username || 'story'}
                 className="story-avatar"
                 loading="lazy"
               />
             </div>
-            <span className="story-username">{g.user?.username}</span>
+            <span className="story-username">{c.user?.username}</span>
           </div>
         ))}
       </div>

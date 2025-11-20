@@ -60,11 +60,94 @@
   font-size: 1.1rem;
   font-weight: var(--font-weight-semibold);
   color: var(--dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .chat-username {
   font-size: 0.875rem;
   color: var(--dark-light);
+}
+
+/* Header avatar (matches conversation avatar style) */
+.chat-header-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  background: var(--primary-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-bold);
+  color: #fff;
+}
+
+.chat-header-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.chat-header-avatar-placeholder { font-size: 1rem; }
+
+/* Online badge & pulse (same approach as ConversationListItem) */
+.chat-header-avatar.online::after {
+  content: '';
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #10b981;
+  border: 2px solid #fff;
+  bottom: 2px;
+  right: 2px;
+  box-shadow: 0 0 0 2px rgba(16,185,129,0.3);
+  animation: onlinePulse 2.4s ease-in-out infinite;
+}
+
+.chat-header-avatar.online::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(16,185,129,0.4);
+  pointer-events: none;
+  animation: ringPulse 3.4s ease-in-out infinite;
+}
+
+@keyframes onlinePulse {
+  0% { transform: scale(1); }
+  55% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+@keyframes ringPulse {
+  0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.35); }
+  70% { box-shadow: 0 0 0 10px rgba(16,185,129,0); }
+  100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+}
+
+/* Online chip */
+.chat-online-chip {
+  background: #10b981;
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: var(--font-weight-semibold);
+  padding: 4px 6px 3px;
+  border-radius: 12px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+@media (max-width: 768px) {
+  .chat-header-avatar { width: 38px; height: 38px; }
+  .chat-online-chip { font-size: 0.55rem; padding: 3px 5px 2px; }
 }
 
 /* Desktop - hide back button */
