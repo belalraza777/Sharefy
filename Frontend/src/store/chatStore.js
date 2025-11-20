@@ -5,14 +5,22 @@ import {
   sendMessage as sendMessageApi,
 } from '../api/chatApi';
 
+// Chat store: keeps conversation list, per-user messages, current active chat,
+// loading/error flags, and online user ids. All actions are small and focused.
 const useChatStore = create((set, get) => ({
+  // List of conversation objects (e.g. users you have chatted with)
   conversations: [],
+  // Messages keyed by userId: { userId: [message, ...] }
   messages: {},
+  // Currently opened chat user id
   activeUserId: null,
+  // UI flags
   loading: false,
   error: null,
+  // Online user ids from socket layer
+  onlineUsers: [],
 
-  // Set the active user for chat
+  // Select a chat; lazily fetch messages the first time user is opened
   setActiveUser: (userId) => {
     set({ activeUserId: userId });
     if (userId && !get().messages[userId]) {
@@ -20,12 +28,10 @@ const useChatStore = create((set, get) => ({
     }
   },
 
-  // Get all conversations (users that have been chatted with)
+  // Load all conversations
   getConversations: async () => {
     set({ loading: true, error: null });
     const result = await getConversationsApi();
-    console.log(result);
-    
     if (result.success) {
       set({ conversations: result.data, loading: false });
     } else {
@@ -33,10 +39,12 @@ const useChatStore = create((set, get) => ({
     }
   },
 
-  // Get messages with a specific user
+  // Load messages for one user
   getMessages: async (userId) => {
     set({ loading: true, error: null });
     const result = await getMessagesApi(userId);
+    console.log(result);
+
     if (result.success) {
       set((state) => ({
         messages: { ...state.messages, [userId]: result.data },
@@ -47,7 +55,7 @@ const useChatStore = create((set, get) => ({
     }
   },
 
-  // Send a message to a user
+  // Send a message and append it locally on success
   sendMessage: async (userId, messageText) => {
     const result = await sendMessageApi(userId, messageText);
     if (result.success) {
@@ -61,7 +69,7 @@ const useChatStore = create((set, get) => ({
     return result;
   },
 
-  // Add an incoming message from socket
+  // Append a socket-delivered incoming message
   addIncomingMessage: (message) => {
     const userId = message.senderId;
     set((state) => ({
@@ -71,6 +79,13 @@ const useChatStore = create((set, get) => ({
       },
     }));
   },
+
+  // Replace online users list
+  setOnlineUsers: (userIds) => {
+    set({ onlineUsers: userIds });
+  }
 }));
 
-export default useChatStore;
+
+
+export default useChatStore; // Export hook for components

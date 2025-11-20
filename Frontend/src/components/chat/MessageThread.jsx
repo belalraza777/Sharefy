@@ -12,6 +12,9 @@ const MessageThread = () => {
   const { user } = useAuth();
   const messagesEndRef = useRef(null);
 
+  console.log(messages);
+  
+
   const currentMessages = messages[userId] || [];
 
   // Auto-scroll to bottom when messages change

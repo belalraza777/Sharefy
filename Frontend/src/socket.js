@@ -1,6 +1,8 @@
 // Socket.IO client for real-time notifications and chat
 import { io } from "socket.io-client";
 import useNotificationStore from "./store/notificationStore";
+import useChatStore from "./store/chatStore";
+
 
 // Single shared socket instance
 let socket;
@@ -46,6 +48,12 @@ export const connectSocket = (token) => {
   // Listen for chat messages (components will handle via getSocket())
   socket.on('newMessage', (msg) => {
     console.log('Received newMessage', msg);
+  });
+
+  // Listen for online users update
+  socket.on('onlineUsers', (userIds) => {
+    console.log("onlineUser",userIds);
+    useChatStore.getState().setOnlineUsers(userIds);
   });
 
   return socket;
