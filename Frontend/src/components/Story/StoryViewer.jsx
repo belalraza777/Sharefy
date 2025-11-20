@@ -5,7 +5,11 @@ import React, { useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import useStoryStore from '../../store/storyStore';
 import { useAuth } from '../../context/authContext';
-import './Story.css';
+import './StoryViewer.css';
+import { IoMdClose } from "react-icons/io";
+import { FiEye } from "react-icons/fi";
+import { toast } from 'sonner';
+
 
 // Fullscreen overlay to display a single story media with caption.
 // Navigation: left/right arrows. Close on backdrop click or ESC.
@@ -14,12 +18,16 @@ import './Story.css';
 // No props: uses global store viewer state.
 const StoryViewer = () => {
   const { user } = useAuth();
+  console.log(user);
+  
   const { stories, viewer, closeViewer, openViewer, deleteStory } = useStoryStore();
 
+  console.log(stories);
+  
   const index = viewer.index;
   const story = index !== null ? stories[index] : null;
   const isOpen = viewer.open && !!story;
-  const isOwner = story && story.user && user && story.user._id === user._id;
+  const isOwner = story && story.user && user && story.user._id === user.id;
 
   // Keyboard shortcuts: ESC close, arrows navigate
   const handleKey = useCallback((e) => {
@@ -56,21 +64,30 @@ const StoryViewer = () => {
     if (index < stories.length - 1) openViewer(index + 1);
   };
 
-  // Delete current story (owner only). Close if last item.
-  const handleDelete = async () => {
+  // Delete story via sonner toast confirmation (owner only)
+  const handleDelete = () => {
     if (index === null) return;
-    const confirm = window.confirm('Delete this story?');
-    if (!confirm) return;
-    const res = await deleteStory(index);
-    if (res.success) {
-      // If we deleted last story or viewer becomes invalid, close.
-      if (index >= stories.length - 1) {
-        closeViewer();
-      } else {
-        // Stay on same index which now points to next story after removal.
-        openViewer(index); // re-open ensures view mark logic.
+    toast("Delete this story?", {
+      action: {
+        label: "Delete",
+        onClick: async () => {
+          const res = await deleteStory(index);
+          if (res.success) {
+            toast.success('Story deleted');
+            if (index >= stories.length - 1) {
+              closeViewer();
+            } else {
+              openViewer(index); // viewer index now points at next story after removal
+            }
+          } else {
+            toast.error(res.message || 'Failed to delete story');
+          }
+        }
+      },
+      cancel: {
+        label: 'Cancel'
       }
-    }
+    });
   };
 
   if (!isOpen) return null;
@@ -81,13 +98,18 @@ const StoryViewer = () => {
         <div className="story-viewer-header">
           <div className="story-user">
             <img src={story.user?.profileImage || '/default-avatar.png'} alt={story.user?.username} />
-            <span>{story.user?.username}</span>
+            <span className="story-username-viewer">{story.user?.username}</span>
           </div>
-          <div className="story-actions">
-            {isOwner && (
-              <button className="btn danger" onClick={handleDelete}>Delete</button>
+          <div className="story-header-right">
+            {isOwner && story.viewCount !== undefined && (
+              <span className="story-views-pill" title="Total views"><FiEye /> {story.viewCount}</span>
             )}
-            <button className="btn" onClick={closeViewer}>Close</button>
+            <div className="story-actions">
+              {isOwner && (
+                <button className="btn danger" onClick={handleDelete}>Delete</button>
+              )}
+              <button className="btn close" onClick={closeViewer} aria-label="Close story viewer"><IoMdClose /></button>
+            </div>
           </div>
         </div>
         <div className="story-media-wrapper">
@@ -102,11 +124,7 @@ const StoryViewer = () => {
             </div>
           )}
         </div>
-        {(isOwner && story.viewCount !== undefined) && (
-          <div className="story-footer">
-            <span className="story-views">Views: {story.viewCount}</span>
-          </div>
-        )}
+        {/* Footer removed; views now shown in header pill */}
         <div className="nav-buttons">
           <button className="nav prev" aria-label="Previous story" onClick={prev} disabled={index === 0}>◀</button>
           <button className="nav next" aria-label="Next story" onClick={next} disabled={index === stories.length - 1}>▶</button>
