@@ -1,9 +1,10 @@
 import useNotificationStore from '../../store/notificationStore'
 import { useEffect } from 'react'
+import { SkeletonUser } from '../../components/Skeleton/Skeleton'
 import './Notification.css'
 
 export default function Notification() {
-    const { notifications, getNotifications, markAsRead } = useNotificationStore()
+    const { notifications, getNotifications, markAsRead, loading } = useNotificationStore()
     
     useEffect(() => {
         getNotifications()
@@ -16,6 +17,21 @@ export default function Notification() {
         if (!notification.isRead) {
             await markAsRead(notification._id)
         }
+    }
+
+    if (loading) {
+        return (
+            <div className="notifications-page">
+                <h2>Notifications</h2>
+                <div className="notifications-list">
+                    <SkeletonUser />
+                    <SkeletonUser />
+                    <SkeletonUser />
+                    <SkeletonUser />
+                    <SkeletonUser />
+                </div>
+            </div>
+        )
     }
 
     if (notifications.length === 0) {

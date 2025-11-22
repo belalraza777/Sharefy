@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import useStoryStore from '../../store/storyStore';
 import { useAuth } from '../../context/authContext';
+import { SkeletonStory } from '../Skeleton/Skeleton';
 import './Story.css';
 
 // StoryCircles
@@ -51,7 +52,15 @@ const StoryCircles = ({ onAddClick }) => {
           <div className="add-inner">+</div>
           <span className="story-username">{user?.username || 'You'}</span>
         </div>
-        {loading && !circles.length && <div className="story-loading">Loading...</div>}
+        {loading && !circles.length && (
+          <>
+            <SkeletonStory />
+            <SkeletonStory />
+            <SkeletonStory />
+            <SkeletonStory />
+            <SkeletonStory />
+          </>
+        )}
         {circles.map((c, i) => (
           <div
             key={c.user?._id || i}

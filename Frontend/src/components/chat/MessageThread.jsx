@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import useChatStore from '../../store/chatStore';
 import { useAuth } from '../../context/authContext';
 import MessageBubble from './MessageBubble';
+import Skeleton from '../Skeleton/Skeleton';
 import './MessageThread.css';
 
 const MessageThread = () => {
@@ -28,7 +29,12 @@ const MessageThread = () => {
   if (loading) {
     return (
       <div className="message-thread">
-        <div className="message-loading">Loading messages...</div>
+        <div className="message-loading" style={{ padding: '20px' }}>
+          <Skeleton variant="text" width="60%" height="40px" />
+          <Skeleton variant="text" width="80%" height="40px" />
+          <Skeleton variant="text" width="50%" height="40px" />
+          <Skeleton variant="text" width="70%" height="40px" />
+        </div>
       </div>
     );
   }

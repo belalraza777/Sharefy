@@ -4,16 +4,19 @@ import * as api from "../api/notificationApi.js";
 const useNotificationStore = create((set) => ({
   notifications: [],
   unreadCount: 0,
+  loading: false,
   
   getNotifications: async () => {
+    set({ loading: true });
     try {
       const response = await api.getNotifications();
       if (response.success) {
         const unread = response.data.filter(n => !n.isRead).length;
-        set({ notifications: response.data, unreadCount: unread });
+        set({ notifications: response.data, unreadCount: unread, loading: false });
       }
     } catch (error) {
       console.log(error);
+      set({ loading: false });
     }
   },
   

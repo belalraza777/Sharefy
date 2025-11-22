@@ -3,7 +3,7 @@ import useSearchStore from '../../store/searchStore';
 import debounce from 'debounce';
 import { Link } from 'react-router-dom';
 import { HiSearch, HiUsers } from 'react-icons/hi';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import Skeleton from '../Skeleton/Skeleton';
 import './SearchBar.css';
 
 /**
@@ -51,9 +51,9 @@ const SearchBar = ({ isDropdown = true }) => {
             {(showResults && isDropdown) && (
                 <div className="search-results-dropdown">
                     {loading ? (
-                        <div className="search-loading">
-                            <AiOutlineLoading3Quarters className="loading-spinner" />
-                            Searching...
+                        <div className="search-loading" style={{ padding: '12px' }}>
+                            <Skeleton variant="avatar" width="40px" height="40px" />
+                            <Skeleton variant="text" width="120px" height="14px" />
                         </div>
                     ) : result && result.length > 0 ? (
                         result.map((user) => (

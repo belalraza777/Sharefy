@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import usePostStore from '../../store/postStore';
 import Post from './post';
+import { SkeletonPost } from '../../components/Skeleton/Skeleton';
 import './Feed.css';
 // Story components
 import StoryCircles from '../../components/Story/StoryCircles';
@@ -104,8 +105,8 @@ export default function Feed() {
         hasMore={hasMore}
         loader={
           <div className="infinite-scroll-loader">
-            <div className="loading-spinner"></div>
-            <p>Loading more posts...</p>
+            <SkeletonPost />
+            <SkeletonPost />
           </div>
         }
         endMessage={

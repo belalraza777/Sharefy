@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useSavedPostStore from "../../store/savedPostStore";
 import { FaHeart, FaComment } from 'react-icons/fa';
+import Skeleton from '../../components/Skeleton/Skeleton';
 
 export default function SavedPost() {
     const navigate = useNavigate();
@@ -20,7 +21,16 @@ export default function SavedPost() {
         <div>
             <h1>Saved Posts</h1>
 
-            {loading && <p>Loading...</p>}
+            {loading && (
+                <div className="profile-posts-grid">
+                    <Skeleton variant="rect" width="100%" height="300px" />
+                    <Skeleton variant="rect" width="100%" height="300px" />
+                    <Skeleton variant="rect" width="100%" height="300px" />
+                    <Skeleton variant="rect" width="100%" height="300px" />
+                    <Skeleton variant="rect" width="100%" height="300px" />
+                    <Skeleton variant="rect" width="100%" height="300px" />
+                </div>
+            )}
             {error && <p style={{ color: "red" }}>{error}</p>}
 
             {savedPosts.length === 0 ? (

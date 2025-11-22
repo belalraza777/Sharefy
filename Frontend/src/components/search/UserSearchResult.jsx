@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import useSearchStore from '../../store/searchStore';
+import { SkeletonUser } from '../Skeleton/Skeleton';
 import './UserSearchResult.css';
 
 /**
@@ -15,7 +16,11 @@ const UserSearchResult = () => {
     if (loading) {
         return (
             <div className="search-results-full">
-                <div className="search-loading">Searching users...</div>
+                <SkeletonUser />
+                <SkeletonUser />
+                <SkeletonUser />
+                <SkeletonUser />
+                <SkeletonUser />
             </div>
         );
     }

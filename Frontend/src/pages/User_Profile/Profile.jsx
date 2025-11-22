@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import useUserStore from '../../store/userStore.js';
+import Skeleton from '../../components/Skeleton/Skeleton';
 import './Profile.css';
 import FollowButton from '../../components/Buttons/followButton.jsx';
 import defaultAvatar from '../../assets/defaultAvatar.png';
@@ -47,8 +48,19 @@ export default function Profile() {
     if (loading) {
         return (
             <div className="profile-loading">
-                <div className="loading-spinner"></div>
-                <p>Loading profile...</p>
+                <div className="profile-skeleton">
+                    <div style={{ display: 'flex', gap: '24px', padding: '24px', alignItems: 'center' }}>
+                        <Skeleton variant="circle" width="150px" height="150px" />
+                        <div style={{ flex: 1 }}>
+                            <Skeleton variant="text" width="200px" height="24px" />
+                            <Skeleton variant="text" width="150px" height="16px" />
+                            <Skeleton variant="text" width="300px" height="14px" count={2} />
+                        </div>
+                    </div>
+                    <div style={{ padding: '0 24px' }}>
+                        <Skeleton variant="rect" width="100%" height="300px" count={3} />
+                    </div>
+                </div>
             </div>
         );
     }

@@ -1,6 +1,7 @@
 // components/chat/ConversationList.jsx
 import useChatStore from '../../store/chatStore';
 import ConversationListItem from './ConversationListItem';
+import { SkeletonUser } from '../Skeleton/Skeleton';
 import './ConversationList.css';
 
 const ConversationList = () => {
@@ -13,7 +14,13 @@ const ConversationList = () => {
         <div className="conversation-list-header">
           <h2>Messages</h2>
         </div>
-        <div className="conversation-loading">Loading...</div>
+        <div className="conversation-items">
+          <SkeletonUser />
+          <SkeletonUser />
+          <SkeletonUser />
+          <SkeletonUser />
+          <SkeletonUser />
+        </div>
       </div>
     );
   }
