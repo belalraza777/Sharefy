@@ -24,9 +24,10 @@ const loginUser = async (req, res, next) => {
         }
         // Generating JWT token
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "5d" });
-        // Setting token in cookie
+        // Setting token in cookie (5 days to match JWT expiry)
         res.cookie("token", token, {
             httpOnly: true,
+            maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days in ms
             // secure: true,
             // sameSite: "none",
         });
@@ -65,9 +66,10 @@ const register = async (req, res, next) => {
         const user = await newUser.save();
         // Generating JWT token
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "5d" });
-        // Setting token in cookie
+        // Setting token in cookie (5 days to match JWT expiry)
         res.cookie("token", token, {
             httpOnly: true,
+            maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days in ms
             // secure: true,
             // sameSite: "none",
         });
@@ -212,9 +214,10 @@ const verifyOtp = async (req, res, next) => {
         // If OTP is valid, generate JWT token
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '5d' });
 
-        // Setting token in cookie
+        // Setting token in cookie (5 days to match JWT expiry)
         res.cookie('token', token, {
             httpOnly: true,
+            maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days in ms
             // secure: true,
             // sameSite: 'none',
         });
