@@ -14,6 +14,7 @@ import ResetPasswordForm from '../components/user/ResetPasswordForm';
 import SavedPost from '../pages/SavedPost/SavedPost';
 import Search from '../pages/Search/Search';
 import ChatPage from '../pages/Chat/ChatPage';
+import ThemePage from '../pages/Theme/Theme';
 
 const AppRoute = () => {
   return (
@@ -104,6 +105,13 @@ const AppRoute = () => {
       <Route path="/chat/:userId" element={
         <ProtectedRoute>
           <ChatPage />
+        </ProtectedRoute>
+      }
+      />
+
+      <Route path="/theme" element={
+        <ProtectedRoute>
+          <ThemePage />
         </ProtectedRoute>
       }
       />

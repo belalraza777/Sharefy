@@ -3,7 +3,7 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 1rem;
-  background: #f8f9fa !important;
+  background: transparent !important;
   min-height: 100vh;
   position: relative;
   z-index: 1;
@@ -19,7 +19,7 @@
   align-items: center;
   justify-content: center;
   padding: 3rem;
-  color: #636e72;
+  color: var(--text-color-dim);
 }
 
 .single-post-container .loading-spinner {
@@ -39,7 +39,7 @@
 
 /* Post Card */
 .single-post-container .post-card {
-  background: #ffffff !important;
+  background: var(--card-bg) !important;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid #e1e5e9;
@@ -90,7 +90,7 @@
 
 .single-post-container .user-info .username {
   font-weight: 600;
-  color: #2d3436;
+  color: var(--text-color);
   margin-bottom: 0.1rem;
   transition: color 0.2s ease;
 }
@@ -101,13 +101,13 @@
 
 .single-post-container .user-info .post-time {
   font-size: 0.8rem;
-  color: #636e72;
+  color: var(--text-color-dim);
 }
 
 .single-post-container .more-btn {
   background: none;
   border: none;
-  color: #262626;
+  color: var(--text-color);
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0.4rem 0.6rem;
@@ -135,7 +135,7 @@
 /* Post Caption */
 .single-post-container .post-caption {
   padding: 1.25rem;
-  color: #2d3436 !important;
+  color: var(--text-color) !important;
   line-height: 1.5;
   font-size: 1rem !important;
   border-bottom: 1px solid #e1e5e9;
@@ -196,7 +196,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #2d3436;
+  color: var(--text-color);
   font-weight: 500;
   cursor: default;
   transition: color 0.2s ease;
@@ -240,18 +240,18 @@
   gap: 0.5rem;
   padding: 0.75rem 0;
   border: none;
-  background: #fff;
+  background: var(--card-bg);
   cursor: pointer;
   transition: all 0.2s ease;
   font-weight: 500;
-  color: #2d3436;
+  color: var(--text-color);
   font-size: 0.95rem;
   border-radius: 8px;
 }
 
 .single-post-container .action-btn:hover {
-  background: rgb(240, 239, 239);
-  color: #000000;
+  background: var(--surface-alt);
+  color: var(--text-color);
 }
 
 /* ShareButton specific styling in single post */
@@ -273,7 +273,7 @@
 .single-post-container .comments-title {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #2d3436;
+  color: var(--text-color);
   margin-bottom: 1rem;
 }
 
@@ -294,7 +294,7 @@
   border: 2px solid #e1e5e9;
   border-radius: 25px;
   font-size: 0.9rem;
-  background: #ffffff;
+  background: var(--card-bg);
   transition: all 0.3s ease;
   width: 100%;;
 }
@@ -306,7 +306,7 @@
 }
 
 .single-post-container .comment-input:disabled {
-  background: #f8f9fa;
+  background: var(--surface-alt);
   cursor: not-allowed;
 }
 
@@ -343,12 +343,12 @@
 .single-post-container .no-comments {
   text-align: center;
   padding: 2rem;
-  color: #636e72;
+  color: var(--text-color-dim);
   font-style: italic;
 }
 
 .single-post-container .comment-item {
-  background: #f8f9fa;
+  background: var(--surface-alt);
   border-radius: 12px;
   padding: 1rem;
   border: 1px solid #e1e5e9;
@@ -384,13 +384,13 @@
 
 .single-post-container .comment-username {
   font-weight: 600;
-  color: #2d3436;
+  color: var(--text-color);
   font-size: 0.9rem;
 }
 
 .single-post-container .comment-time {
   font-size: 0.7rem;
-  color: #636e72;
+  color: var(--text-color-dim);
 }
 
 .single-post-container .delete-comment-btn {
@@ -409,7 +409,7 @@
 }
 
 .single-post-container .comment-text {
-  color: #1b1f21;
+  color: var(--text-color);
   line-height: 1.4;
   font-size: 1rem;
   font-weight: 500;

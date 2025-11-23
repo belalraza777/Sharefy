@@ -3,10 +3,10 @@
   position: absolute;
   top: 2.5rem;
   right: 0.7rem;
-  background: #fff;
-  border: 1px solid #dbdbdb;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-lg);
   z-index: 100;
   padding: 0.5rem 0;
   min-width: 220px;
@@ -32,7 +32,7 @@
   padding: 0.75rem 1.2rem;
   background: none;
   border: none;
-  color: #262626;
+  color: var(--text-color);
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
@@ -41,7 +41,7 @@
 }
 
 .option-item:hover:not(:disabled) {
-  background: #f5f5f5;
+  background: var(--surface-alt);
 }
 
 .option-item:disabled {
@@ -51,7 +51,7 @@
 
 .option-item svg {
   font-size: 1rem;
-  color: #8e8e8e;
+  color: var(--text-color-dim);
   flex-shrink: 0;
 }
 
@@ -64,12 +64,12 @@
 }
 
 .option-item.danger:hover:not(:disabled) {
-  background: #fff0f1;
+  background: var(--danger-light);
 }
 
 .option-divider {
   height: 1px;
-  background: #dbdbdb;
+  background: var(--border-color);
   margin: 0.5rem 0;
 }
 

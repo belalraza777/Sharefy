@@ -6,7 +6,7 @@
 }
 
 .notifications-page h2 {
-  color: var(--dark);
+  color: var(--text-color);
   font-size: 1.8rem;
   margin-bottom: var(--space-xl);
   font-weight: var(--font-weight-bold);
@@ -21,11 +21,11 @@
 .empty-notifications {
   text-align: center;
   padding: var(--space-3xl) var(--space-xl);
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--card-bg);
   backdrop-filter: blur(20px);
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-lg);
-  border: 1px solid rgba(108, 92, 231, 0.1);
+  border: 1px solid var(--border-color);
   position: relative;
   overflow: hidden;
 }
@@ -41,18 +41,18 @@
 }
 
 .empty-notifications p {
-  color: var(--dark-light);
+  color: var(--text-color-dim);
   font-size: 1.1rem;
   margin: 0;
 }
 
 /* Enhanced Notifications List */
 .notifications-list {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--card-bg);
   backdrop-filter: blur(20px);
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-lg);
-  border: 1px solid rgba(108, 92, 231, 0.1);
+  border: 1px solid var(--border-color);
   overflow: hidden;
   position: relative;
 }
@@ -73,7 +73,7 @@
   align-items: flex-start;
   gap: var(--space-lg);
   padding: var(--space-xl);
-  border-bottom: 1px solid rgba(108, 92, 231, 0.06);
+  border-bottom: 1px solid var(--border-color);
   cursor: pointer;
   transition: all var(--transition-normal);
   position: relative;
@@ -81,16 +81,12 @@
 }
 
 .notification:hover {
-  background: rgba(108, 92, 231, 0.04);
+  background: var(--surface-alt);
   transform: translateY(-2px);
 }
 
 .notification:last-child {
   border-bottom: none;
-}
-
-.notification:hover {
-  background: var(--light);
 }
 
 .notification.unread {
@@ -133,7 +129,7 @@
 }
 
 .notification-content p {
-  color: var(--dark);
+  color: var(--text-color);
   font-size: 0.95rem;
   line-height: 1.4;
   margin: 0 0 0.25rem 0;
@@ -141,12 +137,12 @@
 }
 
 .notification-content strong {
-  color: var(--dark);
+  color: var(--text-color);
   font-weight: 600;
 }
 
 .time {
-  color: var(--dark-light);
+  color: var(--text-color-dim);
   font-size: 0.8rem;
   font-weight: 500;
 }

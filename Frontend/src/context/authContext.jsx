@@ -8,7 +8,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     // Load user and token from localStorage if available
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
-    const [token, setToken] = useState(localStorage.getItem("token") || null);
+    const [token, setToken] = useState();
     const [loading, setLoading] = useState(true);
 
     // Function to save user and token
@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }) => {
         setUser(userData);
         setToken(authToken);
         localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("token", authToken);
     };
 
     // Function to clear user and token
@@ -24,7 +23,6 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         setToken(null);
         localStorage.removeItem("user");
-        localStorage.removeItem("token");
         disconnectSocket(); // Disconnect socket on logout
     };
 

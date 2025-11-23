@@ -52,7 +52,7 @@
 
 .search-bar input:hover {
     border-color: rgba(108, 92, 231, 0.15);
-    background: rgba(255, 255, 255, 0.9);
+    background: var(--card-bg);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 
                 0 2px 4px rgba(0, 0, 0, 0.05),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.7);

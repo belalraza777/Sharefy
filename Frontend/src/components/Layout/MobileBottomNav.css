@@ -10,10 +10,10 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--card-bg);
     backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(108, 92, 231, 0.1);
-    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
     z-index: var(--z-sticky);
     padding: var(--space-sm) 0;
   }
@@ -33,7 +33,7 @@
     align-items: center;
     gap: var(--space-xs);
     padding: var(--space-sm);
-    color: var(--dark-light);
+    color: var(--text-color-dim);
     text-decoration: none;
     transition: all var(--transition-normal);
     border-radius: var(--radius-lg);

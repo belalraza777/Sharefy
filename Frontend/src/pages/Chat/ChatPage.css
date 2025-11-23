@@ -12,16 +12,16 @@
   grid-template-columns: 350px 1fr;
   gap: 0;
   height: 100%;
-  background: white;
+  background: var(--surface);
   overflow: hidden;
-  border-left: 1px solid #e5e7eb;
+  border-left: 1px solid var(--border-color);
 }
 
 .chat-main {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #f8f9fa;
+  background: var(--surface-alt);
   overflow: hidden;
   position: relative;
 }
@@ -31,7 +31,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: var(--dark-light);
+  color: var(--text-color-dim);
   text-align: center;
 }
 
@@ -46,8 +46,8 @@
   align-items: center;
   gap: var(--space-md);
   padding: var(--space-lg);
-  background: white;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
 }
 
@@ -59,7 +59,7 @@
   margin: 0;
   font-size: 1.1rem;
   font-weight: var(--font-weight-semibold);
-  color: var(--dark);
+  color: var(--text-color);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -67,7 +67,7 @@
 
 .chat-username {
   font-size: 0.875rem;
-  color: var(--dark-light);
+  color: var(--text-color-dim);
 }
 
 /* Header avatar (matches conversation avatar style) */

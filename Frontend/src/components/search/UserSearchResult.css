@@ -4,7 +4,7 @@
 
 .search-results-title {
     margin-bottom: 1rem;
-    color: #2d3436;
+    color: var(--text-color);
     font-size: 1.25rem;
 }
 
@@ -15,14 +15,14 @@
     padding: 1rem;
     text-decoration: none;
     color: inherit;
-    border-bottom: 1px solid #f1f3f4;
+    border-bottom: 1px solid var(--border-color);
     transition: background-color 0.2s ease;
     border-radius: 8px;
     margin-bottom: 0.5rem;
 }
 
 .search-result-item-full:hover {
-    background: #f8f9fa;
+    background: var(--surface-alt);
 }
 
 .search-result-item-full img {
@@ -39,20 +39,20 @@
 
 .username {
     font-weight: 600;
-    color: #2d3436;
+    color: var(--text-color);
     font-size: 1rem;
 }
 
 .full-name {
-    color: #636e72;
+    color: var(--text-color-dim);
     font-size: 0.9rem;
 }
 
 .search-loading, .search-error, .search-no-results-full {
     padding: 2rem;
     text-align: center;
-    color: #636e72;
-    background: #f8f9fa;
+    color: var(--text-color-dim);
+    background: var(--surface);
     border-radius: 8px;
     margin: 1rem 0;
 }

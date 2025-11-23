@@ -3,19 +3,19 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: white;
-  border-right: 1px solid #e5e7eb;
+  background: var(--card-bg);
+  border-right: 1px solid var(--border-color);
 }
 
 .conversation-list-header {
   padding: var(--space-lg);
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .conversation-list-header h2 {
   font-size: 1.5rem;
   font-weight: var(--font-weight-bold);
-  color: var(--dark);
+  color: var(--text-color);
   margin: 0;
 }
 
@@ -30,7 +30,7 @@
   align-items: center;
   justify-content: center;
   padding: var(--space-xl);
-  color: var(--dark-light);
+  color: var(--text-color-dim);
 }
 
 .conversation-item {
@@ -40,15 +40,15 @@
   padding: var(--space-md) var(--space-lg);
   cursor: pointer;
   transition: background var(--transition-fast);
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .conversation-item:hover {
-  background: #f9fafb;
+  background: var(--surface-alt);
 }
 
 .conversation-item:active {
-  background: #f3f4f6;
+  background: var(--surface);
 }
 
 .conversation-item.active {
@@ -129,7 +129,7 @@
 .conversation-info h4 {
   font-size: 1rem;
   font-weight: var(--font-weight-semibold);
-  color: var(--dark);
+  color: var(--text-color);
   margin: 0 0 4px 0;
   overflow: hidden;
   text-overflow: ellipsis;

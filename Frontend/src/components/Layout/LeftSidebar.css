@@ -1,9 +1,9 @@
 /* Enhanced LeftSidebar Styles */
 .left-sidebar {
   width: 260px;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--card-bg);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(108, 92, 231, 0.1);
+  border: 1px solid var(--border-color);
   height: calc(100vh - 100px);
   position: sticky;
   top: 100px;
@@ -41,7 +41,7 @@
   display: flex;
   align-items: center;
   padding: var(--space-md) var(--space-xl);
-  color: var(--dark);
+  color: var(--text-color);
   text-decoration: none;
   transition: all var(--transition-normal);
   border-left: 4px solid transparent;
@@ -179,7 +179,7 @@
   left: 0;
   right: 0;
   height: 20px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 1), transparent);
+  background: linear-gradient(to bottom, var(--card-bg), transparent);
   z-index: 1;
   pointer-events: none;
 }
@@ -191,7 +191,7 @@
   left: 0;
   right: 0;
   height: 20px;
-  background: linear-gradient(to top, rgba(255, 255, 255, 1), transparent);
+  background: linear-gradient(to top, var(--card-bg), transparent);
   z-index: 1;
   pointer-events: none;
 }

@@ -3,13 +3,14 @@
   max-width: 500px;
   margin: 2rem auto;
   padding: 2rem;
-  background: var(--white);
+  background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
 }
 
 .update-profile-form h2 {
-  color: var(--dark);
+  color: var(--text-color);
   margin-bottom: 1.5rem;
   text-align: center;
   font-size: 1.8rem;
@@ -23,7 +24,7 @@
 .update-profile-form label {
   display: block;
   margin-bottom: 0.5rem;
-  color: var(--dark);
+  color: var(--text-color);
   font-weight: 500;
   font-size: 0.95rem;
 }
@@ -32,19 +33,20 @@
 .update-profile-form textarea {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1px solid var(--gray);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background-color: var(--light);
+  background-color: var(--surface);
+  color: var(--text-color);
 }
 
 .update-profile-form input:focus,
 .update-profile-form textarea:focus {
   outline: none;
   border-color: var(--primary);
-  background-color: var(--white);
-  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+  background-color: var(--surface-alt);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
 }
 
 .update-profile-form textarea {

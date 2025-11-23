@@ -1,11 +1,11 @@
 /* Enhanced Post Card Styles */
 .post-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--card-bg);
   backdrop-filter: blur(20px);
   border-radius: var(--radius-2xl);
   margin: var(--space-xl) 0;
   box-shadow: var(--shadow-lg);
-  border: 1px solid rgba(108, 92, 231, 0.08);
+  border: 1px solid var(--border-color);
   transition: all var(--transition-normal);
   overflow: hidden;
   position: relative;
@@ -64,14 +64,14 @@
 .post-user-details h4 {
   font-size: 1.1rem;
   font-weight: var(--font-weight-bold);
-  color: var(--dark);
+  color: var(--text-color);
   margin: 0 0 2px 0;
   line-height: 1.2;
 }
 
 .post-user-details .post-username {
   font-size: 0.85rem;
-  color: var(--dark-light);
+  color: var(--text-color-dim);
   font-weight: var(--font-weight-medium);
 }
 
@@ -84,7 +84,7 @@
 .post-menu-btn {
   background: none;
   border: none;
-  color: var(--dark-light);
+  color: var(--text-color-dim);
   font-size: 1.2rem;
   cursor: pointer;
   padding: var(--space-sm);
@@ -153,7 +153,7 @@
   align-items: center;
   padding: 1rem 1.2rem;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--card-bg);
 }
 
 .action-btn {

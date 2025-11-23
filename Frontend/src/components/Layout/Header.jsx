@@ -18,7 +18,7 @@ const Header = () => {
 
         {/* Search Bar - Center */}
         <SearchBar />
-        
+
         {/* User Info */}
         {user && (
           <Link to={`/profile/${user?.username}`} className="user-link">

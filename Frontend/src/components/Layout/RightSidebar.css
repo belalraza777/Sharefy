@@ -1,9 +1,9 @@
 /* Enhanced RightSidebar Styles */
 .right-sidebar {
   width: 320px;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--card-bg);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(108, 92, 231, 0.1);
+  border: 1px solid var(--border-color);
   height: calc(100vh - 100px);
   position: sticky;
   top: 100px;
@@ -20,12 +20,12 @@
 }
 
 .sidebar-card {
-  background: rgba(248, 249, 251, 0.8);
+  background: var(--surface-alt);
   backdrop-filter: blur(10px);
   border-radius: var(--radius-xl);
   padding: var(--space-xl);
   margin-bottom: var(--space-xl);
-  border: 1px solid rgba(108, 92, 231, 0.08);
+  border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
   transition: all var(--transition-normal);
   position: relative;
@@ -56,7 +56,7 @@
 .card-title {
   font-size: 1.2rem;
   font-weight: var(--font-weight-bold);
-  color: var(--dark);
+  color: var(--text-color);
   margin-bottom: var(--space-lg);
   display: flex;
   align-items: center;
@@ -95,7 +95,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
   transition: left 0.6s ease;
 }
 
@@ -120,10 +120,10 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--space-lg);
-  border-bottom: 1px solid rgba(108, 92, 231, 0.1);
+  border-bottom: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   transition: all var(--transition-normal);
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--surface);
 }
 
 .request-item:hover {
@@ -141,14 +141,14 @@
 
 .request-name {
   font-weight: var(--font-weight-semibold);
-  color: var(--dark);
+  color: var(--text-color);
   margin-bottom: var(--space-xs);
   font-size: 0.95rem;
 }
 
 .mutual-friends {
   font-size: 0.8rem;
-  color: var(--dark-light);
+  color: var(--text-color-dim);
   font-weight: var(--font-weight-medium);
 }
 
@@ -181,9 +181,9 @@
 }
 
 .decline-btn {
-  background: rgba(223, 230, 233, 0.8);
-  color: var(--dark);
-  border: 1px solid var(--light-gray);
+  background: var(--surface-alt);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
 }
 
 .decline-btn:hover {
@@ -199,20 +199,20 @@
   gap: var(--space-md);
   padding: var(--space-lg);
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(108, 92, 231, 0.05);
+  background: var(--surface);
+  border: 1px solid var(--border-color);
   transition: all var(--transition-normal);
 }
 
 .trending-post:hover {
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--surface-alt);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
 .post-stats {
   font-size: 0.8rem;
-  color: var(--dark-light);
+  color: var(--text-color-dim);
   font-weight: var(--font-weight-semibold);
   display: flex;
   gap: var(--space-md);
@@ -220,7 +220,7 @@
 
 .post-content {
   font-size: 0.9rem;
-  color: var(--dark);
+  color: var(--text-color);
   line-height: 1.5;
   font-weight: var(--font-weight-medium);
 }

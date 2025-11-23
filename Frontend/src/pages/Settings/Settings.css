@@ -11,7 +11,7 @@
 }
 
 .settings-header h1 {
-  color: var(--dark);
+  color: var(--text-color);
   font-size: 1.8rem;
   margin-bottom: var(--space-sm);
   font-weight: var(--font-weight-bold);
@@ -22,7 +22,7 @@
 }
 
 .settings-header p {
-  color: var(--dark-light);
+  color: var(--text-color-dim);
   font-size: 1rem;
   margin: 0;
 }
@@ -33,12 +33,12 @@
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-sm);
   margin-bottom: var(--space-xl);
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--card-bg);
   backdrop-filter: blur(20px);
   padding: var(--space-sm);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
-  border: 1px solid rgba(108, 92, 231, 0.1);
+  border: 1px solid var(--border-color);
 }
 
 .tab {
@@ -49,7 +49,7 @@
   padding: var(--space-lg) var(--space-sm);
   border: none;
   background: transparent;
-  color: var(--dark-light);
+  color: var(--text-color-dim);
   font-size: 0.9rem;
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
@@ -59,7 +59,7 @@
 }
 
 .tab:hover {
-  background: rgba(108, 92, 231, 0.08);
+  background: var(--surface-alt);
   color: var(--primary);
   transform: translateY(-2px);
 }
@@ -70,27 +70,17 @@
   box-shadow: var(--shadow-primary);
 }
 
-.tab:hover {
-  background: var(--light);
-  color: var(--dark);
-}
-
-.tab.active {
-  background: var(--primary);
-  color: var(--white);
-  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
-}
-
 .tab i {
   font-size: 1.1rem;
 }
 
 /* Settings Content */
 .settings-content {
-  background: var(--white);
+  background: var(--card-bg);
   border-radius: 12px;
   padding: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
 }
 
 .section-header {
@@ -99,14 +89,14 @@
 }
 
 .section-header h2 {
-  color: var(--dark);
+  color: var(--text-color);
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
 
 .section-header p {
-  color: var(--dark-light);
+  color: var(--text-color-dim);
   font-size: 0.95rem;
   margin: 0 0 1.5rem 0;
 }
@@ -114,7 +104,7 @@
 /* Profile Toggle */
 .profile-toggle {
   display: inline-flex;
-  background: var(--light);
+  background: var(--surface-alt);
   padding: 0.25rem;
   border-radius: 10px;
   gap: 0.25rem;
@@ -172,14 +162,15 @@
   align-items: center;
   text-align: center;
   padding: 1.5rem;
-  background: var(--light);
+  background: var(--surface-alt);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   transition: all 0.3s ease;
 }
 
 .security-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-lg);
 }
 
 .card-icon {
@@ -196,14 +187,14 @@
 }
 
 .card-content h3 {
-  color: var(--dark);
+  color: var(--text-color);
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
 
 .card-content p {
-  color: var(--dark-light);
+  color: var(--text-color-dim);
   font-size: 0.9rem;
   margin-bottom: 1rem;
   line-height: 1.4;
