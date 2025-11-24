@@ -19,6 +19,10 @@ const commentSchema = new mongoose.Schema({
 { timestamps: true });
 
 
+// Indexes: speed up fetching comments for a post and recent comments
+commentSchema.index({ post: 1, createdAt: -1 });
+
+
 //Delete Comment remove from Post also
 commentSchema.post('findOneAndDelete', async function (doc) {
   if (doc) {

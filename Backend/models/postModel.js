@@ -20,6 +20,10 @@ const postSchema = new mongoose.Schema({
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 }, { timestamps: true });
 
+// Indexes: speed up queries that fetch a user's posts and recent posts for feeds
+postSchema.index({ user: 1, createdAt: -1 });
+postSchema.index({ createdAt: -1 });
+
 const Post = mongoose.model("Post", postSchema);
 export default Post;
 
