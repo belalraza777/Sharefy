@@ -41,9 +41,21 @@ Directory: `Backend/`
 4. Error handling: Central error translator using `errorClass`
 
 ### Auth Flow
-- Registration → OTP email verification (otplib) → JWT issuance
+- Registration → OTP email verification → JWT issuance
 - Login → JWT (access) stored client side (likely in memory/localStorage)
 - Password reset via emailed OTP link or code
+
+#### OTP implementation (current)
+- Generation: backend generates a short numeric OTP (e.g., 6 digits) and sends the plaintext to the user's email via `email.js`.
+- Storage: instead of storing plaintext on the user document, the server now stores a hashed OTP in a dedicated `Otp` collection. Each `Otp` document contains a reference to the target user, the hashed OTP, and an `expiresAt` timestamp.
+- Expiry & cleanup: `Otp` has a TTL index on `expiresAt` so expired OTP documents are removed automatically by MongoDB.
+- Verification: when the user submits the OTP, the server looks up the `Otp` doc for that user, verifies the code using `bcrypt.compare` against the hashed value, and — on success — deletes the `Otp` doc and proceeds (mark user verified or allow password reset). On failure, return a standard error; expired or missing docs are treated as invalid/expired.
+- Rationale: this prevents plaintext or reusable OTPs in user documents, allows short-lived OTPs via TTL index, and aligns with best practices for one-time codes.
+
+Implementation notes:
+- Model: `Backend/models/otpModel.js` (fields: `user: ObjectId`, `otpHash: String`, `expiresAt: Date`).
+- Controller: `authController.js` now creates `Otp` docs on generation and validates+removes them on verification. The controller also respects rate limits for OTP generation and verification attempts.
+- Email: `email.js` still sends the plaintext OTP to the user's email; only the hashed version is persisted.
 
 ### Realtime Messaging & Notifications
 - Conversations: `conversationModel` with participant array

@@ -68,9 +68,23 @@ Guidelines:
 ## Phase 5: Authentication & Authorization
 Flow:
 1. Register → create user in DB (pending verification flag)
-2. Generate OTP (otplib) → email via Nodemailer
+2. Generate OTP → email via Nodemailer
 3. Verify OTP → mark verified → issue JWT
 4. Login → validate creds → issue JWT
+
+OTP specifics (updated):
+- Generation: server creates a one‑time code and emails the plaintext to the user.
+- Storage: instead of writing the OTP to the `User` document, the OTP is hashed (bcrypt) and stored in a dedicated `Otp` collection alongside an `expiresAt` timestamp.
+- TTL cleanup: `Otp.expiresAt` is indexed with a TTL to remove expired records automatically.
+- Verification: the server finds the corresponding `Otp` document, compares the submitted code using `bcrypt.compare` against the stored hash, and deletes the `Otp` document on success. This prevents replay and avoids keeping plaintext codes in user records.
+
+Why this change:
+- Security: hashed OTPs reduce risk if the database is exposed; separating OTPs from user documents reduces accidental leaks and simplifies cleanup.
+- Reliability: TTL index handles expiry without additional cron jobs.
+
+Notes for contributors:
+- See `Backend/models/otpModel.js` for schema and TTL index.
+- See `Backend/controllers/authController.js` for generation, hashing, storage, and verification logic.
 5. Protected routes use `verifyAuth` middleware to decode token and attach user context.
 Key Practices:
 - Store only hashed passwords.
