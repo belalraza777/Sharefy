@@ -218,3 +218,88 @@
 
 
 }
+
+/* Minimal dark-mode overrides for feed posts to fix dark text issues */
+html[data-theme='dark'] .insta-post-user,
+html[data-theme='dark'] .insta-username,
+html[data-theme='dark'] .insta-more-btn,
+html[data-theme='dark'] .insta-post-stats,
+html[data-theme='dark'] .insta-post-caption {
+  color: var(--text-color);
+}
+
+html[data-theme='dark'] .insta-dot,
+html[data-theme='dark'] .insta-time {
+  color: var(--text-color-dim);
+}
+
+html[data-theme='dark'] .insta-post-actions .insta-action-btn,
+html[data-theme='dark'] .insta-post-actions .like-button,
+html[data-theme='dark'] .insta-post-actions .save-button {
+  color: var(--text-color);
+}
+
+/* media and borders */
+html[data-theme='dark'] .insta-post-media,
+html[data-theme='dark'] .insta-media-image,
+html[data-theme='dark'] .insta-media-video {
+  background: var(--surface);
+  border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .insta-more-btn:hover,
+html[data-theme='dark'] .insta-post-actions .insta-action-btn:hover,
+html[data-theme='dark'] .insta-post-actions .like-button:hover,
+html[data-theme='dark'] .insta-post-actions .save-button:hover {
+  background: var(--surface-alt);
+  color: var(--primary);
+}
+
+/* Dark-mode overrides (minimal, scoped to feed posts) */
+html[data-theme='dark'] .insta-post-card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-lg);
+  color: var(--text-color);
+}
+html[data-theme='dark'] .insta-post-card:hover {
+  box-shadow: var(--shadow-xl);
+}
+html[data-theme='dark'] .insta-post-header,
+html[data-theme='dark'] .insta-post-actions,
+html[data-theme='dark'] .insta-post-stats {
+  background: var(--card-bg);
+  border-bottom-color: var(--border-color);
+}
+html[data-theme='dark'] .insta-post-user,
+html[data-theme='dark'] .insta-username,
+html[data-theme='dark'] .insta-post-caption {
+  color: var(--text-color);
+}
+html[data-theme='dark'] .insta-dot,
+html[data-theme='dark'] .insta-time {
+  color: var(--text-color-dim);
+}
+html[data-theme='dark'] .insta-more-btn {
+  color: var(--text-color);
+}
+html[data-theme='dark'] .insta-more-btn:hover {
+  background: var(--surface-alt);
+  color: var(--primary);
+}
+html[data-theme='dark'] .insta-post-media,
+html[data-theme='dark'] .insta-media-image,
+html[data-theme='dark'] .insta-media-video {
+  background: var(--surface);
+}
+html[data-theme='dark'] .insta-post-actions .insta-action-btn,
+html[data-theme='dark'] .insta-post-actions .like-button,
+html[data-theme='dark'] .insta-post-actions .save-button {
+  color: var(--text-color);
+}
+html[data-theme='dark'] .insta-post-actions .insta-action-btn:hover,
+html[data-theme='dark'] .insta-post-actions .like-button:hover,
+html[data-theme='dark'] .insta-post-actions .save-button:hover {
+  background: var(--surface-alt);
+  color: var(--primary);
+}
