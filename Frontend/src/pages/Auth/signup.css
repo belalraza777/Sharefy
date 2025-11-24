@@ -4,15 +4,15 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
   padding: var(--space-lg);
   position: relative;
 }
 
 .signup-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-lg);
   padding: 3rem 2.5rem;
   width: 100%;
   max-width: 450px;
@@ -27,7 +27,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--primary), #a29bfe);
+  background: linear-gradient(90deg, var(--primary), var(--primary-2));
   border-radius: 20px 20px 0 0;
 }
 
@@ -57,7 +57,7 @@
 .signup-title {
   font-size: 1.75rem;
   font-weight: var(--font-weight-bold);
-  color: var(--dark);
+  color: var(--text-color);
   margin-bottom: var(--space-sm);
   background: var(--primary-gradient);
   -webkit-background-clip: text;
@@ -66,7 +66,7 @@
 }
 
 .signup-subtitle {
-  color: var(--dark-light);
+  color: var(--text-color-dim);
   font-size: 1rem;
   font-weight: var(--font-weight-medium);
   line-height: 1.5;
@@ -95,31 +95,31 @@
 .form-label {
   font-size: 0.9rem;
   font-weight: 500;
-  color: #2d3748;
+  color: var(--text-color);
   margin-bottom: 0.5rem;
 }
 
 .form-input {
   padding: 1rem;
-  border: 2px solid #e2e8f0;
+  border: 2px solid var(--border-color);
   border-radius: 10px;
   font-size: 1rem;
   font-family: inherit;
   transition: all 0.2s ease;
-  background: #f7fafc;
-  color: #2d3748;
+  background: var(--surface-alt);
+  color: var(--text-color);
 }
 
 .form-input::placeholder {
-  color: #a0aec0;
+  color: var(--text-color-dim);
   font-weight: 400;
 }
 
 .form-input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
-  background: white;
+  box-shadow: var(--focus-ring);
+  background: var(--surface);
 }
 
 .form-group:focus-within .form-label {
@@ -132,12 +132,12 @@
   margin-top: var(--space-sm);
   font-size: 0.85rem;
   font-weight: var(--font-weight-medium);
-  color: var(--dark-light);
+  color: var(--text-color-dim);
 }
 
 .strength-bar {
   height: 6px;
-  background-color: rgba(223, 230, 233, 0.5);
+  background-color: var(--surface-alt);
   border-radius: var(--radius-full);
   margin-top: var(--space-sm);
   overflow: hidden;
@@ -159,7 +159,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
   animation: shine 2s infinite;
 }
 
@@ -186,9 +186,9 @@
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  background: linear-gradient(135deg, var(--primary), #a29bfe);
-  color: white;
-  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  color: var(--white);
+  box-shadow: var(--shadow-primary);
   transition: all 0.2s ease;
   position: relative;
   display: flex;
@@ -303,25 +303,25 @@
 
 /* Responsive adjustments */
 @media (max-width: 480px) {
-  .signup-card {
-    padding: 2rem 1.5rem;
+  .signup-footer {
+    text-align: center;
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--border-color);
   }
-  
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+  .login-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: var(--font-weight-semibold);
+    transition: all var(--transition-fast);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
   }
-}
-
-/* Password visibility toggle */
-/* Enhanced Password Toggle */
-.password-input-wrapper {
-  position: relative;
-}
-
-.password-toggle {
-  position: absolute;
-  right: var(--space-lg);
+  .login-link:hover {
+    color: var(--primary-hover);
+    background: var(--surface-alt);
+    transform: translateY(-1px);
+  }
   top: 50%;
   transform: translateY(-50%);
   background: none;
@@ -422,4 +422,39 @@
     padding: var(--space-md);
     font-size: 0.95rem;
   }
+}
+
+/* Strong dark-mode button overrides (scoped) */
+html[data-theme='dark'] .signup-btn,
+html[data-theme='dark'] .login-btn,
+html[data-theme='dark'] .btn-primary,
+html[data-theme='dark'] .btn-secondary,
+html[data-theme='dark'] .btn-outline {
+  color: var(--white) !important;
+}
+
+html[data-theme='dark'] .signup-btn,
+html[data-theme='dark'] .login-btn,
+html[data-theme='dark'] .btn-primary {
+  background: linear-gradient(135deg, rgba(108,92,231,0.95), rgba(162,155,254,0.95)) !important;
+  color: var(--white) !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6) !important;
+  border: none !important;
+}
+
+html[data-theme='dark'] .btn-secondary {
+  background: linear-gradient(135deg, var(--success), var(--success-dark)) !important;
+  color: var(--white) !important;
+}
+
+html[data-theme='dark'] .btn-outline {
+  background: transparent !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-color-dim) !important;
+}
+
+html[data-theme='dark'] .signup-btn::before,
+html[data-theme='dark'] .login-btn::before,
+html[data-theme='dark'] .btn-primary::before {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent) !important;
 }

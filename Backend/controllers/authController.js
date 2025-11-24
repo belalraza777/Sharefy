@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { generateOTP } from "../utils/otp.js";
 import { sendOtpEmail } from "../utils/email.js";
+import Otp from "../models/otpModel.js";
 
 
 // Controller for user login
@@ -158,17 +159,21 @@ const requestOtp = async (req, res, next) => {
     // If user not found, return error
     if (!user) return res.status(400).json({ message: 'User not found' });
 
-    // Generating OTP
+    // Generating OTP and hashing before storing in TTL-backed collection
     const otp = generateOTP();
-    // Setting OTP and its expiry time in user data
-    user.otp = { code: otp, expiresAt: new Date(Date.now() + 5 * 60 * 1000) }; // 5 min expiry
-    // Saving the updated user data
-    await user.save();
+    const salt = await bcrypt.genSalt(10);
+    const hashedOtp = await bcrypt.hash(otp, salt);
 
-    // Sending OTP to user's email
+    // remove any existing OTP documents for this user
+    await Otp.deleteMany({ user: user._id });
+
+    // create a new OTP doc with expiry (5 minutes)
+    const otpDoc = new Otp({ user: user._id, code: hashedOtp, expiresAt: new Date(Date.now() + 5 * 60 * 1000) });
+    await otpDoc.save();
+
+    // Send OTP to user's email (plaintext)
     await sendOtpEmail(email, otp);
-    // Returning success response
-    res.json({ message: `OTP sent to ${email}` });
+    return res.json({ message: `OTP sent to ${email}` });
 };
 
 // Controller to verify OTP for login
@@ -177,13 +182,21 @@ const verifyOtp = async (req, res, next) => {
     const { email, otp } = req.body;
     // Finding user by email
     const user = await User.findOne({ email }).select('-passwordHash');
-    // If user or OTP data not found, return error
-    if (!user || !user.otp) return res.status(400).json({ message: 'Invalid request' });
+    if (!user) return res.status(400).json({ message: 'Invalid request' });
 
-    // If OTP is expired, return error
-    if (user.otp.expiresAt < new Date()) return res.status(400).json({ message: 'OTP expired' });
-    // If OTP is incorrect, return error
-    if (user.otp.code !== otp) return res.status(400).json({ message: 'Incorrect OTP' });
+    // Fetch OTP document for this user
+    const otpDoc = await Otp.findOne({ user: user._id });
+    if (!otpDoc) return res.status(400).json({ message: 'Invalid request' });
+
+    // If OTP is expired, remove and return error
+    if (otpDoc.expiresAt < new Date()) {
+        await Otp.deleteMany({ user: user._id });
+        return res.status(400).json({ message: 'OTP expired' });
+    }
+
+    // Comparing provided OTP with stored hashed OTP
+    const isOtpValid = await bcrypt.compare(otp, otpDoc.code);
+    if (!isOtpValid) return res.status(400).json({ message: 'Incorrect OTP' });
 
     // If OTP is valid, generate JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '5d' });
@@ -196,10 +209,8 @@ const verifyOtp = async (req, res, next) => {
         // sameSite: 'none',
     });
 
-    // Clearing OTP from user data
-    user.otp = undefined;
-    // Saving the updated user data
-    await user.save();
+    // Clean up OTP documents for user
+    await Otp.deleteMany({ user: user._id });
 
     // Returning success response with token
     return res.status(200).json({ success: true, message: "Welcome Back!", data: { id: user._id, token, fullName: user.fullName, username: user.username, email: user.email, profileImage: user.profileImage, bio: user.bio, followers: user.followers, following: user.following } });
