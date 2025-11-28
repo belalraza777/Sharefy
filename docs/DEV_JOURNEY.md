@@ -93,7 +93,9 @@ Key Practices:
 
 ## Phase 6: Media Handling & Uploads
 Implementation:
-- Use Multer with Cloudinary integration (`multer-storage-cloudinary`).
+- Use Multer with Cloudinary integration. Note: the project was migrated away from the third-party `multer-storage-cloudinary` adapter (which targets older `cloudinary@1.x`) to a tiny, explicit multer storage implementation using the official `cloudinary@2.x` SDK. The custom storage wrapper is in `Backend/utils/cloudinary.js` and uses `streamifier` to pipe buffers to `cloudinary.uploader.upload_stream`.
+- Enforce file type and size limits.
+- Store returned Cloudinary URL + metadata in Post / User profile.
 - Enforce file type and size limits.
 - Store returned Cloudinary URL + metadata in Post / User profile.
 Security:

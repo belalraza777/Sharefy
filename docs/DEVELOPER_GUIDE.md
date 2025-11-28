@@ -174,6 +174,15 @@ Preview build:
 npm run preview
 ```
 
+### Cloudinary storage (migration note)
+
+- The project previously used the `multer-storage-cloudinary` adapter. That package requires `cloudinary@1.x` as a peer dependency and conflicted with `cloudinary@2.x` used elsewhere.
+- To avoid dependency conflicts we migrated to a tiny, explicit multer storage implementation that pipes upload streams to the official `cloudinary` v2 SDK (`cloudinary.uploader.upload_stream`). This implementation lives in `Backend/utils/cloudinary.js` and uses `streamifier` to handle buffer uploads.
+- Developer steps after pulling:
+  1. From the `Backend` folder run: `npm uninstall multer-storage-cloudinary` and then `npm install` to ensure `streamifier` and other deps are present.
+  2. Start the backend and exercise media uploads (frontend post creation or Postman to the upload route) — verify assets appear in your Cloudinary dashboard.
+
+
 ### Recommended Dev Flow
 1. Run backend + frontend concurrently.
 2. Use dedicated test accounts for auth flows.
