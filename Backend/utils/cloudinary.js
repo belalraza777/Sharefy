@@ -7,7 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
-// Minimal multer storage engine compatible with multer's storage API.
+// Custom Multer Storage Engine for Cloudinary
 class MulterCloudinaryStorage {
   constructor(opts = {}) {
     this.cloudinary = opts.cloudinary || cloudinary;
