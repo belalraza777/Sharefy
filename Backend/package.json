@@ -27,6 +27,7 @@
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
     "streamifier": "^0.1.1",
+    
     "nodemailer": "^7.0.6",
     "otplib": "^12.0.1",
     "sanitize-html": "^2.17.0",
