@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",
   credentials: true, // allows sending cookies
 }));
 app.use(helmet()); // Set security-related HTTP headers
@@ -36,9 +36,9 @@ app.use(morgan("dev")); // Logging HTTP requests
 
 
 // Connect MongoDB
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGODB_URL || "mongodb://127.0.0.1:27017/sharefy")
   .then(() => console.log("DB connected successfully"))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error("DB connection error:", err));
 
 // Routes
 app.get("/", (req, res) => res.send("Welcome to Sharefy"));
