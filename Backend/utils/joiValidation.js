@@ -33,9 +33,8 @@ const registerSchema = joiWithSanitize.object({
   fullName: joiWithSanitize.string().trim().sanitize().required().messages({
     "string.empty": "Full name is required",
   }),
-  username: joiWithSanitize.string().lowercase().trim().sanitize().alphanum().required().messages({
+  username: joiWithSanitize.string().lowercase().trim().sanitize().required().messages({
     "string.empty": "Username is required",
-    "string.alphanum": "Username can only contain letters and numbers",
   }),
   email: joiWithSanitize.string().email().lowercase().trim().sanitize().required().messages({
     "string.empty": "Email is required",

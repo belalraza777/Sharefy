@@ -19,6 +19,13 @@ axiosInstance.interceptors.request.use((config) => {
     return config;
 });
 
+// Helper to normalize errors coming from axios / backend
+const formatAxiosError = (error) => {
+  const resp = error.response?.data;
+  const errors = resp?.errors || null;
+  const message = resp?.message || (Array.isArray(errors) ? errors.join(', ') : error.message);
+  return { message, error: resp?.error || error.message, errors };
+};
 
 export const register = async (userData) => {
   try {
@@ -26,7 +33,8 @@ export const register = async (userData) => {
     return { success: true, message: response.data.message, data: response.data.data };
   } catch (error) {
     console.error("Error registering:", error);
-    return { success: false, message: error.response?.data?.message || error.message, error: error.response?.data?.error || error.message };
+    const formatted = formatAxiosError(error);
+    return { success: false, ...formatted };
   }
 };
 
@@ -36,18 +44,19 @@ export const login = async (userData) => {
     return { success: true, message: response.data.message, data: response.data.data };
   } catch (error) {
     console.error("Error logging in:", error);
-    return { success: false, message: error.response?.data?.message || error.message, error: error.response?.data?.error || error.message };
+    const formatted = formatAxiosError(error);
+    return { success: false, ...formatted };
   }
 };
 
 export const logout = async () => {
   try {
     await axiosInstance.get('/auth/logout');
-    // localStorage.removeItem('user'); // Or however the token is stored
     return { success: true, message: "Logged out successfully" };
   } catch (error) {
     console.error("Error logging out:", error);
-    return { success: false, message: error.response?.data?.message || error.message, error: error.response?.data?.error || error.message };
+    const formatted = formatAxiosError(error);
+    return { success: false, ...formatted };
   }
 };
 
@@ -57,7 +66,8 @@ export const checkAuth = async () => {
     return { success: true, message: response.data.message, data: response.data.data };
   } catch (error) {
     console.error("Error checking auth status:", error);
-    return { success: false, message: error.response?.data?.message || error.message, error: error.response?.data?.error || error.message };
+    const formatted = formatAxiosError(error);
+    return { success: false, ...formatted };
   }
 };
 
@@ -67,10 +77,10 @@ export const resetPassword = async (passwordData) => {
     return { success: true, message: response.data.message, data: response.data.data };
   } catch (error) {
     console.error("Error resetting password:", error);
-    return { success: false, message: error.response?.data?.message || error.message, error: error.response?.data?.error || error.message };
+    const formatted = formatAxiosError(error);
+    return { success: false, ...formatted };
   }
 };
-
 
 export const requestOtp = async (email) => {
   try {
@@ -78,7 +88,8 @@ export const requestOtp = async (email) => {
     return { success: true, message: response.data.message, data: response.data.data };
   } catch (error) {
     console.error("Error requesting OTP:", error);
-    return { success: false, message: error.response?.data?.message || error.message, error: error.response?.data?.error || error.message };
+    const formatted = formatAxiosError(error);
+    return { success: false, ...formatted };
   }
 };
 
@@ -88,6 +99,7 @@ export const verifyOtp = async (otpData) => {
     return { success: true, message: response.data.message, data: response.data.data };
   } catch (error) {
     console.error("Error verifying OTP:", error);
-    return { success: false, message: error.response?.data?.message || error.message, error: error.response?.data?.error || error.message };
+    const formatted = formatAxiosError(error);
+    return { success: false, ...formatted };
   }
 };

@@ -35,13 +35,19 @@ const SignupPage = () => {
     const { fullName, username, email, password } = formData;
     // Call the register API
     const result = await register({ fullName, username, email, password });
+    
     if (result.success) {
       toast.success('Account created successfully!');
       // Navigate to login page on successful registration
       navigate('/login');
     } else {
-      // Set error message on failure
-      toast.error(result.message || 'Signup failed');
+      // If backend returned Joi validation errors (array), show them individually
+      if (result.errors && Array.isArray(result.errors) && result.errors.length) {
+        result.errors.forEach((err) => toast.error(err));
+      } else {
+        // Set error message on failure
+        toast.error(result.message || 'Signup failed');
+      }
     }
     setLoading(false);
   };
