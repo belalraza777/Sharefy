@@ -23,7 +23,6 @@ const LeftSidebar = () => {
     { path: '/notifications', icon: <FiBell />, label: 'Notifications' },
     { path: '/chat', icon: <FiMessageCircle />, label: 'Messages' },
     { path: '/saved', icon: <FiBookmark />, label: 'Saved' },
-    { path: '/analytics', icon: <FiBarChart2 />, label: 'Analytics' },
     { path: '/theme', icon: <FiFeather />, label: 'Theme' },
     { path: '/settings', icon: <FiSettings />, label: 'Settings' },
   ];

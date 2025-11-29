@@ -1,5 +1,5 @@
 import React from 'react';
-import LogoutButton from '../../../components/Buttons/logout';
+import LogoutButton from '../../components/Buttons/logout';
 
 const AccountSettings = () => {
   const handleDeleteAccount = () => {
