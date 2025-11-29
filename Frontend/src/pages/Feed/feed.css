@@ -8,18 +8,6 @@
 
 /* Enhanced Create Post Prompt */
 .create-post-prompt {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border-radius: var(--radius-2xl);
-  padding: var(--space-xl);
-  margin: var(--space-lg) 0;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid rgba(108, 92, 231, 0.1);
-  transition: all var(--transition-normal);
-  position: relative;
-  overflow: hidden;
-}
-.create-post-prompt {
   background: var(--card-bg);
   backdrop-filter: blur(20px);
   border-radius: var(--radius-2xl);
@@ -112,11 +100,11 @@
 .post-prompt-input {
   flex: 1;
   padding: var(--space-lg) var(--space-xl);
-  border: 2px solid rgba(108, 92, 231, 0.15);
+  border: 2px solid var(--border-color);
   border-radius: var(--radius-2xl);
-  background: rgba(248, 249, 251, 0.8);
+  background: var(--surface);
   font-size: 1rem;
-  color: var(--gray);
+  color: var(--text-color-dim);
   text-decoration: none;
   cursor: pointer;
   transition: all var(--transition-normal);
@@ -125,9 +113,9 @@
 }
 
 .post-prompt-input:hover {
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--surface-alt);
   border-color: var(--primary);
-  color: var(--dark);
+  color: var(--text-color);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
@@ -137,7 +125,7 @@
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: var(--space-md);
   padding-top: var(--space-lg);
-  border-top: 1px solid rgba(108, 92, 231, 0.1);
+  border-top: 1px solid var(--border-color);
 }
 
 .prompt-action {
@@ -146,10 +134,10 @@
   justify-content: center;
   gap: var(--space-sm);
   padding: var(--space-md) var(--space-lg);
-  background: rgba(255, 255, 255, 0.8);
-  border: 2px solid rgba(108, 92, 231, 0.1);
+  background: var(--surface);
+  border: 2px solid var(--border-color);
   border-radius: var(--radius-xl);
-  color: var(--dark);
+  color: var(--text-color);
   text-decoration: none;
   transition: all var(--transition-normal);
   font-size: 0.9rem;
@@ -194,14 +182,14 @@
   right: 2rem;
   width: 60px;
   height: 60px;
-  background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+  background: var(--primary-gradient);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--white);
   text-decoration: none;
-  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4);
+  box-shadow: var(--shadow-primary);
   transition: all 0.3s ease;
   z-index: 1000;
   border: none;
@@ -210,7 +198,7 @@
 
 .floating-create-btn:hover {
   transform: scale(1.1);
-  box-shadow: 0 6px 25px rgba(108, 92, 231, 0.6);
+  box-shadow: var(--shadow-primary-hover);
 }
 
 .plus-icon {
@@ -222,11 +210,11 @@
 .empty-feed {
   text-align: center;
   padding: 3rem 1rem;
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: 16px;
   margin: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e1e5e9;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
 }
 
 .empty-icon {
@@ -236,13 +224,13 @@
 }
 
 .empty-feed h3 {
-  color: #2d3436;
+  color: var(--text-color);
   margin-bottom: 0.5rem;
   font-size: 1.25rem;
 }
 
 .empty-feed p {
-  color: #636e72;
+  color: var(--text-color-dim);
   font-size: 0.9rem;
   margin-bottom: 1.5rem;
 }
@@ -250,18 +238,18 @@
 .create-first-post-btn {
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(45deg, #6c5ce7, #a29bfe);
-  color: white;
+  background: var(--primary-gradient);
+  color: var(--white);
   text-decoration: none;
   border-radius: 10px;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
+  box-shadow: var(--shadow-primary);
 }
 
 .create-first-post-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+  box-shadow: var(--shadow-primary-hover);
 }
 
 /* Posts Feed */
@@ -269,35 +257,49 @@
   padding: 0 1rem;
 }
 
+/* Improve native scrolling smoothness on touch devices */
+.feed-container,
+.posts-feed {
+  -webkit-overflow-scrolling: touch; /* momentum scrolling on iOS */
+  scroll-behavior: smooth;
+  touch-action: pan-y;
+}
+
+/* Help GPU accelerate the feed to reduce jank */
+.feed-container {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
 /* Post Card Styles (keep your existing post card styles) */
 .post-card {
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: 16px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e1e5e9;
+  margin-bottom: 2rem; /* increased spacing between posts for better separation */
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .post-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-md);
 }
 
 .infinite-scroll-end {
   text-align: center;
   padding: 1.5rem;
   margin: 1rem;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  background: var(--surface);
   border-radius: 16px;
-  border: 1px solid #e1e5e9;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
 }
 
 .infinite-scroll-end p {
   margin: 0;
-  color: var(--dark-light);
+  color: var(--text-color-dim);
   font-weight: 500;
   font-size: 0.9rem;
   display: flex;
@@ -316,7 +318,7 @@
 @media (max-width: 768px) {
   .feed-container {
     padding: 0;
-    background: #ffffff;
+    background: var(--surface);
   }
   
   .create-post-prompt {
@@ -330,7 +332,8 @@
   
   .post-card {
     border-radius: 12px;
-    margin-bottom: 1rem;
+    margin-bottom: 1.75rem; /* increased mobile spacing for clearer separation */
+    padding: 0.85rem; /* slight inner padding for mobile readability */
   }
   
   .floating-create-btn {
@@ -349,6 +352,15 @@
     padding: 0.5rem 0.75rem;
     font-size: 0.8rem;
   }
+
+  /* Tweak create-post-bar on mobile for better tap targets */
+  .create-post-bar {
+    padding: 0.6rem 0.8rem;
+    gap: 0.5rem;
+  }
+
+  .create-post-bar__avatar { width:40px; height:40px; }
+  .create-post-bar__action { width:36px; height:36px; }
 }
 
 @media (max-width: 480px) {
@@ -363,8 +375,8 @@
   }
   
   .post-prompt-input {
-    padding: 0.625rem 0.875rem;
-    font-size: 0.85rem;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.95rem;
   }
   
   .prompt-action {
@@ -384,6 +396,21 @@
   
   .plus-icon {
     font-size: 1.25rem;
+  }
+
+  /* Slightly larger mobile card spacing for very small screens */
+  .post-card {
+    margin-bottom: 1.5rem;
+    padding: 0.6rem;
+  }
+
+  /* Make post images friendlier in dark mode on mobile */
+  .post-card img {
+    border-radius: 10px;
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
   }
 }
 
