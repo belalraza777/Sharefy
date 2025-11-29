@@ -47,14 +47,40 @@ export default function Feed() {
 
   if (posts.length === 0 && !loading) {
     return (
-      <div className="empty-feed">
-        <div className="empty-icon">📱</div>
-        <h3>No posts yet</h3>
-        <p>Be the first to share something!</p>
-        <Link to="/new-post" className="create-first-post-btn">
-          Create Your First Post
-        </Link>
-      </div>
+      <>
+        <div className="empty-feed">
+          <div className="empty-icon">📱</div>
+          <h3>No posts yet</h3>
+          <p>Be the first to share something!</p>
+          <Link to="/new-post" className="create-first-post-btn">
+            Create Your First Post
+          </Link>
+        </div>
+
+        {/* Create Post Bar - quick entry below stories */}
+        <div className="create-post-bar">
+          <div className="create-post-bar__left">
+            <div className="create-post-bar__avatar">
+              {user?.profileImage ? (
+                <img src={user.profileImage} alt={user.username} />
+              ) : (
+                <span>{user?.username?.charAt(0)?.toUpperCase() || 'U'}</span>
+              )}
+            </div>
+            <Link to="/new-post" className="create-post-bar__placeholder">
+              What's on your mind, {user?.username || 'there'}?
+            </Link>
+          </div>
+          <div className="create-post-bar__actions">
+            <Link to="/new-post" className="create-post-bar__action" aria-label="Add photo">
+              <IoImagesOutline />
+            </Link>
+            <Link to="/new-post" className="create-post-bar__action" aria-label="Add video">
+              <CiVideoOn />
+            </Link>
+          </div>
+        </div>
+      </>
     );
   }
 
@@ -75,6 +101,29 @@ export default function Feed() {
           document.body
         )}
         <StoryViewer />
+      </div>
+      {/* Create Post Bar - quick entry below stories (visible in main feed) */}
+      <div className="create-post-bar">
+        <div className="create-post-bar__left">
+          <div className="create-post-bar__avatar">
+            {user?.profileImage ? (
+              <img src={user.profileImage} alt={user.username} />
+            ) : (
+              <span>{user?.username?.charAt(0)?.toUpperCase() || 'U'}</span>
+            )}
+          </div>
+          <Link to="/new-post" className="create-post-bar__placeholder">
+            What's on your mind, {user?.username || 'there'}?
+          </Link>
+        </div>
+        <div className="create-post-bar__actions">
+          <Link to="/new-post" className="create-post-bar__action" aria-label="Add photo">
+            <IoImagesOutline />
+          </Link>
+          <Link to="/new-post" className="create-post-bar__action" aria-label="Add video">
+            <CiVideoOn />
+          </Link>
+        </div>
       </div>
       {/* Create Post Prompt */}
       {/* <div className="create-post-prompt">
