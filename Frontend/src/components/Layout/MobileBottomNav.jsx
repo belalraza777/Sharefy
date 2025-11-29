@@ -2,11 +2,12 @@
 import { Link, useLocation } from 'react-router-dom';
 import {
   FiHome,
-  FiSearch,
   FiPlusSquare,
   FiHeart,
   FiMessageCircle,
+  FiUser,
 } from 'react-icons/fi';
+import { useAuth } from '../../context/authContext';
 import useNotificationStore from '../../store/notificationStore';
 import './Layout.css'; // Keep your main layout styling
 
@@ -14,12 +15,14 @@ const MobileBottomNav = () => {
   const location = useLocation();
   const { unreadCount } = useNotificationStore();
   
+  const { user } = useAuth();
+
   const navItems = [
     { path: '/', icon: <FiHome />, label: 'Home' },
-    { path: '/search', icon: <FiSearch />, label: 'Explore' },
     { path: '/new-post', icon: <FiPlusSquare />, label: 'Create' },
     { path: '/chat', icon: <FiMessageCircle />, label: 'Messages' },
     { path: '/notifications', icon: <FiHeart />, label: 'Alerts' },
+    { path: user ? `/profile/${user.username}` : '/profile', icon: <FiUser />, label: 'Profile' },
   ];
 
   return (

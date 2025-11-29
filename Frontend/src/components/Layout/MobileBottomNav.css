@@ -83,6 +83,9 @@
   .mobile-nav-item.active {
     color: var(--white);
     transform: translateY(-2px);
+    box-shadow: var(--shadow-primary);
+
+
   }
 
   .mobile-nav-item:hover::before,
@@ -98,6 +101,7 @@
   .mobile-nav-item:hover i,
   .mobile-nav-item.active i {
     transform: scale(1.1);
+    box-shadow: var(--shadow-primary);
   }
 
   .mobile-nav-label {

@@ -23,10 +23,7 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
-// Minimal, dependency-light multer storage engine compatible with multer.
-// This avoids introducing adapters that require older `express` or
-// `cloudinary` peer versions. It pipes multer's file stream or buffer
-// to Cloudinary's `upload_stream` and returns a small result object.
+// Minimal multer storage engine compatible with multer's storage API.
 class MulterCloudinaryStorage {
   constructor(opts = {}) {
     this.cloudinary = opts.cloudinary || cloudinary;
