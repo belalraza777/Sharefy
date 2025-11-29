@@ -500,7 +500,7 @@ html[data-theme='dark'] .btn-ghost:hover {
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
