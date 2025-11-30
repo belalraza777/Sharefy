@@ -18,6 +18,7 @@ import SavedPostRouter from "./routes/savedPostRoute.js";
 import SearchRouter from "./routes/searchRoute.js";
 import ChatRouter from "./routes/chatRoute.js";
 import StoryRouter from "./routes/storyRoute.js";
+import DiscoverRouter from "./routes/discoverRoute.js";
 import ErrorHandle from "./utils/errorClass.js";
 
 const app = express();
@@ -60,6 +61,7 @@ app.use("/api/v1/saved-posts", SavedPostRouter);
 app.use("/api/v1/search", SearchRouter);
 app.use("/api/v1/chat", ChatRouter);
 app.use("/api/v1/stories", StoryRouter);
+app.use("/api/v1/discover", DiscoverRouter);
 
 // Unknown route
 app.use((req, res, next) => {
