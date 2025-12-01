@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../../api/authApi';
 import { toast } from 'sonner';
 import './signup.css';
+import logo from '../../assets/logo.png';
 
 const SignupPage = () => {
   // State for form data
@@ -74,8 +75,7 @@ const SignupPage = () => {
       <div className="signup-card">
         <div className="signup-header">
           <div className="signup-logo">
-            <i className="fas fa-robot"></i>
-            <span>SocialAI</span>
+            <img src={logo} alt="Sharefy Logo" className="brand-logo" />
           </div>
           <h2 className="signup-title">Create your account</h2>
           <p className="signup-subtitle">Join our community today</p>

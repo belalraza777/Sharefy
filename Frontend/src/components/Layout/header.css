@@ -30,6 +30,23 @@
   justify-content: flex-start;
 }
 
+/* Logo image styles (for `<img class="brand-logo">`) */
+.brand-logo {
+  display: block;
+  height: 40px; /* desktop default */
+  width: auto;
+  object-fit: contain;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform var(--transition-normal), opacity var(--transition-normal);
+}
+
+.brand-logo:hover {
+  transform: translateY(-2px) scale(1.02);
+  opacity: 0.98;
+}
+
 .header-brand .logo {
   font-size: 1.75rem;
   font-weight: var(--font-weight-extrabold);
@@ -158,6 +175,21 @@
 
 .user-link:hover .user-name {
   color: var(--primary);
+}
+
+/* Align avatar and username inside the link */
+.header-user-area .user-link,
+.header-content .user-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-user-area .user-name,
+.header-content .user-name {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
 }
 
 

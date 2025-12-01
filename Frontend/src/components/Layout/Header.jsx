@@ -4,6 +4,7 @@ import { useAuth } from "../../context/authContext";
 import { Link } from 'react-router-dom';
 import defaultAvatar from '../../assets/defaultAvatar.png';
 import SearchBar from '../search/SearchBar';
+import logo from '../../assets/logo.png';
 
 const Header = () => {
   const { user } = useAuth();
@@ -11,32 +12,29 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-content">
-        {/* Logo/Brand */}
         <div className="header-brand">
-          <h1 className="logo">Sharefy</h1>
+          <img src={logo} alt="Sharefy Logo" className="brand-logo" />
         </div>
 
-        {/* Search Bar - Center */}
-        <SearchBar />
+        <div className="header-center">
+          <SearchBar />
+        </div>
 
-        {/* User Info */}
-        {user && (
-          <Link to={`/profile/${user?.username}`} className="user-link">
-            <div className="header-user">
-              <div className="user-details">
-                <div className="user-name">{user.username}</div>
-              </div>
+        <div className="header-user-area">
+          {user ? (
+            <Link to={`/profile/${user.username}`} className="user-link">
               <img
                 src={user.profileImage || defaultAvatar}
-                alt={`${user.username || "User"}'s avatar`}
+                alt={user.username || 'User'}
                 className="user-avatar"
-                onError={(e) => {
-                  e.currentTarget.src = defaultAvatar;
-                }}
+                onError={(e) => { e.currentTarget.src = defaultAvatar; }}
               />
-            </div>
-          </Link>
-        )}
+              <span className="user-name">{user.username}</span>
+            </Link>
+          ) : (
+            <Link to="/login" className="login-link">Login</Link>
+          )}
+        </div>
       </div>
     </header>
   );

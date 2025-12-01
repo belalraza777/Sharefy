@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import { toast } from 'sonner';
 import './login.css';
+import logo from '../../assets/logo.png';
 
 const LoginPage = () => {
     // Form state
@@ -67,14 +68,12 @@ const LoginPage = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // Updated JSX structure for your LoginPage component
 return (
     <div className="login-container">
         <div className="login-card">
             <div className="login-header">
                 <div className="login-logo">
-                    <i className="fas fa-robot"></i>
-                    <span>SocialAI</span>
+            <img src={logo} alt="Sharefy Logo" className="brand-logo" />
                 </div>
                 <h2 className="login-title">Login to your account</h2>
                 <p className="login-subtitle">Welcome back! Please enter your details.</p>
