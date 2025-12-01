@@ -1,6 +1,7 @@
 // pages/Chat/ChatPage.jsx
+// React hooks and router helpers
 import { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import useChatStore from '../../store/chatStore';
 import { getSocket } from '../../socket';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -12,10 +13,18 @@ import './ChatPage.css';
 const ChatPage = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
+  // Chat store provides conversation list, messages and helpers
   const { setActiveUser, addIncomingMessage, getConversations, conversations, onlineUsers } = useChatStore();
+  const location = useLocation();
 
-  // Get current user info for mobile header
-  const currentUser = conversations.find(u => u._id === userId);
+  // Determine the user to show in the chat header.
+  // - Prefer the conversation entry from `conversations` (existing chats).
+  // - If there is no conversation yet (new chat started from a profile),
+  //   use the `user` object passed via `location.state` (we set that in the Profile link).
+  const locationUser = location.state?.user;
+  // Find the conversation user if it exists in the conversations list. 
+  // Fallback to location user if not found.
+  const currentUser = conversations.find(u => u._id === userId) || locationUser;
   // Same online logic as ConversationListItem (map of userId -> true)
   const isOnline = !!(onlineUsers && typeof onlineUsers === 'object' && userId && onlineUsers[userId]);
 
@@ -24,19 +33,22 @@ const ChatPage = () => {
     navigate('/chat');
   };
 
-  // Fetch conversations on mount
+  // Fetch the list of conversations once when the page mounts.
+  // This populates the left-side conversation list.
   useEffect(() => {
     getConversations();
   }, [getConversations]);
 
-  // Set active user when route changes
+  // When the URL route /chat/:userId changes we set the activeUser in the store.
+  // The store will lazily load messages for that user if they haven't been fetched yet.
   useEffect(() => {
     if (userId) {
       setActiveUser(userId);
     }
   }, [userId, setActiveUser]);
 
-  // Wire socket for realtime messages
+  // Wire the socket to receive real-time incoming messages.
+  // Incoming messages are appended into the store so the UI updates automatically.
   useEffect(() => {
     const socket = getSocket();
     if (!socket) return;
@@ -47,6 +59,7 @@ const ChatPage = () => {
 
     socket.on('newMessage', handleNewMessage);
 
+    // Cleanup the listener when this component unmounts.
     return () => {
       socket.off('newMessage', handleNewMessage);
     };

@@ -38,7 +38,6 @@ const userSchema = new mongoose.Schema({
   coverImage: {
     type: String, // Optional banner image
   },
-  // OTPs are stored in a separate TTL-backed collection (`Otp`) to avoid long-term retention in user documents
 }, {
   timestamps: true,
   toJSON: { virtuals: true },

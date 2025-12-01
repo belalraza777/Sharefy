@@ -29,6 +29,8 @@ const FollowButton = ({ userId }) => {
         }
     }, [currentUser, userId]);
 
+    const { refreshUser } = useAuth();
+
     // Handle follow/unfollow button click
     const handleFollow = async () => {
         if (loading) return; // Prevent multiple clicks
@@ -40,11 +42,15 @@ const FollowButton = ({ userId }) => {
                 await unfollowUser(userId);
                 setIsFollowing(false);
                 toast.success('User unfollowed');
+                // Refresh auth user so other components react to the change
+                try { await refreshUser(); } catch (e) { /* ignore */ }
             } else {
                 // If not following, follow
                 await followUser(userId);
                 setIsFollowing(true);
                 toast.success('User followed');
+                // Refresh auth user so other components react to the change
+                try { await refreshUser(); } catch (e) { /* ignore */ }
             }
             
         } catch (error) {

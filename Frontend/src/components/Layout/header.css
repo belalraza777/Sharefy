@@ -79,8 +79,8 @@
   padding: var(--space-sm);
   border-radius: var(--radius-xl);
   transition: all var(--transition-normal);
-  min-height: 44px; /* iOS recommended touch target */
-  min-width: 44px;
+  min-height: 46px; /* iOS recommended touch target */
+  min-width: 46px;
 }
 
 .user-link {
@@ -117,11 +117,11 @@
 }
 
 .user-avatar {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   border-radius: var(--radius-full);
   object-fit: cover;
-  border: 3px solid transparent;
+  border: 2px solid transparent;
   background: var(--primary-gradient);
   box-shadow: var(--shadow-primary);
   transition: all var(--transition-normal);

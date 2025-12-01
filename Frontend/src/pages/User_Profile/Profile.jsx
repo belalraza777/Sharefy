@@ -37,7 +37,7 @@ export default function Profile() {
             setLoading(false);
         };
         loadProfile();
-    }, [username]);
+    }, [username, currentUser]);
 
     // Navigate to post page when post is clicked
     const handlePostClick = (postId) => {
@@ -116,7 +116,9 @@ export default function Profile() {
                         ) : (
                             <div className="profile-actions">
                                 <FollowButton userId={user._id} />
-                                <button className="message-btn secondary-btn"><Link to={`/chat/${user._id}`}>Message</Link></button>
+                                <button className="message-btn secondary-btn">
+                                    <Link to={`/chat/${user._id}`} state={{ user }}>Message</Link>
+                                </button>
                             </div>
                         )}
                     </div>
