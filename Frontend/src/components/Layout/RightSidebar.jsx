@@ -2,6 +2,7 @@
 import './RightSidebar.css';
 import { useAuth } from '../../context/authContext'
 import { useNavigate } from 'react-router-dom';
+import SuggestedUsers from '../Discover/SuggestedUsers';
 
 const RightSidebar = () => {
   const navigator = useNavigate();
@@ -12,15 +13,6 @@ const RightSidebar = () => {
   }
 
 
-  const friendRequests = [
-    { name: 'Beeb', mutualFriends: 8 },
-    { name: 'Dodo', mutualFriends: 25 },
-  ];
-
-  const trendingPosts = [
-    { title: 'Komeni For this Programming. I must chop! #Coding', comments: 33 },
-  ];
-
   return (
     <aside className="right-sidebar">
       {/* Create Post Card */}
@@ -29,25 +21,8 @@ const RightSidebar = () => {
         <button className="post-button" onClick={handlePostClick}>Post</button>
       </div>
 
-      {/* Friend Requests */}
-      <div className="sidebar-card">
-        <h3 className="card-title">Requests</h3>
-        <div className="requests-list">
-          {friendRequests.map((request, index) => (
-            <div key={index} className="request-item">
-              <div className="request-info">
-                <div className="request-name">{request.name}</div>
-                <div className="mutual-friends">{request.mutualFriends} mutual friends</div>
-              </div>
-              <div className="request-actions">
-                <button className="accept-btn">Accept</button>
-                <button className="decline-btn">Decline</button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
+     {/* suggested users */}
+      <SuggestedUsers limit={10} />
       {/* Trending Post */}
       <div className="sidebar-card">
         <div className="trending-post">

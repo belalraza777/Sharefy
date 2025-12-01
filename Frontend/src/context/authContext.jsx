@@ -60,6 +60,18 @@ export const AuthProvider = ({ children }) => {
         return result;
     };
 
+    // Refresh current authenticated user from server
+    const refreshUser = async () => {
+        const result = await checkAuth();
+        if (result.success) {
+            saveAuthData(result.data, result.data.token);
+            return { success: true, data: result.data };
+        } else {
+            clearAuthData();
+            return { success: false };
+        }
+    };
+
     // Handle register new user
     const handleRegister = async (credentials) => {
         const result = await register(credentials);
@@ -106,7 +118,8 @@ export const AuthProvider = ({ children }) => {
             handleLogout,
             handleRequestOtp,
             handleVerifyOtp,
-            handleResetPassword
+            handleResetPassword,
+            refreshUser
         }}>
             {!loading && children}
         </AuthContext.Provider>

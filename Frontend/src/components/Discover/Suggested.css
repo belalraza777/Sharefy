@@ -1,0 +1,42 @@
+.suggested-block {
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+}
+.suggested-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+.suggested-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.suggested-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+.suggested-avatar img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.suggested-meta { flex: 1; }
+.suggested-name { font-weight: 600; }
+.suggested-username { color: var(--text-color-dim); font-size: 0.9rem; }
+.suggested-action { margin-left: auto; }
+
+.suggested-posts-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+.suggested-post-item { display: flex; gap: 0.5rem; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+.post-thumb img, .post-thumb video { width: 80px; height: 60px; object-fit: cover; border-radius: 8px; }
+.post-meta { flex: 1; }
+.post-author { font-weight: 600; font-size: 0.9rem; }
+.post-caption { color: var(--text-color-dim); font-size: 0.85rem; }
+
+.suggested-loading { padding: 0.5rem; color: var(--text-color-dim); }
