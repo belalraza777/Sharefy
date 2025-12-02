@@ -276,6 +276,7 @@
     align-items: center;
     justify-content: center;
     animation: createPostFadeIn 0.5s ease;
+    z-index: 0; /* keep preview behind form actions */
 }
 
 @keyframes createPostFadeIn {
@@ -336,11 +337,14 @@
     padding: 1.5rem;
     gap: 1rem;
     background: var(--card-bg);
+    position: relative;
+    z-index: 999; /* ensure buttons sit above the media preview */
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.06);
 }
 
 .create-post-page__cancel-btn {
     background: var(--card-bg);
-    color: var(--text-color-dim);
+    color: var(--text-color); /* explicitly set text color so it doesn't inherit from other contexts */
     border: 2px solid var(--border-color);
     padding: 1rem 2rem;
     border-radius: 12px;
@@ -381,7 +385,8 @@
 }
 
 .create-post-page__submit-btn {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+    /* explicit gradient fallback if --primary-2 isn't defined */
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
     color: var(--white);
     border: none;
     padding: 1rem 2rem;
@@ -397,6 +402,8 @@
     box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
     position: relative;
     overflow: hidden;
+    min-width: 140px;
+    z-index: 1; /* ensure content sits above pseudo-element */
 }
 
 .create-post-page__submit-btn::before {
@@ -408,6 +415,15 @@
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
     transition: left 0.6s ease;
+    z-index: 0; /* keep the sheen behind the label */
+    pointer-events: none;
+}
+
+/* make any direct children of the button render above the pseudo-element */
+.create-post-page__submit-btn > *,
+.create-post-page__cancel-btn > * {
+    position: relative;
+    z-index: 2;
 }
 
 .create-post-page__submit-btn:hover:not(:disabled) {
@@ -420,8 +436,9 @@
 }
 
 .create-post-page__submit-btn:disabled {
-    background: var(--surface-alt);
-    color: var(--text-color); /* stronger text color so label is readable */
+    /* Use a muted, high-contrast disabled style in light mode so label remains readable */
+    background: var(--btn-bg);
+    color: var(--text-color-dim);
     border: 1px solid var(--border-color);
     cursor: not-allowed;
     transform: none;
