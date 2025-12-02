@@ -3,7 +3,7 @@ import { FcLike } from "react-icons/fc";
 import { FaRegHeart } from "react-icons/fa";
 import usePostStore from "../../store/postStore";
 import { useAuth } from "../../context/authContext";
-import "./LikeButton.css"; // import CSS file
+import "./likeButton.css"; // import CSS file
 
 export default function LikeButton({ post }) {
   // Get user from auth context

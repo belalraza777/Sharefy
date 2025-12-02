@@ -1,7 +1,7 @@
 import LikeButton from '../../components/Buttons/likeButton';
 import { LuMessageCircle } from "react-icons/lu";
 import { useNavigate } from 'react-router-dom';
-import './Post.css';
+import './post.css';
 import defaultAvatar from '../../assets/defaultAvatar.png';
 import { useState, useRef, useEffect } from 'react';
 import SavePostButton from '../../components/Buttons/savePostButton';

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useSavedPostStore from "../../store/savedPostStore";
 import { FaHeart, FaComment } from 'react-icons/fa';
 import Skeleton from '../../components/Skeleton/Skeleton';
+import './SavedPost.css';
 
 export default function SavedPost() {
     const navigate = useNavigate();

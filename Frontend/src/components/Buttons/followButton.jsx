@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/authContext';
 import useUserStore from '../../store/userStore.js';
 import { toast } from 'sonner';
-import './FollowButton.css';
+import './followButton.css';
 
 const FollowButton = ({ userId }) => {
     // Get current user from auth context

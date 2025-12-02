@@ -14,7 +14,7 @@ export const connectSocket = (token) => {
     socket.disconnect();
   }
   // Resolve server URL: prefer VITE_SOCKET_URL, fall back to VITE_API_URL without the /api path
-  const SERVER_URL = import.meta.env.VITE_SOCKET_URL || (import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/\/api\/v1\/?$/,'') : 'http://localhost:8000');
+  const SERVER_URL = (import.meta && import.meta.env && import.meta.env.VITE_SOCKET_URL) || ((import.meta && import.meta.env && import.meta.env.VITE_API_URL) ? import.meta.env.VITE_API_URL.replace(/\/api\/v1\/?$/,'') : ((typeof process !== 'undefined' && process.env && process.env.VITE_API_URL) ? process.env.VITE_API_URL.replace(/\/api\/v1\/?$/,'') : 'http://localhost:8000'));
   // Prefer provided token, otherwise read from localStorage
   const authToken = token || localStorage.getItem('token');
   // Connect with authentication

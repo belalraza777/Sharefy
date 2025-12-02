@@ -5,7 +5,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import usePostStore from '../../store/postStore';
 import Post from './post';
 import { SkeletonPost } from '../../components/Skeleton/Skeleton';
-import './Feed.css';
+import './feed.css';
 // Story components
 import StoryCircles from '../../components/Story/StoryCircles';
 import StoryViewer from '../../components/Story/StoryViewer';
