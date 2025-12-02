@@ -13,3 +13,5 @@ Backend/.env
 # Node modules and build outputs (redundant with frontend ignores but safe at repo root)
 node_modules/
 dist/
+Frontend/.env
+Frontend/.env
