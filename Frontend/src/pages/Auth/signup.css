@@ -48,10 +48,11 @@
   letter-spacing: -0.02em;
 }
 
-.signup-logo::before {
-  content: '🚀';
-  font-size: 1.5rem;
-  animation: bounce 2s infinite;
+/* Use brand image (if present) and increase its size on auth pages */
+.signup-logo .brand-logo {
+  height: 72px;
+  max-width: 240px;
+  width: auto;
 }
 
 .signup-title {

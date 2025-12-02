@@ -1,0 +1,83 @@
+Sharefy — Simple Production Deployment Plan (Interview-friendly)
+
+Goal: Keep deployment minimal, reproducible, and easy to explain during an interview. Use managed services where they remove operational complexity.
+
+1) Build artifacts
+- Frontend: build static assets with Vite
+  - Command: `cd Frontend; npm install; npm run build`
+  - Output: `Frontend/dist`
+- Backend: run as a Node process (production mode)
+  - Command: `cd Backend; npm install; NODE_ENV=production node server.js` (or use `pm2`/container)
+
+2) Recommended hosting (simple choices)
+- Frontend: Vercel, Netlify, or serve static via Nginx on a small VPS
+- Backend: Render/Heroku/DigitalOcean App Platform or a small VPS/EC2 instance running Docker
+- Database: MongoDB Atlas (managed) — easiest for a personal project
+- Media: Cloudinary (already used) or an S3 bucket with a CDN
+
+3) Minimal Docker approach (one-liners to explain)
+- Create `Backend/Dockerfile` and `Frontend/Dockerfile` (build stage for frontend)
+- Example local test: `docker build -t sharefy-backend Backend` and `docker build -t sharefy-frontend Frontend`
+- Use `docker-compose.prod.yml` to run backend, frontend (nginx serving dist), and a production Mongo (optional for offline testing)
+
+4) Environment variables (keep secrets out of repo)
+- Backend required envs (example):
+  - `PORT`, `NODE_ENV`, `DATABASE_URL` (Mongo Atlas connection), `JWT_SECRET`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, `EMAIL_HOST`, `EMAIL_USER`, `EMAIL_PASS`
+- Frontend (only public runtime flags if needed):
+  - `VITE_API_BASE_URL` (point to backend)
+- Create `.env.example` listing keys (do NOT commit real secrets)
+
+5) Simple deployment flow (CI/CD)
+- Use GitHub Actions to:
+  1. Build frontend (`npm ci && npm run build`) and store `dist` as artifact or build/publish Docker image
+  2. Build backend image and push to Docker Hub/GHCR OR deploy directly to provider
+  3. On successful build, deploy to chosen provider (Vercel for frontend; Render/DigitalOcean/App Platform for backend)
+- Keep the workflow 1–2 files and show it during interview to explain automated deploys
+
+6) TLS, domain, and DNS
+- Use platform-managed TLS (Vercel/Render) or Let's Encrypt (Certbot) with Nginx if self-hosting
+- Point `www` and apex domain to the frontend host; create an API subdomain pointing to backend
+
+7) Health checks and basic monitoring
+- Add `/health` endpoint in backend returning 200 + basic DB check
+- Use provider's logs and add Sentry (free tier) for error tracking
+
+8) Backups and security (minimal)
+- Use MongoDB Atlas automated backups (recommended)
+- Enable rate-limits on auth endpoints, set secure cookies, enforce HTTPS, and use helmet
+
+9) Rollback and testing
+- Keep previous Docker image tags for one rollback step
+- Add a smoke test in CI that exercises signup/login and fetch-feed after deploy
+
+10) What to show in an interview
+- A short slide or single-page doc describing:
+  - Architecture diagram (Frontend -> CDN -> Backend API -> MongoDB + Cloudinary)
+  - One example of CI workflow (build & deploy)
+  - How secrets are stored (GitHub Secrets / provider env)
+  - Health check + Sentry URL for errors
+
+Notes / Commands cheat-sheet (Windows PowerShell)
+- Build frontend locally:
+  cd "C:\Code\Big Projects\Sharefy\Frontend"
+  npm ci; npm run build
+
+- Run backend locally:
+  cd "C:\Code\Big Projects\Sharefy\Backend"
+  npm ci; npm run dev
+
+- Docker build (example):
+  docker build -t sharefy-backend:latest Backend
+  docker build -t sharefy-frontend:latest Frontend
+
+- Example minimal `docker-compose.prod.yml` steps:
+  - service: mongo (optional for self-hosting)
+  - service: backend (image: sharefy-backend)
+  - service: frontend (nginx serving built `dist`)
+
+That's it — a compact, interview-ready deployment plan. If you want, I can:
+- Generate a ready-to-use `Backend/Dockerfile` and `Frontend/Dockerfile` now
+- Create `.env.example` in both projects
+- Scaffold a simple GitHub Actions workflow that builds and (optionally) deploys images
+
+Tell me which of those you'd like me to create next.

@@ -13,10 +13,13 @@ export const connectSocket = (token) => {
   if (socket) {
     socket.disconnect();
   }
-
+  // Resolve server URL: prefer VITE_SOCKET_URL, fall back to VITE_API_URL without the /api path
+  const SERVER_URL = import.meta.env.VITE_SOCKET_URL || (import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/\/api\/v1\/?$/,'') : 'http://localhost:8000');
+  // Prefer provided token, otherwise read from localStorage
+  const authToken = token || localStorage.getItem('token');
   // Connect with authentication
-  socket = io("http://localhost:8000", {
-    auth: { token },
+  socket = io(SERVER_URL, {
+    auth: { token: authToken },
   });
 
   // Request notification permission once
@@ -45,10 +48,10 @@ export const connectSocket = (token) => {
     }
   });
 
-  // Listen for chat messages (components will handle via getSocket())
-  socket.on('newMessage', (msg) => {
-    console.log('Received newMessage', msg);
-  });
+  // // Listen for chat messages (components will handle via getSocket())
+  // socket.on('newMessage', (msg) => {
+  //   console.log('Received newMessage', msg);
+  // });
 
   // Listen for online users update
   socket.on('onlineUsers', (userIds) => {

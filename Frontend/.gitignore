@@ -12,6 +12,24 @@ dist
 dist-ssr
 *.local
 
+# Vite / environment
+.env
+.env.*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.example
+
+# Build output
+/.vercel
+.vite
+.cache
+
+# Optional npm cache
+.npm
+
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,3 +40,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
