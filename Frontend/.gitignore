@@ -20,6 +20,8 @@ dist-ssr
 .env.test.local
 .env.production.local
 .env.example
+Frontend/.env
+Frontend/.env.local
 
 # Build output
 /.vercel
