@@ -28,7 +28,7 @@ export const createStory = async (file, caption = "") => {
     if (!file) {
       return { success: false, message: "File is required", error: "File is required" };
     }
-    const formData = new FormData();
+    const formData = new FormData(); // Create FormData object
     formData.append("file", file);
     formData.append("caption", caption);
 

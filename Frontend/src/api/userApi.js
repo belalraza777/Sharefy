@@ -44,7 +44,7 @@ export const updateProfile = async (userData) => {
 
 export const uploadProfilePic = async (file) => {
   try {
-    const formData = new FormData();
+    const formData = new FormData(); // Create a FormData object
     formData.append('file', file);
     const response = await axiosInstance.post('/users/profile', formData, {
       headers: {

@@ -27,6 +27,7 @@ const formatAxiosError = (error) => {
   return { message, error: resp?.error || error.message, errors };
 };
 
+
 export const register = async (userData) => {
   try {
     const response = await axiosInstance.post('/auth/register', userData);
@@ -37,6 +38,7 @@ export const register = async (userData) => {
     return { success: false, ...formatted };
   }
 };
+
 
 export const login = async (userData) => {
   try {
