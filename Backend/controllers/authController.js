@@ -28,8 +28,9 @@ const loginUser = async (req, res, next) => {
     res.cookie("token", token, {
         httpOnly: true,
         maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days in ms
-        // secure: true,
-        // sameSite: "none",
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        path: '/',
     });
 
     // Returning success response with user data
@@ -66,8 +67,9 @@ const register = async (req, res, next) => {
     res.cookie("token", token, {
         httpOnly: true,
         maxAge: 5 * 24 * 60 * 60 * 1000, // 5 days in ms
-        // secure: true,
-        // sameSite: "none",
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        path: '/',
     });
     // Returning success response with user data
     return res.status(201).json({ success: true, message: "Account Created Successfully!", data: { id: user._id, token, fullName: user.fullName, username: user.username, email: user.email, profileImage: user.profileImage, bio: user.bio, followers: user.followers, following: user.following } });
@@ -76,8 +78,8 @@ const register = async (req, res, next) => {
 
 // Controller for user logout
 const logoutUser = (req, res, next) => {
-    // Clearing the token cookie
-    res.clearCookie("token", { httpOnly: true, });
+    // Clearing the token cookie (match options used when setting cookie)
+    res.clearCookie("token", { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', path: '/' });
     // Returning success response
     return res.json({ success: true, message: "Logout Successfully!" });
 };

@@ -287,7 +287,8 @@
   
   /* Line 3: Account/User - centered */
   /* Hide top profile on very small screens — profile will appear in bottom nav */
-  .header-user {
+  /* The component uses `.header-user-area` as the wrapper; ensure it's hidden on mobile */
+  .header-user-area {
     display: none;
   }
   
