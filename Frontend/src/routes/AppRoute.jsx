@@ -1,10 +1,10 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import LoginPage from '../pages/auth/login';
-import SignupPage from '../pages/auth/signup';
+import LoginPage from '../pages/Auth/login';
+import SignupPage from '../pages/Auth/signup';
 import Feed from '../pages/Feed/feed';
 import ProtectedRoute from './ProtectedRoute';
-import SinglePost from '../pages/Post/singlePost';
+import SinglePost from '../pages/Post/SinglePost';
 import CreatePost from '../pages/New_Post/CreatePost';
 import Profile from '../pages/User_Profile/Profile';
 import Notification from '../pages/Notification/Notification';

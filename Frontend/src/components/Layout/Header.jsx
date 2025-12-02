@@ -1,5 +1,5 @@
 // components/layout/Header.jsx
-import './Header.css';
+import './header.css';
 import { useAuth } from "../../context/authContext";
 import { Link } from 'react-router-dom';
 import defaultAvatar from '../../assets/defaultAvatar.png';
