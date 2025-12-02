@@ -1,1 +1,15 @@
 /docs/
+
+# Environment files
+# Ignore local env files across project
+.env
+.env.*
+
+# Frontend and Backend specific env files
+Frontend/.env
+Frontend/.env.local
+Backend/.env
+
+# Node modules and build outputs (redundant with frontend ignores but safe at repo root)
+node_modules/
+dist/
