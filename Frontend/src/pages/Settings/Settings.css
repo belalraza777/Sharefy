@@ -1,6 +1,7 @@
 /* Enhanced Settings Styles */
 .settings-page {
-  max-width: 650px;
+  /* Fluid settings container */
+  max-width: clamp(320px, 70vw, 650px);
   margin: 0 auto;
   padding: 0;
 }
@@ -144,7 +145,7 @@
 
 /* Profile View */
 .profile-view {
-  max-width: 500px;
+  max-width: clamp(280px, 70vw, 500px);
   margin: 0 auto;
 }
 
@@ -347,7 +348,7 @@
   .profile-toggle {
     flex-direction: column;
     width: 100%;
-    max-width: 200px;
+    max-width: clamp(120px, 40vw, 200px);
   }
   
   .toggle-btn {

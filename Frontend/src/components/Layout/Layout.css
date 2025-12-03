@@ -33,7 +33,8 @@
 
 .main-container {
   display: grid;
-  grid-template-columns: 260px 1fr 320px;
+  /* Fluid sidebars using clamp(): min, ideal (vw), max */
+  grid-template-columns: clamp(200px, 16vw, 260px) 1fr clamp(200px, 24vw, 320px);
   max-width: 1400px;
   margin: 0 auto;
   min-height: calc(100vh - 100px);
@@ -60,7 +61,7 @@
 /* Chat Layout - Full Width */
 .chat-layout-container {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: clamp(200px, 18vw, 260px) 1fr;
   max-width: 1600px;
   margin: 0 auto;
   min-height: calc(100vh - 100px);
@@ -78,14 +79,14 @@
 /* Enhanced Mobile Responsive Design */
 @media (max-width: 1200px) {
   .main-container {
-    grid-template-columns: 240px 1fr 280px;
+    grid-template-columns: clamp(200px, 15vw, 240px) 1fr clamp(180px, 22vw, 280px);
     max-width: 100%;
   }
 }
 
 @media (max-width: 1024px) {
   .main-container {
-    grid-template-columns: 220px 1fr 260px;
+    grid-template-columns: clamp(180px, 14vw, 220px) 1fr clamp(160px, 20vw, 260px);
     gap: var(--space-sm);
   }
   
@@ -128,8 +129,8 @@
   .header {
     padding: var(--space-md) 0;
   }
-}
   
+  /* Header tweaks for tablet and small screens */
   .header-content {
     padding: 0 var(--space-md);
     grid-template-columns: auto 1fr auto;

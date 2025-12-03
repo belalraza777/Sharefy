@@ -4,14 +4,19 @@ import { SkeletonUser } from '../../components/Skeleton/Skeleton'
 import './Notification.css'
 
 export default function Notification() {
-    const { notifications, getNotifications, markAsRead, loading } = useNotificationStore()
-    
+    const { notifications, getNotifications, markAsRead, markAllAsRead, loading } = useNotificationStore()
+
+    //on mount function
+    async function onMount() {
+        await getNotifications();
+        await markAllAsRead();
+    }
+    // Use effect to call onMount on component mount
     useEffect(() => {
-        getNotifications()
+        onMount();
     }, [])
 
-    console.log(notifications);
-    
+
     // Mark notification as read when clicked
     const handleNotificationClick = async (notification) => {
         if (!notification.isRead) {
@@ -48,11 +53,11 @@ export default function Notification() {
     return (
         <div className="notifications-page">
             <h2>Notifications</h2>
-            
+
             <div className="notifications-list">
                 {notifications.map(notification => (
-                    <div 
-                        key={notification._id} 
+                    <div
+                        key={notification._id}
                         className={`notification ${!notification.isRead ? 'unread' : ''}`}
                         onClick={() => handleNotificationClick(notification)}
                     >
@@ -68,7 +73,7 @@ export default function Notification() {
 
                         <div className="notification-content">
                             <p>
-                                <strong>{notification.sender?.username || 'Someone'}</strong> 
+                                <strong>{notification.sender?.username || 'Someone'}</strong>
                                 {' ' + notification.message}
                             </p>
                             <span className="time">

@@ -1,6 +1,6 @@
 /* Enhanced Notification Styles */
 .notifications-page {
-  max-width: 650px;
+  max-width: clamp(320px, 60vw, 650px);
   margin: 0 auto;
   padding: 0;
 }

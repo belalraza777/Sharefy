@@ -1,19 +1,22 @@
 /* Enhanced LeftSidebar Styles */
 .left-sidebar {
-  width: 260px;
+  width: 100%;
+  max-width: 260px;
+  box-sizing: border-box;
   background: var(--card-bg);
   backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
-  height: calc(100vh - 100px);
+  /* Let the page handle scrolling; prevent internal scrollbars */
   position: sticky;
   top: 100px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  margin: var(--space-md) 0;
-  margin-right: var(--space-md);
+  overflow: visible;
+  align-self: start;
+  margin: var(--space-md) 0 0 0;
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-lg);
   transition: all var(--transition-normal);
+  z-index: 2;
+  pointer-events: auto;
 }
 
 .left-sidebar:hover {
@@ -183,24 +186,12 @@
   z-index: 1;
   pointer-events: none;
 }
-
-.left-sidebar::after {
-  content: '';
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 20px;
-  background: linear-gradient(to top, var(--card-bg), transparent);
-  z-index: 1;
-  pointer-events: none;
-}
-
 @media (max-width: 1024px) {
   .left-sidebar {
     width: 200px;
+    margin: var(--space-md) 0 0 0;
   }
-  
+
   .nav-link {
     padding: 1rem 1.5rem;
   }
