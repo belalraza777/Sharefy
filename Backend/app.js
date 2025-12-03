@@ -23,6 +23,9 @@ import ErrorHandle from "./utils/errorClass.js";
 
 const app = express();
 
+// Trust the first proxy (like Render/Vercel/Nginx) so Express can correctly detect HTTPS.
+// Needed for things like secure cookies and correct client IP.
+app.set('trust proxy', 1);
 
 // Middleware
 app.use(express.json());

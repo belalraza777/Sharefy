@@ -24,6 +24,6 @@ router.patch("/reset", verifyAuth, authLimiter, asyncWrapper(usersController.res
 
 //otp base login 
 router.post('/request-otp', otpLimiter, asyncWrapper(usersController.requestOtp));   // Step 1: Generate & send OTP
-router.post('/verify-otp', asyncWrapper(usersController.verifyOtp));     // Step 2: Verify OTP & login
+router.post('/verify-otp',otpLimiter, asyncWrapper(usersController.verifyOtp));     // Step 2: Verify OTP & login
 
 export default router;
