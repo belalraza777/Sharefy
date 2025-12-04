@@ -1,10 +1,11 @@
 docs/
+deployment/
 
 # Environment files
 # Ignore local env files across project
 .env
 .env.*
-
+docs/
 # Frontend and Backend specific env files
 Frontend/.env
 Frontend/.env.local

@@ -1,6 +1,7 @@
 /* Enhanced CreatePost Styles */
 .create-post-page {
-    max-width: 580px;
+    /* Fluid create post container */
+    max-width: clamp(320px, 60vw, 580px);
     margin: 0 auto;
     background: var(--card-bg);
     backdrop-filter: blur(20px);

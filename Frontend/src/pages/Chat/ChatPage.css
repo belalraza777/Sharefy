@@ -9,7 +9,8 @@
 
 .chat-container {
   display: grid;
-  grid-template-columns: 350px 1fr;
+  /* Fluid conversation list width */
+  grid-template-columns: clamp(220px, 28vw, 350px) 1fr;
   gap: 0;
   height: 100%;
   background: var(--surface);
@@ -164,11 +165,11 @@
 /* Tablet responsive */
 @media (max-width: 1024px) {
   .chat-container {
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: clamp(200px, 26vw, 300px) 1fr;
   }
 
   .chat-layout-container {
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: clamp(180px, 22vw, 220px) 1fr;
   }
 }
 

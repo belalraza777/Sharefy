@@ -1,9 +1,11 @@
 /* Enhanced Feed Styles */
 .feed-container {
-  max-width: 650px;
+  /* Allow feed to be fluid between a sensible minimum and the existing max */
+  max-width: clamp(320px, 60vw, 650px);
   margin: 0 auto;
   padding: 0;
   position: relative;
+  width: 100%;
 }
 
 /* Enhanced Create Post Prompt */

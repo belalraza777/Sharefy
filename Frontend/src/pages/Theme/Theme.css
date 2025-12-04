@@ -1,6 +1,7 @@
 /* Theme Page Styles */
 .theme-page-container {
-  max-width: 480px;
+  /* Fluid theme page container for small devices */
+  max-width: clamp(280px, 60vw, 480px);
   margin: 2rem auto;
 }
 

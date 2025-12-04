@@ -1,6 +1,7 @@
 /* singlePost.css */
 .single-post-container {
-  max-width: 600px;
+  /* Fluid single-post container */
+  max-width: clamp(320px, 65vw, 600px);
   margin: 0 auto;
   padding: 1rem;
   background: transparent !important;
