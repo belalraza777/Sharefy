@@ -46,7 +46,7 @@ Goal: Keep deployment minimal, reproducible, and easy to explain during an inter
 - Use MongoDB Atlas automated backups (recommended)
 - Enable rate-limits on auth endpoints, set secure cookies, enforce HTTPS, and use helmet
 
-9) Rollback and testing
+9) Rollback and testing 
 - Keep previous Docker image tags for one rollback step
 - Add a smoke test in CI that exercises signup/login and fetch-feed after deploy
 
