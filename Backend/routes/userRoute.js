@@ -1,7 +1,7 @@
 import express from "express";
-import verifyAuth from "../utils/verifyAuth.js";
+import verifyAuth from "../middlewares/verifyAuth.js";
 import asyncWrapper from "../utils/asyncWrapper.js";
-import { profileUpdateValidation } from "../utils/joiValidation.js";
+import { profileUpdateValidation } from "../middlewares/joiValidation.js";
 import {
     getUserProfile,
     updateProfile,
@@ -11,7 +11,7 @@ import {
     getFollowers,
     getFollowing
 } from "../controllers/userController.js";
-import upload from "../utils/uploadMiddleware.js"; 
+import upload from "../middlewares/uploadMiddleware.js"; 
 
 const router = express.Router();
 

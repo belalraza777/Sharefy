@@ -1,12 +1,12 @@
 import express from "express";
-import  verifyAuth  from "../utils/verifyAuth.js";
+import  verifyAuth  from "../middlewares/verifyAuth.js";
 import {
   sendMessage,
   getMessages,
   getUsers,
 } from "../controllers/chatController.js";
 import asyncWrapper from "../utils/asyncWrapper.js";
-import { messageValidation } from "../utils/joiValidation.js";
+import { messageValidation } from "../middlewares/joiValidation.js";
 
 
 const router = express.Router();

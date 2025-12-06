@@ -1,7 +1,7 @@
 import express from "express";
-import verifyAuth from "../utils/verifyAuth.js";
+import verifyAuth from "../middlewares/verifyAuth.js";
 import asyncWrapper from "../utils/asyncWrapper.js";
-import { commentValidation } from "../utils/joiValidation.js";
+import { commentValidation } from "../middlewares/joiValidation.js";
 import { addComment, deleteComment } from "../controllers/commentController.js";
 
 const router = express.Router();

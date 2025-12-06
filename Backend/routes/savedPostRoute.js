@@ -1,6 +1,6 @@
 import express from 'express';
 import { savePost, unsavePost, getSavedPosts } from '../controllers/savedPostController.js';
-import verifyAuth from "../utils/verifyAuth.js";
+import verifyAuth from "../middlewares/verifyAuth.js";
 import asyncWrapper from "../utils/asyncWrapper.js";
 
 

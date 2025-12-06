@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import verifyAuth from "../utils/verifyAuth.js";
+import verifyAuth from "../middlewares/verifyAuth.js";
 import asyncWrapper from "../utils/asyncWrapper.js";
 import {getDiscoverPosts,getSuggestedUsers} from "../controllers/discoverController.js";
 

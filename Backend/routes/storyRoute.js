@@ -1,8 +1,8 @@
 import express from "express";
-import verifyAuth from "../utils/verifyAuth.js";
+import verifyAuth from "../middlewares/verifyAuth.js";
 import asyncWrapper from "../utils/asyncWrapper.js";
-import upload from "../utils/uploadMiddleware.js";
-import { storyValidation } from "../utils/joiValidation.js";
+import upload from "../middlewares/uploadMiddleware.js";
+import { storyValidation } from "../middlewares/joiValidation.js";
 
 import {
     createStory,

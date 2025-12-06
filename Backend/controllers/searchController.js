@@ -1,5 +1,5 @@
 import User from '../models/userModel.js';
-import { sanitize } from '../utils/sanitizer.js';
+import { sanitize } from '../middlewares/sanitizer.js';
 
 // @desc    Autocomplete search for users (typeahead)
 // @route   GET /api/search/

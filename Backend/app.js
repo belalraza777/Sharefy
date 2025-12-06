@@ -8,7 +8,7 @@ import cors from "cors";
 import multer from "multer";
 import helmet from "helmet";
 import morgan from "morgan";
-import { globalLimiter } from "./utils/rateLimit.js";
+import { globalLimiter } from "./middlewares/rateLimit.js";
 import AuthRouter from "./routes/authRoute.js";
 import UserRouter from "./routes/userRoute.js";
 import PostRouter from "./routes/postRoute.js";
@@ -19,7 +19,7 @@ import SearchRouter from "./routes/searchRoute.js";
 import ChatRouter from "./routes/chatRoute.js";
 import StoryRouter from "./routes/storyRoute.js";
 import DiscoverRouter from "./routes/discoverRoute.js";
-import ErrorHandle from "./utils/errorClass.js";
+import ErrorHandle from "./middlewares/errorClass.js";
 
 const app = express();
 

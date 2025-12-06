@@ -2,9 +2,9 @@ import express from "express";
 const router = express.Router();
 import usersController from "../controllers/authController.js";
 import asyncWrapper from "../utils/asyncWrapper.js";
-import { registerValidation, loginValidation } from "../utils/joiValidation.js";
-import verifyAuth from "../utils/verifyAuth.js";
-import { authLimiter,otpLimiter } from "../utils/rateLimit.js";
+import { registerValidation, loginValidation } from "../middlewares/joiValidation.js";
+import verifyAuth from "../middlewares/verifyAuth.js";
+import { authLimiter,otpLimiter } from "../middlewares/rateLimit.js";
 
 
 // Login routes

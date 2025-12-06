@@ -1,5 +1,5 @@
 import express from "express";
-import verifyAuth from "../utils/verifyAuth.js";
+import verifyAuth from "../middlewares/verifyAuth.js";
 import asyncWrapper from "../utils/asyncWrapper.js";
 import { getNotifications, markAsRead, markAllAsRead} from "../controllers/notificationController.js";
 
