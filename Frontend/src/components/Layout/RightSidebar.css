@@ -4,10 +4,11 @@
   background: var(--card-bg);
   backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
-  height: calc(100vh - 100px);
+  /* Let the page handle scrolling; prevent internal scrollbars */
   position: sticky;
   top: 100px;
-  overflow-y: auto;
+  overflow: visible;
+  align-self: start;
   padding: var(--space-xl) var(--space-lg);
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-lg);

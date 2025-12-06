@@ -1,7 +1,7 @@
 /* Enhanced Search Page */
 .search-page {
     padding: var(--space-lg);
-    max-width: 650px;
+    max-width: clamp(320px, 60vw, 650px);
     margin: 0 auto;
 }
 

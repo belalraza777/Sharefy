@@ -37,6 +37,22 @@ const useNotificationStore = create((set) => ({
     }
   },
 
+  // Mark all notifications as read
+  markAllAsRead: async () => {
+    try {
+      const response = await api.markAllAsRead();
+      if (response.success) {
+        set((state) => {
+          const updated = state.notifications.map((notification) => ({ ...notification, isRead: true }));
+          return { notifications: updated, unreadCount: 0 };
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+
   // Add new notification from socket
   addNotification: (notification) => {
     set((state) => {

@@ -1,6 +1,7 @@
 /* Instagram-style Profile Page */
 .profile-container {
-    max-width: 935px;
+    /* Fluid profile container: keeps a sensible min and max */
+    max-width: clamp(320px, 75vw, 935px);
     margin: 0 auto;
     padding: 0 20px;
 }
