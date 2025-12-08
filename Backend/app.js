@@ -2,12 +2,12 @@
 import dotenv from "dotenv";
 dotenv.config({ path: './.env' });
 import express from "express";
-import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import multer from "multer";
 import helmet from "helmet";
 import morgan from "morgan";
+import connectDB from "./config/database.js";
 import { globalLimiter } from "./middlewares/rateLimit.js";
 import AuthRouter from "./routes/authRoute.js";
 import UserRouter from "./routes/userRoute.js";
@@ -41,13 +41,10 @@ app.use(helmet()); // Set security-related HTTP headers
 app.use(globalLimiter); // Rate limiting
 app.use(morgan("combined")); // Logging HTTP requests
 
+// Connect to MongoDB
+connectDB();
 
-// Connect MongoDB
-mongoose.connect(process.env.MONGODB_URL || "mongodb://127.0.0.1:27017/sharefy")
-  .then(() => console.log("DB connected successfully"))
-  .catch((err) => console.error("DB connection error:", err));
 
-  
 // Routes
 app.get("/", (req, res) => res.send("Welcome to Sharefy"));
 app.get("/api/v1/health", (req, res) => {
