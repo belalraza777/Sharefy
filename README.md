@@ -28,7 +28,9 @@ Sharefy is a social media app (React + Vite frontend, Node/Express + MongoDB bac
 - Media uploads with Cloudinary (image/video optimization)
 - Basic moderation & validation (Joi validators / sanitizers)
 - Theme toggle (light/dark)
-- API pagination and rate-limiting considerations
+- **Redis caching for improved performance** (feed, profiles, search, stories)
+- **Persistent rate limiting with Redis** (distributed across instances)
+- API pagination and smart cache invalidation
 
 ---
 
@@ -36,12 +38,15 @@ Sharefy is a social media app (React + Vite frontend, Node/Express + MongoDB bac
 Backend
 - Node.js, Express
 - MongoDB + Mongoose
+- **Redis (caching & rate limiting)**
+- **ioredis (Redis client)**
 - Socket.IO (server)
 - Cloudinary SDK
 - Mailgun (email OTP) or similar provider
 - Joi (validation)
 - jsonwebtoken, bcrypt (auth)
 - dotenv (env management)
+- rate-limit-redis (distributed rate limiting)
 
 Frontend
 - React + Vite
@@ -66,12 +71,18 @@ Frontend
 3. Environment
     - Copy .env.example to .env in both Backend and Frontend as needed.
     - Typical backend vars: PORT, MONGO_URI, JWT_SECRET, CLOUDINARY_URL, MAILGUN_API_KEY
-4. Run locally
+    - **Redis vars**: REDIS_HOST, REDIS_PORT, REDIS_PASSWORD (for caching & rate limiting)
+4. Setup Redis
+    - **Local**: Install Redis locally or use Docker: `docker run -d -p 6379:6379 redis:alpine`
+    - **Cloud**: Use Redis Cloud, Upstash, or AWS ElastiCache
+    - Update .env with your Redis credentials
+5. Run locally
     - Backend: npm run dev (or node server.js)
     - Frontend: npm run dev (Vite)
-5. Optional
+6. Optional
     - Seed database scripts (if provided) before first run.
     - Use ngrok or similar for testing webhooks/sockets across devices.
+    - Test caching with `node Backend/test-redis.js`
 
 ---
 
