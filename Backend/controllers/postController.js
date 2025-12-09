@@ -1,9 +1,11 @@
 import User from "../models/userModel.js";
 import Post from "../models/postModel.js";
+import Comment from "../models/commentModel.js";
 import { cloudinary } from "../utils/cloudinary.js";
 import Notification from "../models/notificationModel.js";
 import Follow from "../models/followModel.js";
 import { io, onlineUsers } from "../socket.js";
+import { getCache, setCache, deleteCache, deleteCachePattern } from "../utils/cache.js";
 
 
 /* Get Feed */
@@ -19,20 +21,36 @@ export const getFeed = async (req, res) => {
     const limit = 20; // Number of posts per page
     const skip = (page - 1) * limit; // Calculate the number of posts to skip
 
+    // Check cache first
+    const cacheKey = `feed:${req.user.id}:${page}`;
+    const cachedFeed = await getCache(cacheKey);
+    if (cachedFeed) {
+        return res.status(200).json({ success: true, message: "Feed fetched", data: cachedFeed });
+    }
+
     // Find the currently authenticated user
     const user = await User.findById(req.user.id).lean();
     if (!user) return res.status(404).json({ success: false, message: "User not found" });
 
-    // Find all users that the current user is following
-    const followingIds = await Follow.find({ follower: user._id }).distinct("following");
+    // Cache following list
+    const followingCacheKey = `following:${req.user.id}`;
+    let followingIds = await getCache(followingCacheKey);
+    
+    if (!followingIds) {
+        followingIds = await Follow.find({ follower: user._id }).distinct("following");
+        await setCache(followingCacheKey, followingIds, 600); // 10 minutes
+    }
 
     // Find all posts from the users they are following
     const posts = await Post.find({ user: { $in: followingIds } })
-        .populate('user', 'username profileImage') // Populate the 'user' field with username and profileImage
-        .sort({ createdAt: -1 }) // Sort posts by creation date in descending order
-        .skip(skip) // Skip posts for pagination
-        .limit(limit) // Limit the number of posts returned
-        .lean(); // Use .lean() for faster queries as the result is a plain JavaScript object
+        .populate('user', 'username profileImage')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean();
+
+    // Cache feed for 3 minutes
+    await setCache(cacheKey, posts, 180);
 
     // Send the feed posts as a response
     res.status(200).json({ success: true, message: "Feed fetched", data: posts });
@@ -69,6 +87,9 @@ export const createPost = async (req, res) => {
     // Save post in DB
     await post.save();
 
+    // Invalidate feed caches for all followers
+    await deleteCachePattern(`feed:*`);
+
     // 🔔 Create notifications for followers
     const followersRelationships = await Follow.find({ following: req.user.id });
     const followers = followersRelationships.map(rel => rel.follower);
@@ -101,6 +122,17 @@ export const createPost = async (req, res) => {
 
 //Get a single post by ID
 export const getPostById = async (req, res) => {
+    // Check cache first
+    const cacheKey = `post:${req.params.id}`;
+    const cachedPost = await getCache(cacheKey);
+    if (cachedPost) {
+        return res.status(200).json({
+            success: true,
+            message: "Post fetched successfully",
+            data: cachedPost,
+        });
+    }
+
     // Populate: fetch user info + comments linked to this post
     const post = await Post.findById(req.params.id).populate([
         { path: "user" },       // Post owner info
@@ -115,6 +147,10 @@ export const getPostById = async (req, res) => {
     if (!post) {
         return res.status(404).json({ success: false, message: "Post not found" });
     }
+
+    // Cache post for 5 minutes
+    await setCache(cacheKey, post, 300);
+
     res.status(200).json({
         success: true,
         message: "Post fetched successfully",
@@ -133,6 +169,9 @@ export const likePost = async (req, res) => {
     // Add user ID to post.likes
     post.likes.push(req.user.id);
     await post.save();
+
+    // Invalidate post cache
+    await deleteCache(`post:${req.params.id}`);
 
     // 🔔 Notify post owner
     if (post.user._id.toString() !== req.user.id) {
@@ -168,6 +207,9 @@ export const unlikePost = async (req, res) => {
     post.likes.pull(req.user.id);
     await post.save();
 
+    // Invalidate post cache
+    await deleteCache(`post:${req.params.id}`);
+
     res.status(200).json({
         success: true,
         message: "Post unliked successfully",
@@ -195,6 +237,10 @@ export const deletePost = async (req, res) => {
     await Post.findByIdAndDelete(req.params.id);
     //Delete all comments related to this post
     await Comment.deleteMany({ post: req.params.id });
+
+    // Invalidate caches
+    await deleteCache(`post:${req.params.id}`);
+    await deleteCachePattern(`feed:*`);
 
     res.status(200).json({ success: true, message: "Post deleted successfully" });
 };

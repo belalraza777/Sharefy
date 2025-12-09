@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import Post from "../models/postModel.js";
 import Follow from "../models/followModel.js";
+import { getCache, setCache } from "../utils/cache.js";
 
 //get discover posts
 export const getDiscoverPosts = async (req, res) => {
@@ -19,6 +20,17 @@ export const getDiscoverPosts = async (req, res) => {
         return res.status(404).json({ success: false, message: "User not found" });
     }
 
+    // Check cache first
+    const cacheKey = `discover:${userId}:${page}`;
+    const cachedPosts = await getCache(cacheKey);
+    if (cachedPosts) {
+        return res.status(200).json({
+            success: true,
+            message: "Discover posts fetched",
+            data: cachedPosts
+        });
+    }
+
     // Get followed IDs
     const followingIds = await Follow.find({ follower: userId }).distinct("following");
 
@@ -32,6 +44,9 @@ export const getDiscoverPosts = async (req, res) => {
         .skip(skip)
         .limit(limit)
         .lean();
+
+    // Cache discover posts for 10 minutes
+    await setCache(cacheKey, posts, 600);
 
     res.status(200).json({
         success: true,
@@ -49,6 +64,17 @@ export const getSuggestedUsers = async (req, res) => {
         return res.status(404).json({ success: false, message: "User not found" });
     }
 
+    // Check cache first
+    const cacheKey = `suggested:${userId}`;
+    const cachedUsers = await getCache(cacheKey);
+    if (cachedUsers) {
+        return res.status(200).json({
+            success: true,
+            message: "Suggested users fetched",
+            data: cachedUsers
+        });
+    }
+
     // Users already followed
     const followingIds = await Follow.find({ follower: userId }).distinct("following");
 
@@ -62,6 +88,9 @@ export const getSuggestedUsers = async (req, res) => {
         .select("username fullName profileImage bio")
         .limit(20)
         .lean();
+
+    // Cache suggested users for 30 minutes
+    await setCache(cacheKey, users, 1800);
 
     res.status(200).json({
         success: true,
