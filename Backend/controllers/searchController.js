@@ -1,5 +1,6 @@
 import User from '../models/userModel.js';
 import { sanitize } from '../middlewares/sanitizer.js';
+import { getCache, setCache } from '../utils/cache.js';
 
 // @desc    Autocomplete search for users (typeahead)
 // @route   GET /api/search/
@@ -26,6 +27,17 @@ export const search = async (req, res) => {
         });
     }
 
+    // Check cache first
+    const cacheKey = `search:${query.toLowerCase()}`;
+    const cachedResults = await getCache(cacheKey);
+    if (cachedResults) {
+        return res.status(200).json({
+            success: true,
+            message: 'Users found',
+            data: cachedResults,
+        });
+    }
+
     // Escape special regex characters to prevent regex injection
     const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const escapedQuery = escapeRegex(query);
@@ -43,6 +55,9 @@ export const search = async (req, res) => {
         // Limit results to 10 to avoid sending too much data
         .limit(10)
         .lean();
+
+    // Cache search results for 30 minutes
+    await setCache(cacheKey, users, 1800);
 
     // Send the matching users as JSON response
     res.status(200).json({

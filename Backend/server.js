@@ -2,6 +2,7 @@
 import http from 'http';
 import app from './app.js';
 import { initSocketServer } from './socket.js';
+import redisClient from './config/redis.js';
 
 const PORT = process.env.PORT || 8000;
 

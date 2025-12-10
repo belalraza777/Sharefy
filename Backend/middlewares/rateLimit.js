@@ -1,4 +1,6 @@
 import rateLimit from "express-rate-limit";
+import RedisStore from "rate-limit-redis";
+import redisClient from "../config/redis.js";
 
 // Global limiter: applies to all routes
 export const globalLimiter = rateLimit({
@@ -6,6 +8,10 @@ export const globalLimiter = rateLimit({
   max: 400, // limit each IP to 400 requests per window
   standardHeaders: true,
   legacyHeaders: false,
+  store: new RedisStore({
+    sendCommand: (...args) => redisClient.call(...args),
+    prefix: "rl:global:",
+  }),
   message: {
     success: false,
     message: "Too many requests from this IP, please try again later.",
@@ -19,6 +25,10 @@ export const authLimiter = rateLimit({
   max: 5, // max 5 requests per IP in 15 mins
   standardHeaders: true,
   legacyHeaders: false,
+  store: new RedisStore({
+    sendCommand: (...args) => redisClient.call(...args),
+    prefix: "rl:auth:",
+  }),
   message: {
     success: false,
     message: "Too many login/signup attempts. Please wait 15 minutes.",
@@ -32,6 +42,10 @@ export const postLimiter = rateLimit({
   max: 20, // max 20 posts per IP per hour
   standardHeaders: true,
   legacyHeaders: false,
+  store: new RedisStore({
+    sendCommand: (...args) => redisClient.call(...args),
+    prefix: "rl:post:",
+  }),
   message: {
     success: false,
     message: "You have reached the post creation limit. Try again later.",
@@ -45,6 +59,10 @@ export const otpLimiter = rateLimit({
   max: 5, // max 5 OTP requests per IP in 15 minutes
   standardHeaders: true,
   legacyHeaders: false,
+  store: new RedisStore({
+    sendCommand: (...args) => redisClient.call(...args),
+    prefix: "rl:otp:",
+  }),
   message: {
     success: false,
     message: "Too many OTP requests. Please try again after 15 minutes.",

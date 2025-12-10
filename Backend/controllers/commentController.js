@@ -2,6 +2,7 @@ import Post from "../models/postModel.js";
 import Comment from "../models/commentModel.js";
 import Notification from "../models/notificationModel.js";
 import { io, onlineUsers } from "../socket.js";
+import { deleteCache } from "../utils/cache.js";
 
 
 //Add a comment to a post
@@ -28,6 +29,9 @@ export const addComment = async (req, res) => {
     await comment.save();
     post.comments.push(comment._id);
     await post.save();
+
+    // Invalidate post cache
+    await deleteCache(`post:${req.params.postId}`);
 
     // 🔔 Notify post owner (if not commenting on own post)
     if (post.user._id.toString() !== req.user.id) {
@@ -74,6 +78,9 @@ export const deleteComment = async (req, res) => {
     await Post.findByIdAndUpdate(req.params.postId, {
         $pull: { comments: req.params.commentId },
     });
+
+    // Invalidate post cache
+    await deleteCache(`post:${req.params.postId}`);
 
     res.status(200).json({ success: true, message: "Comment deleted successfully" });
 };

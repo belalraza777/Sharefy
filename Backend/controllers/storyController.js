@@ -2,6 +2,7 @@ import Story from "../models/storiesModel.js";
 import User from "../models/userModel.js";
 import Follow from "../models/followModel.js";
 import { cloudinary } from "../utils/cloudinary.js";
+import { getCache, setCache, deleteCache, deleteCachePattern } from "../utils/cache.js";
 
 // Create a new story
 export const createStory = async (req, res) => {
@@ -38,6 +39,10 @@ export const createStory = async (req, res) => {
     // Populate user data before sending response
     await story.populate('user', 'username fullName profileImage');
 
+    // Invalidate stories cache for all followers
+    await deleteCachePattern(`stories:*`);
+    await deleteCachePattern(`userstories:*`);
+
     res.status(201).json({
         success: true,
         message: "Story created successfully",
@@ -48,6 +53,17 @@ export const createStory = async (req, res) => {
 // Get all stories from users you follow + your own
 export const getAllStories = async (req, res) => {
     const userId = req.user.id;
+
+    // Check cache first
+    const cacheKey = `stories:${userId}`;
+    const cachedStories = await getCache(cacheKey);
+    if (cachedStories) {
+        return res.status(200).json({
+            success: true,
+            message: "Stories fetched successfully",
+            data: cachedStories,
+        });
+    }
 
     // get following users + self
     const following = await Follow.find({ follower: userId }).distinct("following");
@@ -96,6 +112,9 @@ export const getAllStories = async (req, res) => {
         (a, b) => b.latestStoryAt - a.latestStoryAt
     );
 
+    // Cache stories for 5 minutes
+    await setCache(cacheKey, groupedStories, 300);
+
     res.status(200).json({
         success: true,
         message: "Stories fetched successfully",
@@ -106,6 +125,17 @@ export const getAllStories = async (req, res) => {
 // Get stories from a specific user
 export const getUserStories = async (req, res) => {
     const { userId } = req.params;
+
+    // Check cache first
+    const cacheKey = `userstories:${userId}:${req.user.id}`;
+    const cachedStories = await getCache(cacheKey);
+    if (cachedStories) {
+        return res.status(200).json({
+            success: true,
+            message: "User stories fetched successfully",
+            data: cachedStories,
+        });
+    }
 
     // Check if user exists
     const user = await User.findById(userId);
@@ -126,6 +156,9 @@ export const getUserStories = async (req, res) => {
         viewCount: isOwnStory ? story.viewers.length : undefined,
         hasViewed: story.viewers.some(viewerId => viewerId.toString() === req.user.id),
     }));
+
+    // Cache user stories for 5 minutes
+    await setCache(cacheKey, storiesWithViewInfo, 300);
 
     res.status(200).json({
         success: true,
@@ -150,6 +183,10 @@ export const viewStory = async (req, res) => {
     if (!alreadyViewed) {
         story.viewers.push(userId);
         await story.save();
+
+        // Invalidate caches when view count changes
+        await deleteCachePattern(`stories:*`);
+        await deleteCachePattern(`userstories:${story.user}:*`);
     }
 
     // Populate and return updated story
@@ -195,6 +232,10 @@ export const deleteStory = async (req, res) => {
 
     // Delete story from database
     await Story.findByIdAndDelete(storyId);
+
+    // Invalidate caches
+    await deleteCachePattern(`stories:*`);
+    await deleteCachePattern(`userstories:${userId}:*`);
 
     res.status(200).json({
         success: true,
