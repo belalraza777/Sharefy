@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
   fullName: {
     type: String,
-    required: true,
     trim: true,
   },
   username: {
@@ -20,8 +19,7 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
   },
   passwordHash: {
-    type: String,
-    required: true,
+    type: String
   },
   bio: {
     type: String,
@@ -35,14 +33,14 @@ const userSchema = new mongoose.Schema({
       return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`;
     }
   },
-  coverImage: {
-    type: String, // Optional banner image
-  },
-}, {
-  timestamps: true,
-  toJSON: { virtuals: true },
-  toObject: { virtuals: true }
-});
+  provider: { type: String, default: "local" }, // local | google | facebook
+  providerId: { type: String },                 // OAuth provider user id
+},
+  { // Schema Options
+    timestamps: true,
+    toJSON: { virtuals: true }, // Include virtuals when converting to JSON
+    toObject: { virtuals: true } // Include virtuals when converting to Object
+  });
 
 
 // --- Virtuals with populate + count ---

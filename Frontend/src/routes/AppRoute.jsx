@@ -15,6 +15,7 @@ import SavedPost from '../pages/SavedPost/SavedPost';
 import Search from '../pages/Search/Search';
 import ChatPage from '../pages/Chat/ChatPage';
 import ThemePage from '../pages/Theme/Theme';
+import OAuthSuccess from '../pages/oauth/oAuth-success';
 
 const AppRoute = () => {
   return (
@@ -113,6 +114,11 @@ const AppRoute = () => {
         <ProtectedRoute>
           <ThemePage />
         </ProtectedRoute>
+      }
+      />
+
+      <Route path="/oauth-success" element={
+        <OAuthSuccess/>
       }
       />
 

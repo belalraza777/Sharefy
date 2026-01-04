@@ -5,7 +5,7 @@ import Layout from './components/Layout/Layout';
 import { Toaster } from 'sonner';
 import { ThemeProvider, useTheme } from './context/themeContext';
 
-
+// AppShell component to handle theming and layout
 const AppShell = () => {
   const { theme } = useTheme();
   // Determine system preference for dark mode

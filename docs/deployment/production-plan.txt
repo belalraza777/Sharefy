@@ -23,8 +23,10 @@ Goal: Keep deployment minimal, reproducible, and easy to explain during an inter
 4) Environment variables (keep secrets out of repo)
 - Backend required envs (example):
   - `PORT`, `NODE_ENV`, `DATABASE_URL` (Mongo Atlas connection), `JWT_SECRET`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, `EMAIL_HOST`, `EMAIL_USER`, `EMAIL_PASS`
+  - `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `BACKEND_URL` (for OAuth)
+  - `REDIS_HOST`, `REDIS_PORT` (for caching & rate limiting)
 - Frontend (only public runtime flags if needed):
-  - `VITE_API_BASE_URL` (point to backend)
+  - `VITE_API_URL` (point to backend)
 - Create `.env.example` listing keys (do NOT commit real secrets)
 
 5) Simple deployment flow (CI/CD)
@@ -45,10 +47,17 @@ Goal: Keep deployment minimal, reproducible, and easy to explain during an inter
 8) Backups and security (minimal)
 - Use MongoDB Atlas automated backups (recommended)
 - Enable rate-limits on auth endpoints, set secure cookies, enforce HTTPS, and use helmet
+- For OAuth: Configure Google Cloud Console redirect URIs, set cookie sameSite='none' in production
 
 9) Rollback and testing 
 - Keep previous Docker image tags for one rollback step
-- Add a smoke test in CI that exercises signup/login and fetch-feed after deploy
+- Add a smoke test in CI that exercises signup/login (email & OAuth) and fetch-feed after deploy
+- Test Redis connection in production and verify cache invalidation works
+
+10) Additional services setup
+- **Google OAuth**: Configure in Google Cloud Console, add authorized redirect URIs
+- **Redis**: Use managed Redis (Upstash, Redis Cloud, AWS ElastiCache) for production
+- **Socket.IO**: Ensure WebSocket/Socket.IO connections work across load balancers (use Redis adapter)
 
 10) What to show in an interview
 - A short slide or single-page doc describing:

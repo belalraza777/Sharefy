@@ -19,7 +19,9 @@ import SearchRouter from "./routes/searchRoute.js";
 import ChatRouter from "./routes/chatRoute.js";
 import StoryRouter from "./routes/storyRoute.js";
 import DiscoverRouter from "./routes/discoverRoute.js";
+import oAuthRouter from "./routes/oAuthRoute.js";
 import ErrorHandle from "./middlewares/errorClass.js";
+import passport from "./config/passport.js";
 
 const app = express();
 
@@ -40,6 +42,7 @@ app.use(cors({
 app.use(helmet()); // Set security-related HTTP headers
 app.use(globalLimiter); // Rate limiting
 app.use(morgan("combined")); // Logging HTTP requests
+app.use(passport.initialize()); // Initialize Passport for OAuth
 
 // Connect to MongoDB
 connectDB();
@@ -56,16 +59,17 @@ app.get("/api/v1/health", (req, res) => {
   res.status(200).json(health);
 });
 
-app.use("/api/v1/auth", AuthRouter);
-app.use("/api/v1/users", UserRouter);
-app.use("/api/v1/posts", PostRouter);
-app.use("/api/v1/comments", CommentRouter);
-app.use("/api/v1/notifications", NotificationRouter);
-app.use("/api/v1/saved-posts", SavedPostRouter);
-app.use("/api/v1/search", SearchRouter);
-app.use("/api/v1/chat", ChatRouter);
-app.use("/api/v1/stories", StoryRouter);
-app.use("/api/v1/discover", DiscoverRouter);
+app.use("/api/v1/auth", AuthRouter);    //Auth routes
+app.use("/api/v1/auth", oAuthRouter);   // OAuth routes
+app.use("/api/v1/users", UserRouter);   //User routes like profile, follow, unfollow
+app.use("/api/v1/posts", PostRouter);   //Post routes like create 
+app.use("/api/v1/comments", CommentRouter);   //Comment routes
+app.use("/api/v1/notifications", NotificationRouter);   //Notification routes
+app.use("/api/v1/saved-posts", SavedPostRouter);   //Saved posts routes
+app.use("/api/v1/search", SearchRouter);   //Search routes
+app.use("/api/v1/chat", ChatRouter);    //Chat routes
+app.use("/api/v1/stories", StoryRouter);    //Story routes
+app.use("/api/v1/discover", DiscoverRouter);   //Discover routes
 
 // Unknown route
 app.use((req, res, next) => {
