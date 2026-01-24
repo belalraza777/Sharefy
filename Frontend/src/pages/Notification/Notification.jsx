@@ -6,15 +6,18 @@ import './Notification.css'
 export default function Notification() {
     const { notifications, getNotifications, markAsRead, markAllAsRead, loading } = useNotificationStore()
 
-    //on mount function
-    async function onMount() {
-        await getNotifications();
-        await markAllAsRead();
-    }
-    // Use effect to call onMount on component mount
+    // Fetch notifications on mount and mark all as read
     useEffect(() => {
+        const onMount = async () => {
+            await getNotifications();
+            const { notifications } = useNotificationStore.getState();
+            const hasUnread = notifications.some(n => !n.isRead);
+            if (hasUnread) {
+                await markAllAsRead();
+            }
+        };
         onMount();
-    }, [])
+    }, [notifications]);
 
 
     // Mark notification as read when clicked

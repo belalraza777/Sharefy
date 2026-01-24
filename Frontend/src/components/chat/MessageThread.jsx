@@ -8,24 +8,35 @@ import Skeleton from '../Skeleton/Skeleton';
 import './MessageThread.css';
 
 const MessageThread = () => {
+  // Get current chat user id from URL
   const { userId } = useParams();
+
+  // Messages state from chat store
   const { messages, loading } = useChatStore();
+
+  
+  // Logged-in user (to detect own messages)
   const { user } = useAuth();
+
+  // Ref used to auto-scroll to bottom
   const messagesEndRef = useRef(null);
 
-  // Get messages for the current thread
+  // Messages for the active chat
   const currentMessages = messages[userId] || [];
 
-  // Auto-scroll to bottom when messages change
+  // Auto-scroll when new messages arrive
   useEffect(() => {
     if (messagesEndRef.current) {
-      // Use setTimeout to ensure DOM is updated
       setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        messagesEndRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'end',
+        });
       }, 100);
     }
   }, [currentMessages.length]);
 
+  // Loading state (messages are being fetched)
   if (loading) {
     return (
       <div className="message-thread">
@@ -42,20 +53,25 @@ const MessageThread = () => {
   return (
     <div className="message-thread">
       {currentMessages.length === 0 ? (
+        // Empty state when no messages exist
         <div className="message-empty">
           <p>No messages yet. Start the conversation!</p>
         </div>
       ) : (
         <>
+          {/* Messages list */}
           <div className="message-list">
             {currentMessages.map((message) => (
               <MessageBubble
                 key={message._id}
                 message={message}
+                // Used to style own messages differently
                 isMine={message.senderId === user.id}
               />
             ))}
           </div>
+
+          {/* Scroll anchor */}
           <div ref={messagesEndRef} style={{ height: '1px' }} />
         </>
       )}

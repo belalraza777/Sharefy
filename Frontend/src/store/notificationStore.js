@@ -5,7 +5,7 @@ const useNotificationStore = create((set) => ({
   notifications: [],
   unreadCount: 0,
   loading: false,
-  
+
   getNotifications: async () => {
     set({ loading: true });
     try {

@@ -2,6 +2,9 @@
 import { io } from "socket.io-client";
 import useNotificationStore from "./store/notificationStore";
 import useChatStore from "./store/chatStore";
+import { toast } from 'sonner';
+import sound from "./assets/notification.mp3";
+const notificationSound = new Audio(sound);
 
 
 // Single shared socket instance
@@ -14,7 +17,7 @@ export const connectSocket = (token) => {
     socket.disconnect();
   }
   // Resolve server URL: prefer VITE_SOCKET_URL, fall back to VITE_API_URL without the /api path
-  const SERVER_URL = (import.meta && import.meta.env && import.meta.env.VITE_SOCKET_URL) || ((import.meta && import.meta.env && import.meta.env.VITE_API_URL) ? import.meta.env.VITE_API_URL.replace(/\/api\/v1\/?$/,'') : ((typeof process !== 'undefined' && process.env && process.env.VITE_API_URL) ? process.env.VITE_API_URL.replace(/\/api\/v1\/?$/,'') : 'http://localhost:8000'));
+  const SERVER_URL = (import.meta && import.meta.env && import.meta.env.VITE_SOCKET_URL) || ((import.meta && import.meta.env && import.meta.env.VITE_API_URL) ? import.meta.env.VITE_API_URL.replace(/\/api\/v1\/?$/, '') : ((typeof process !== 'undefined' && process.env && process.env.VITE_API_URL) ? process.env.VITE_API_URL.replace(/\/api\/v1\/?$/, '') : 'http://localhost:8000'));
   // Prefer provided token, otherwise read from localStorage
   const authToken = token || localStorage.getItem('token');
   // Connect with authentication
@@ -41,21 +44,32 @@ export const connectSocket = (token) => {
 
     // Add to store using getState()
     useNotificationStore.getState().addNotification(notification);
+    // Play sound
+    notificationSound.play().catch((err) => {
+      console.error("Error playing notification sound:", err);
+    });
+    // Show toast
+    toast.info(notification.message);
 
-    // Show browser notification
-    if ("Notification" in window && Notification.permission === "granted") {
-      new Notification(notification.message, { icon: "/favicon.ico" });
-    }
   });
 
-  // // Listen for chat messages (components will handle via getSocket())
-  // socket.on('newMessage', (msg) => {
-  //   console.log('Received newMessage', msg);
-  // });
+
+  // Listen for chat messages (components will handle via getSocket())
+  socket.on('newMessage', (msg) => {
+    console.log('Received newMessage', msg);
+    // Play sound
+    notificationSound.play().catch((err) => {
+      console.error("Error playing notification sound:", err);
+    });
+    // Show toast
+    toast.info(`New message`);
+  });
+
+
 
   // Listen for online users update
   socket.on('onlineUsers', (userIds) => {
-    console.log("onlineUser",userIds);
+    console.log("onlineUser", userIds);
     useChatStore.getState().setOnlineUsers(userIds);
   });
 

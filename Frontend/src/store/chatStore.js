@@ -8,10 +8,14 @@ import {
 // Chat store: keeps conversation list, per-user messages, current active chat,
 // loading/error flags, and online user ids. All actions are small and focused.
 const useChatStore = create((set, get) => ({
+
   // List of conversation objects (e.g. users you have chatted with)
   conversations: [],
+
   // Messages keyed by userId: { userId: [message, ...] }
+  //Important: messages are stored per user to allow easy access and avoid mixing messages from different users
   messages: {},
+
   // Currently opened chat user id
   activeUserId: null,
   // UI flags
@@ -43,11 +47,13 @@ const useChatStore = create((set, get) => ({
   getMessages: async (userId) => {
     set({ loading: true, error: null });
     const result = await getMessagesApi(userId);
-    console.log(result);
-
     if (result.success) {
       set((state) => ({
-        messages: { ...state.messages, [userId]: result.data },
+        // Merge new messages into messages object like: { userId: [msg, ...] }
+        messages: {
+          ...state.messages,
+          [userId]: result.data
+        },
         loading: false,
       }));
     } else {
@@ -61,6 +67,7 @@ const useChatStore = create((set, get) => ({
     if (result.success) {
       set((state) => ({
         messages: {
+          // Append to existing messages for userId 
           ...state.messages,
           [userId]: [...(state.messages[userId] || []), result.data],
         },
@@ -73,7 +80,7 @@ const useChatStore = create((set, get) => ({
   addIncomingMessage: (message) => {
     const userId = message.senderId;
     set((state) => ({
-      messages: {
+      messages: {   // Append to existing messages for userId
         ...state.messages,
         [userId]: [...(state.messages[userId] || []), message],
       },
@@ -85,7 +92,5 @@ const useChatStore = create((set, get) => ({
     set({ onlineUsers: userIds });
   }
 }));
-
-
 
 export default useChatStore; // Export hook for components
