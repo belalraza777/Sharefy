@@ -30,6 +30,7 @@
   padding-left: var(--space-md);
   margin-right: auto;
   margin-left: auto;
+  margin: 0;
 }
 
 /* Extra small devices (phones, 375px and up) */
