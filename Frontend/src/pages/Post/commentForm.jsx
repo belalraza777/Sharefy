@@ -12,7 +12,12 @@ export default function CommentForm({ postId, addComment, refreshPost }) {
 
     setIsLoading(true);
     try {
-      await addComment(postId, { text: commentText });
+    const result = await addComment(postId, { text: commentText });
+      if (!result.success) {
+        toast.error(result.message || 'Failed to add comment');
+        setIsLoading(false);
+        return;
+      }
       setCommentText('');
       await refreshPost();
       toast.success('Comment added successfully');

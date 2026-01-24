@@ -11,13 +11,19 @@ export default function Comment({ comment, onDelete }) {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+
   const handleProfileClick = () => {
     if (comment.user?.username) {
       navigate(`/profile/${comment.user.username}`);
     }
   };
 
-  
+  const handleDelete = async () => {
+    if (comment._id) {
+      await onDelete(comment._id);
+    }
+  };
+
 
   return (
     <div className="comment-item">
@@ -45,7 +51,7 @@ export default function Comment({ comment, onDelete }) {
           (
             <button
               className="delete-comment-btn"
-              onClick={() => comment._id && onDelete(comment._id)}
+              onClick={handleDelete}
               title="Delete comment" >
               <MdDeleteForever />
             </button>

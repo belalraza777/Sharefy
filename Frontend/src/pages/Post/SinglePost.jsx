@@ -11,6 +11,7 @@ import CommentForm from './commentForm';
 import './singlePost.css';
 import PostOptionsMenu from '../../components/post/PostOptionsMenu';
 import { toast } from 'sonner';
+import Skeleton from '../../components/Skeleton/Skeleton';
 
 
 export default function SinglePost() {
@@ -34,19 +35,30 @@ export default function SinglePost() {
     return () => document.removeEventListener('mousedown', handleClick);
   }, [moreOpen]);
 
+  async function fetchPost() {
+    await getPostById(postId);
+  }
+
   useEffect(() => {
-    getPostById(postId);
+    fetchPost();
   }, [postId, getPostById]);
 
+
   if (!post) return <div className="loading-container">
-    
+     <Skeleton variant="post" className="loading-skeleton" />
+     <Skeleton variant="text" className="loading-skeleton" />
+     <Skeleton variant="text" className="loading-skeleton" />
   </div>;
 
-  const refreshPost = () => getPostById(postId);
+  const refreshPost = async () => await getPostById(postId);
 
   const handleDeleteComment = async (commentId) => {
     try {
-      await deleteComment(postId, commentId);
+     const result = await deleteComment(postId, commentId);
+      if (!result.success) {
+        toast.error(result.message || 'Failed to delete comment');
+        return;
+      }
       await refreshPost();
       toast.success('Comment deleted successfully');
     } catch (error) {
@@ -81,6 +93,7 @@ export default function SinglePost() {
               </div>
             </div>
           </div>
+
           {/* more options */}
           <div className="more-container" style={{ position: 'relative' }}>
             <button className="more-btn" onClick={handleMoreClick}>⋯</button>

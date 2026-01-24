@@ -1,5 +1,6 @@
 // Importing the Mongoose library
 import mongoose from "mongoose";
+import Post from "./postModel.js";
 
 // Defining the schema for the Comment model
 const commentSchema = new mongoose.Schema({
