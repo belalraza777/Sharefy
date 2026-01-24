@@ -1,0 +1,35 @@
+.suggested-mobile{padding:8px 0}
+.suggested-mobile-list{display:flex;gap:10px;overflow-x:auto;padding:6px 8px}
+.suggested-mobile-item{display:flex;flex-direction:column;align-items:center;min-width:72px;text-align:center;cursor:pointer}
+.s-avatar{width:56px;height:56px;border-radius:50%;overflow:hidden}
+.s-avatar img{width:100%;height:100%;object-fit:cover}
+.s-username{font-size:12px;color:var(--text-muted);margin-top:6px}
+.s-action{margin-top:6px}
+
+/* hide on desktop */
+@media(min-width:900px){
+  .suggested-mobile{display:none}
+}
+
+/* Mobile-specific follow button overrides to keep buttons compact */
+.suggested-mobile .follow-btn{
+  padding:6px 10px !important;
+  min-width:unset !important;
+  font-size:12px !important;
+  border-radius:10px !important;
+  box-shadow:none !important;
+}
+.suggested-mobile .follow-btn::before{display:none !important}
+.suggested-mobile .follow-btn.following{
+  background:var(--white) !important;
+  border:1px solid var(--primary) !important;
+  color:var(--primary) !important;
+}
+.suggested-mobile-list{margin:0;list-style:none}
+.suggested-mobile-item{background:transparent;padding-bottom:4px}
+.suggested-mobile-list::-webkit-scrollbar{height:6px}
+.suggested-mobile-list::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:6px}
+
+/* Header styles for mobile suggestions */
+.s-header{display:flex;flex-direction:column;gap:2px;padding:0 8px;margin-bottom:6px}
+.s-title{font-size:13px;font-weight:600;color:var(--text)}

@@ -21,7 +21,6 @@ export default function SinglePost() {
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef();
   
-  console.log("single", post);
 
   // Close more options when clicking outside
   useEffect(() => {
@@ -39,7 +38,9 @@ export default function SinglePost() {
     getPostById(postId);
   }, [postId, getPostById]);
 
-  if (!post) return <div className="loading-container"><p>Loading post...</p></div>;
+  if (!post) return <div className="loading-container">
+    
+  </div>;
 
   const refreshPost = () => getPostById(postId);
 

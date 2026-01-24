@@ -10,6 +10,7 @@ import './feed.css';
 import StoryCircles from '../../components/Story/StoryCircles';
 import StoryViewer from '../../components/Story/StoryViewer';
 import CreateStory from '../../components/Story/CreateStory';
+import SuggestedUsersMobile from '../../components/Discover/SuggestedUsersMobile';
 import { useAuth } from '../../context/authContext';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import { IoImagesOutline } from 'react-icons/io5';
@@ -100,7 +101,10 @@ export default function Feed() {
           </div>,
           document.body
         )}
+
+        { /* Story Viewer Modal */ }
         <StoryViewer />
+        
       </div>
       {/* Create Post Bar - quick entry below stories (visible in main feed) */}
       <div className="create-post-bar">
@@ -125,6 +129,10 @@ export default function Feed() {
           </Link>
         </div>
       </div>
+
+      {/* Suggested Users Mobile  */}
+      <SuggestedUsersMobile /> 
+
       {/* Create Post Prompt */}
       {/* <div className="create-post-prompt">
         <div className="prompt-content">

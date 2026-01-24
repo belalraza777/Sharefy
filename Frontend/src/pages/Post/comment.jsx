@@ -17,7 +17,6 @@ export default function Comment({ comment, onDelete }) {
     }
   };
 
-  console.log("comment", comment); 
   
 
   return (
