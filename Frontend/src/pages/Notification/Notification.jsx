@@ -1,14 +1,15 @@
-import useNotificationStore from '../../store/notificationStore'
-import { useEffect } from 'react'
-import { SkeletonUser } from '../../components/Skeleton/Skeleton'
-import './Notification.css'
+
+import useNotificationStore from '../../store/notificationStore';
+import { useEffect } from 'react';
+import { SkeletonUser } from '../../components/Skeleton/Skeleton';
+import './Notification.css';
 
 export default function Notification() {
-    const { notifications, getNotifications, markAsRead, markAllAsRead, loading } = useNotificationStore()
+    const { notifications, getNotifications, markAsRead, markAllAsRead, loading } = useNotificationStore();
 
-    // Fetch notifications on mount and mark all as read
+    // Fetch notifications and mark all as read only once on mount
     useEffect(() => {
-        const onMount = async () => {
+        const fetchAndMark = async () => {
             await getNotifications();
             const { notifications } = useNotificationStore.getState();
             const hasUnread = notifications.some(n => !n.isRead);
@@ -16,16 +17,16 @@ export default function Notification() {
                 await markAllAsRead();
             }
         };
-        onMount();
-    }, [notifications]);
-
+        fetchAndMark();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // Mark notification as read when clicked
     const handleNotificationClick = async (notification) => {
         if (!notification.isRead) {
-            await markAsRead(notification._id)
+            await markAsRead(notification._id);
         }
-    }
+    };
 
     if (loading) {
         return (
@@ -39,7 +40,7 @@ export default function Notification() {
                     <SkeletonUser />
                 </div>
             </div>
-        )
+        );
     }
 
     if (notifications.length === 0) {
@@ -50,13 +51,12 @@ export default function Notification() {
                     <p>No notifications yet</p>
                 </div>
             </div>
-        )
+        );
     }
 
     return (
         <div className="notifications-page">
             <h2>Notifications</h2>
-
             <div className="notifications-list">
                 {notifications.map(notification => (
                     <div
@@ -73,7 +73,6 @@ export default function Notification() {
                                 </div>
                             )}
                         </div>
-
                         <div className="notification-content">
                             <p>
                                 <strong>{notification.sender?.username || 'Someone'}</strong>
@@ -83,11 +82,10 @@ export default function Notification() {
                                 {new Date(notification.createdAt).toLocaleDateString()}
                             </span>
                         </div>
-
                         {!notification.isRead && <div className="unread-dot"></div>}
                     </div>
                 ))}
             </div>
         </div>
-    )
+    );
 }

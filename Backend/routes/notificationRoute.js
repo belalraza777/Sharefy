@@ -9,7 +9,7 @@ const router = express.Router();
 router.get("/", verifyAuth, asyncWrapper(getNotifications));
 
 // Mark all as read 
-router.patch('/read-all', asyncWrapper(markAllAsRead)); 
+router.patch('/read-all', verifyAuth, asyncWrapper(markAllAsRead)); 
 
 // Mark a notification as read
 router.patch("/:id/read", verifyAuth, asyncWrapper(markAsRead));
