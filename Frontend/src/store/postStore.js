@@ -71,14 +71,44 @@ const usePostStore = create((set) => ({
     if (result.success) {
       const updatedPost = result.data;
 
-      set((state) => ({
-        posts: state.posts.map((p) =>
-          p._id === id ? updatedPost : p
-        ),
-        post:
-          state.post?._id === id ? updatedPost : state.post,
-        likingPostId: null,
-      }));
+      set((state) => {
+        const prevPost = state.post;
+        // Shallow merge updated post into previous post
+        let mergedPost = prevPost?._id === id ? { ...prevPost, ...updatedPost } : prevPost;
+
+        // If the API returned comment IDs (not populated objects), keep the
+        // previously populated comments to avoid breaking the UI.
+        if (
+          prevPost &&
+          prevPost.comments &&
+          Array.isArray(updatedPost.comments) &&
+          updatedPost.comments.length > 0
+        ) {
+          const first = updatedPost.comments[0];
+          const isPopulated = typeof first === 'object' && first !== null;
+          if (!isPopulated) {
+            mergedPost = { ...mergedPost, comments: prevPost.comments };
+          }
+        }
+
+        return {
+          posts: state.posts.map((p) => {
+            if (p._id !== id) return p;
+            // Merge response into existing feed post but preserve populated
+            // `user` and `comments` if server returned unpopulated values.
+            let merged = { ...p, ...updatedPost };
+            if (p.user && updatedPost.user && typeof updatedPost.user !== 'object') merged.user = p.user;
+            if (p.comments && Array.isArray(updatedPost.comments) && updatedPost.comments.length > 0) {
+              const first = updatedPost.comments[0];
+              const isPopulated = typeof first === 'object' && first !== null;
+              if (!isPopulated) merged.comments = p.comments;
+            }
+            return merged;
+          }),
+          post: mergedPost,
+          likingPostId: null,
+        };
+      });
     } else {
       set({ likingPostId: null });
     }
@@ -94,14 +124,39 @@ const usePostStore = create((set) => ({
     if (result.success) {
       const updatedPost = result.data;
 
-      set((state) => ({
-        posts: state.posts.map((p) =>
-          p._id === id ? updatedPost : p
-        ),
-        post:
-          state.post?._id === id ? updatedPost : state.post,
-        likingPostId: null,
-      }));
+      set((state) => {
+        const prevPost = state.post;
+        let mergedPost = prevPost?._id === id ? { ...prevPost, ...updatedPost } : prevPost;
+
+        if (
+          prevPost &&
+          prevPost.comments &&
+          Array.isArray(updatedPost.comments) &&
+          updatedPost.comments.length > 0
+        ) {
+          const first = updatedPost.comments[0];
+          const isPopulated = typeof first === 'object' && first !== null;
+          if (!isPopulated) {
+            mergedPost = { ...mergedPost, comments: prevPost.comments };
+          }
+        }
+
+        return {
+          posts: state.posts.map((p) => {
+            if (p._id !== id) return p;
+            let merged = { ...p, ...updatedPost };
+            if (p.user && updatedPost.user && typeof updatedPost.user !== 'object') merged.user = p.user;
+            if (p.comments && Array.isArray(updatedPost.comments) && updatedPost.comments.length > 0) {
+              const first = updatedPost.comments[0];
+              const isPopulated = typeof first === 'object' && first !== null;
+              if (!isPopulated) merged.comments = p.comments;
+            }
+            return merged;
+          }),
+          post: mergedPost,
+          likingPostId: null,
+        };
+      });
     } else {
       set({ likingPostId: null });
     }

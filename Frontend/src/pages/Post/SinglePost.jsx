@@ -21,7 +21,7 @@ export default function SinglePost() {
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef();
   
-  console.log(post);
+  console.log("single", post);
 
   // Close more options when clicking outside
   useEffect(() => {

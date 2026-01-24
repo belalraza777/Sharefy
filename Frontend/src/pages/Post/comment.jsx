@@ -17,6 +17,9 @@ export default function Comment({ comment, onDelete }) {
     }
   };
 
+  console.log("comment", comment); 
+  
+
   return (
     <div className="comment-item">
       <div className="comment-header">
@@ -34,11 +37,16 @@ export default function Comment({ comment, onDelete }) {
           </div>
         </div>
 
-        {(user && user.id === comment.user._id) &&
+        {/* Robust check: comment.user may be populated object, an id string, or undefined.
+            Normalize and compare to avoid reading `_id` of undefined which caused a crash. */}
+        {(() => {
+          const commentUserId = comment.user?._id || comment.user?.id || comment.user;
+          return (user && commentUserId && String(user.id) === String(commentUserId));
+        })() &&
           (
             <button
               className="delete-comment-btn"
-              onClick={() => onDelete(comment._id)}
+              onClick={() => comment._id && onDelete(comment._id)}
               title="Delete comment" >
               <MdDeleteForever />
             </button>
