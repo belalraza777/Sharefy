@@ -8,7 +8,14 @@ import { io, onlineUsers } from "../socket.js";
 import { getCache, setCache, deleteCache, deleteCachePattern } from "../utils/cache.js";
 
 
-/* Get Feed */
+/* Get Feed
+Fan-out Design:
+Two approaches to feed generation:
+1.Pull Model: Fetch posts from followed users on-the-fly (simpler but slower for many follows)
+2.Push Model: Pre-generate feed when followed users post (faster reads but complex writes)
+Here, we implement a Pull Model with caching for simplicity and performance.
+*/
+
 export const getFeed = async (req, res) => {
 
     // Validate page number if provided
