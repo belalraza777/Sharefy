@@ -29,11 +29,11 @@ export const getFeed = async (req, res) => {
     const skip = (page - 1) * limit; // Calculate the number of posts to skip
 
     // Check cache first
-    const cacheKey = `feed:${req.user.id}:${page}`;
-    const cachedFeed = await getCache(cacheKey);
-    if (cachedFeed) {
-        return res.status(200).json({ success: true, message: "Feed fetched", data: cachedFeed });
-    }
+    // const cacheKey = `feed:${req.user.id}:${page}`;
+    // const cachedFeed = await getCache(cacheKey);
+    // if (cachedFeed) {
+    //     return res.status(200).json({ success: true, message: "Feed fetched", data: cachedFeed });
+    // }
 
     // Find the currently authenticated user
     const user = await User.findById(req.user.id).lean();
@@ -42,7 +42,7 @@ export const getFeed = async (req, res) => {
     // Cache following list
     const followingCacheKey = `following:${req.user.id}`;
     let followingIds = await getCache(followingCacheKey);
-    
+
     if (!followingIds) {
         followingIds = await Follow.find({ follower: user._id }).distinct("following");
         await setCache(followingCacheKey, followingIds, 600); // 10 minutes
@@ -96,6 +96,7 @@ export const createPost = async (req, res) => {
 
     // Invalidate feed caches for all followers
     await deleteCachePattern(`feed:*`);
+    await deleteCache(`profile:${user.username}`);
 
     // 🔔 Create notifications for followers
     const followersRelationships = await Follow.find({ following: req.user.id });
@@ -106,7 +107,7 @@ export const createPost = async (req, res) => {
             sender: req.user.id,
             message: `created a new post`,
         }));
-        const insertedNotifications = await Notification.insertMany(notifications);  // bulk insert
+    const insertedNotifications = await Notification.insertMany(notifications);  // bulk insert
 
         // Emit real-time notifications to online followers
         for (const notification of insertedNotifications) {
