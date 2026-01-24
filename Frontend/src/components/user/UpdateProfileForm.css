@@ -1,0 +1,142 @@
+/* UpdateProfileForm.css */
+.update-profile-form {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+}
+
+.update-profile-form h2 {
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.update-profile-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.update-profile-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.update-profile-form input,
+.update-profile-form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: var(--surface);
+  color: var(--text-color);
+}
+
+.update-profile-form input:focus,
+.update-profile-form textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: var(--surface-alt);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+}
+
+.update-profile-form textarea {
+  min-height: 100px;
+  resize: vertical;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.update-profile-form button {
+  width: 100%;
+  padding: 0.875rem;
+  background-color: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.update-profile-form button:hover {
+  background-color: var(--primary-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+}
+
+.update-profile-form button:active {
+  transform: translateY(0);
+}
+
+.update-profile-form p {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Success message */
+.update-profile-form p:contains('successfully') {
+  background-color: rgba(0, 184, 148, 0.1);
+  color: var(--secondary);
+  border: 1px solid var(--secondary);
+}
+
+/* Error message */
+.update-profile-form p:not(:contains('successfully')) {
+  background-color: rgba(214, 48, 49, 0.1);
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .update-profile-form {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .update-profile-form h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .update-profile-form {
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .update-profile-form input,
+  .update-profile-form textarea {
+    padding: 0.625rem 0.875rem;
+  }
+  
+  .update-profile-form button {
+    padding: 0.75rem;
+  }
+}
+
+/* Loading state */
+.update-profile-form button:disabled {
+  background-color: var(--gray);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.update-profile-form button:disabled:hover {
+  background-color: var(--gray);
+}

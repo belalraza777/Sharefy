@@ -1,0 +1,446 @@
+/* singlePost.css */
+.single-post-container {
+  /* Fluid single-post container */
+  max-width: clamp(320px, 65vw, 600px);
+  margin: 0 auto;
+  padding: 1rem;
+  background: transparent !important;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+/* Loading State */
+.single-post-container .loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: var(--text-color-dim);
+}
+
+.single-post-container .loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e1e5e9;
+  border-top: 4px solid #6c5ce7;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Post Card */
+.single-post-container .post-card {
+  background: var(--card-bg) !important;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e1e5e9;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+/* Post Header */
+.single-post-container .post-header {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  border-bottom: 1px solid #e1e5e9;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.single-post-container .post-user {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: opacity 0.2s ease;
+}
+
+.single-post-container .post-user:hover {
+  opacity: 0.8;
+}
+
+.single-post-container .user-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary);
+  box-shadow: 0 2px 8px rgba(194, 64, 234, 0.3);
+  background: linear-gradient(45deg, rgb(108, 92, 231), #a29bfe);
+  transition: transform 0.2s ease;
+}
+
+.single-post-container .post-user:hover .user-avatar {
+  transform: scale(1.05);
+}
+
+.single-post-container .user-info .username {
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.1rem;
+  transition: color 0.2s ease;
+}
+
+.single-post-container .post-user:hover .username {
+  color: #6c5ce7;
+}
+
+.single-post-container .user-info .post-time {
+  font-size: 0.8rem;
+  color: var(--text-color-dim);
+}
+
+.single-post-container .more-btn {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  border-radius: 50%;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.single-post-container .more-btn:hover {
+  background: #f5f1ff;
+  color: #6c5ce7;
+  transform: scale(1.05);
+}
+
+.single-post-container .more-btn:active {
+  transform: scale(0.95);
+}
+
+.single-post-container .more-container {
+  position: relative;
+}
+
+/* Post Caption */
+.single-post-container .post-caption {
+  padding: 1.25rem;
+  color: var(--text-color) !important;
+  line-height: 1.5;
+  font-size: 1rem !important;
+  border-bottom: 1px solid #e1e5e9;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Post Media */
+.single-post-container .post-media {
+  width: 100%;
+}
+
+.single-post-container .media-image {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: cover;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Post media video styling */
+.single-post-container .media-video {
+  width: 99%;               /* full width of post card */
+  max-height: 500px;         /* limit height */
+  object-fit: cover;         /* maintain aspect ratio and cover area */
+  border-radius: 10px;       /* match card rounding */
+  display: block;            /* remove inline spacing issues */
+}
+
+/* Optional: add hover effect (like slight scale) */
+.single-post-container .post-media:hover .media-video {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .single-post-container .media-video {
+    max-height: 300px;
+  }
+}
+
+
+/* Post Stats */
+.single-post-container .post-stats {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.single-post-container .stats-grid {
+  display: flex;
+  gap: 2rem;
+}
+
+.single-post-container .stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color);
+  font-weight: 500;
+  cursor: default;
+  transition: color 0.2s ease;
+}
+
+.single-post-container .stat-item:hover {
+  color: var(--primary);
+}
+
+.single-post-container .stat-icon {
+  font-size: 1.1rem;
+}
+
+.single-post-container .comment-icon {
+  color: var(--secondary);
+}
+
+.single-post-container .share-icon {
+  color: var(--primary);
+}
+
+.single-post-container .stat-count {
+  font-size: 0.9rem;
+}
+
+/* Post Actions */
+.single-post-container .post-actions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  gap: 2rem;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.single-post-container .action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+  border: none;
+  background: var(--card-bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  border-radius: 8px;
+}
+
+.single-post-container .action-btn:hover {
+  background: var(--surface-alt);
+  color: var(--text-color);
+}
+
+/* ShareButton specific styling in single post */
+.single-post-container .share-button {
+  padding: 0.35rem 0.55rem;
+}
+
+.single-post-container .action-btn svg {
+  font-size: 1.2rem;
+}
+
+
+
+/* Comments Section */
+.single-post-container .comments-section {
+  padding: 1.25rem;
+}
+
+.single-post-container .comments-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+/* Add Comment Form */
+.single-post-container .add-comment-form {
+  margin-bottom: 1.5rem;
+}
+
+.single-post-container .comment-input-container {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.single-post-container .comment-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 25px;
+  font-size: 0.9rem;
+  background: var(--surface);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  width: 100%;;
+}
+
+.single-post-container .comment-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.12);
+}
+
+.single-post-container .comment-input:disabled {
+  background: var(--surface-alt);
+  cursor: not-allowed;
+}
+
+.single-post-container .comment-input::placeholder {
+  color: var(--text-color-dim);
+}
+
+.single-post-container .comment-submit-btn {
+  background: #6c5ce7;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.single-post-container .comment-submit-btn:hover:not(:disabled) {
+  background: #5649c0;
+  transform: translateY(-1px);
+}
+
+.single-post-container .comment-submit-btn:disabled {
+  background: #b2bec3;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Comments List */
+.single-post-container .comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.single-post-container .no-comments {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-color-dim);
+  font-style: italic;
+}
+
+.single-post-container .comment-item {
+  background: var(--surface-alt);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid #e1e5e9;
+}
+
+.single-post-container .comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.single-post-container .comment-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.single-post-container .comment-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary);
+  box-shadow: 0 2px 8px rgba(194, 64, 234, 0.3);
+  background: linear-gradient(45deg, rgb(108, 92, 231), #a29bfe);
+}
+
+.single-post-container .comment-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.single-post-container .comment-username {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+.single-post-container .comment-time {
+  font-size: 0.7rem;
+  color: var(--text-color-dim);
+}
+
+.single-post-container .delete-comment-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.single-post-container .delete-comment-btn:hover {
+  opacity: 1;
+  background: #ffeaea;
+}
+
+.single-post-container .comment-text {
+  color: var(--text-color);
+  line-height: 1.4;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .single-post-container {
+    padding: 0.5rem;
+  }
+
+  .single-post-container .post-header,
+  .single-post-container .post-caption,
+  .single-post-container .post-stats,
+  .single-post-container .post-actions,
+  .single-post-container .comments-section {
+    padding: 1rem;
+  }
+
+  .single-post-container .comment-input-container {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .single-post-container .comment-submit-btn {
+    width: 100%;
+  }
+}

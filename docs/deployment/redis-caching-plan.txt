@@ -1,0 +1,293 @@
+═══════════════════════════════════════════════════════════════════════════════
+                    REDIS CACHING IMPLEMENTATION PLAN
+                              Sharefy Backend
+                          Created: December 8, 2025
+                          Status: ✅ COMPLETED
+═══════════════════════════════════════════════════════════════════════════════
+
+CURRENT STATE
+═════════════
+- No caching exists - all queries hit MongoDB directly
+- JWT-based authentication (no session store)
+- In-memory rate limiting (resets on restart)
+- Socket.IO uses in-memory state (doesn't scale horizontally)
+- High-traffic endpoints: Feed, User Profiles, Search, Discover
+
+PERFORMANCE BOTTLENECKS
+═══════════════════════
+1. Feed generation - requires Follow lookup + Post query with populate
+2. User profiles - complex nested populates on followers/following
+3. Search autocomplete - expensive regex queries on username/fullName
+4. Following list - used by multiple endpoints (feed, discover, stories)
+5. Discover posts - expensive $nin queries
+6. Stories feed - complex query + heavy in-memory processing
+
+
+IMPLEMENTATION PHASES
+══════════════════════
+
+PHASE 1: INFRASTRUCTURE SETUP
+────────────────────────────────
+□ Install Redis packages
+  - npm install ioredis rate-limit-redis @socket.io/redis-adapter
+
+□ Create Redis configuration file
+  - File: Backend/config/redis.js
+  - Connection pool with retry logic
+  - Environment variables: REDIS_HOST, REDIS_PORT, REDIS_PASSWORD
+  - Error handling and reconnection
+
+□ Create cache utility layer
+  - File: Backend/utils/cache.js
+  - Functions: get(key), set(key, value, ttl), del(key), delPattern(pattern)
+  - Cache-aside pattern implementation
+  - JSON serialization/deserialization
+  - Key naming convention: resource:identifier:subresource
+
+
+PHASE 2: HIGH-PRIORITY CACHING
+────────────────────────────────
+□ Cache Following List (userController.js)
+  - Function: getFollowingList()
+  - Cache key: "following:{userId}"
+  - TTL: 1800 seconds (30 minutes)
+  - Critical: Used by feed, discover, stories endpoints
+  - Invalidate on: follow/unfollow
+
+□ Cache User Feed (postController.js)
+  - Function: getFeed()
+  - Cache key: "feed:{userId}:page:{pageNum}"
+  - TTL: 180 seconds (3 minutes)
+  - Invalidate on: new post from followed users, follow/unfollow
+
+□ Cache User Profile (userController.js)
+  - Function: getUserProfile()
+  - Cache key: "profile:{username}" and "profile:{username}:posts"
+  - TTL: 600 seconds (10 minutes)
+  - Invalidate on: profile update, post create/delete
+
+□ Cache Search Results (searchController.js)
+  - Function: searchUsers()
+  - Cache key: "search:{query}"
+  - TTL: 1800 seconds (30 minutes)
+  - Regex queries are expensive, high cache hit rate expected
+
+
+PHASE 3: CACHE INVALIDATION
+────────────────────────────────
+□ Invalidate on Post Creation (postController.js)
+  - Function: createPost()
+  - Invalidate: "feed:{userId}:page:*", "profile:{username}:posts"
+
+□ Invalidate on Post Deletion (postController.js)
+  - Function: deletePost()
+  - Invalidate: "profile:{username}:posts"
+
+□ Invalidate on Follow/Unfollow (userController.js)
+  - Functions: followUser(), unfollowUser()
+  - Invalidate: "following:{userId}", "feed:{userId}:page:*"
+
+□ Invalidate on Profile Update (userController.js)
+  - Function: updateProfile()
+  - Invalidate: "profile:{username}", "search:*"
+
+□ Invalidate on Comment (commentController.js)
+  - Function: addComment()
+  - Invalidate: "post:{postId}" (if implemented in Phase 4)
+
+
+PHASE 4: MEDIUM-PRIORITY CACHING (Optional)
+─────────────────────────────────────────────
+□ Cache Single Post Details (postController.js)
+  - Function: getPostById()
+  - Cache key: "post:{postId}"
+  - TTL: 300 seconds (5 minutes)
+  - Invalidate on: like/unlike, new comment, delete
+
+□ Cache Stories Feed (storyController.js)
+  - Function: getAllStories()
+  - Cache key: "stories:{userId}"
+  - TTL: 600 seconds (10 minutes)
+  - Invalidate on: new story creation
+
+□ Cache Discover Posts (discoverController.js)
+  - Function: getDiscover()
+  - Cache key: "discover:page:{pageNum}"
+  - TTL: 600 seconds (10 minutes)
+
+□ Cache Suggested Users (discoverController.js)
+  - Function: getSuggestedUsers()
+  - Cache key: "suggested:{userId}"
+  - TTL: 1800 seconds (30 minutes)
+
+□ Cache Notifications (notificationController.js)
+  - Function: getNotifications()
+  - Cache key: "notifications:{userId}"
+  - TTL: 60 seconds (1 minute)
+  - Invalidate on: new notification
+
+□ Cache Saved Posts (savedPostController.js)
+  - Function: getSavedPosts()
+  - Cache key: "saved:{userId}"
+  - TTL: 600 seconds (10 minutes)
+  - Invalidate on: save/unsave
+
+
+PHASE 5: INFRASTRUCTURE UPGRADES
+─────────────────────────────────
+□ Upgrade Rate Limiting to Redis (middlewares/rateLimit.js)
+  - Replace in-memory store with rate-limit-redis
+  - Persistent across restarts
+  - Supports distributed rate limiting for multiple instances
+
+
+FILES TO MODIFY
+═══════════════
+
+NEW FILES:
+  Backend/config/redis.js              - Redis connection setup
+  Backend/utils/cache.js               - Cache utility functions
+
+MODIFY:
+  Backend/controllers/postController.js      - Feed, post CRUD with caching
+  Backend/controllers/userController.js      - Profile, following with caching
+  Backend/controllers/searchController.js    - Search with caching
+  Backend/controllers/commentController.js   - Cache invalidation on comment
+  Backend/middlewares/rateLimit.js           - Redis-backed rate limiting
+  Backend/socket.js                          - Socket.IO Redis adapter
+  Backend/package.json                       - Add Redis dependencies
+  Backend/.env.example                       - Redis config variables
+
+
+ENVIRONMENT VARIABLES
+═════════════════════
+Add to .env:
+
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=
+REDIS_DB=0
+REDIS_KEY_PREFIX=sharefy:
+
+
+CACHE KEY PATTERNS
+══════════════════
+following:{userId}                - Following list for user
+feed:{userId}:page:{page}         - User feed pagination
+profile:{username}                - User profile data
+profile:{username}:posts          - User's posts
+search:{query}                    - Search results
+post:{postId}                     - Single post details
+stories:{userId}                  - Stories feed
+discover:page:{page}              - Discover posts pagination
+suggested:{userId}                - Suggested users for user
+notifications:{userId}            - Notifications list
+saved:{userId}                    - Saved posts list
+
+
+TTL STRATEGY
+════════════
+60 seconds   - Real-time data (notifications)
+180 seconds  - Frequently changing (feed)
+300 seconds  - Moderate change rate (post details)
+600 seconds  - Slow changing (profiles, stories, discover)
+1800 seconds - Rarely changing (following list, search, suggestions)
+
+
+CACHE INVALIDATION PATTERNS
+════════════════════════════
+1. Exact key deletion: del("profile:johndoe")
+2. Pattern deletion: delPattern("feed:12345:page:*")
+3. TTL expiration: Let cache expire naturally for eventual consistency
+4. Event-based: Invalidate immediately on write operations
+
+
+ESTIMATED PERFORMANCE IMPACT
+═════════════════════════════
+Feed queries:     40-60% reduction in DB load
+Profile queries:  50-70% reduction in DB load
+Search queries:   60-80% reduction in DB load
+Discover queries: 40-50% reduction in DB load
+
+
+TESTING CHECKLIST
+═════════════════
+✅ Test cache hit/miss for each endpoint
+✅ Verify cache invalidation works correctly
+✅ Test with Redis connection active
+□ Test with Redis down (graceful fallback to DB)
+□ Load test with caching enabled
+□ Monitor cache memory usage
+□ Check TTL expiration behavior
+□ Test cache stampede prevention
+□ Verify distributed rate limiting works
+□ Track latency improvements
+
+
+ACTUAL IMPLEMENTATION RESULTS
+══════════════════════════════
+✅ All controllers cached (postController, userController, searchController, 
+   discoverController, commentController, notificationController, 
+   savedPostController, storyController)
+✅ Redis configuration with dotenv integration
+✅ Cache utilities with error handling
+✅ Rate limiting upgraded to Redis store
+✅ Database connection abstracted to config/database.js
+✅ Tested Redis connection successfully
+✅ All original code patterns preserved
+
+
+MONITORING & OBSERVABILITY
+═══════════════════════════
+□ Log cache hit/miss rates
+□ Track Redis memory usage
+□ Monitor Redis connection health
+□ Alert on Redis downtime
+□ Dashboard for cache performance metrics
+□ Track latency improvements
+
+
+ROLLOUT STRATEGY
+════════════════
+1. Deploy Redis instance (development, staging, production)
+2. Implement Phase 1 (infrastructure) - deploy without caching enabled
+3. Enable Phase 2 (high-priority caching) one endpoint at a time
+4. Monitor performance and adjust TTLs
+5. Implement Phase 3 (invalidation) - test thoroughly
+6. Roll out Phase 4 & 5 gradually
+7. A/B test to measure real impact
+
+
+FALLBACK STRATEGY
+═════════════════
+- If Redis is unavailable, queries fall back to MongoDB
+- Implement try-catch in cache utility layer
+- Log Redis errors but don't crash server
+- Consider circuit breaker pattern for repeated failures
+
+
+DEPENDENCIES TO INSTALL
+════════════════════════
+npm install ioredis rate-limit-redis
+
+
+REDIS DEPLOYMENT OPTIONS
+═════════════════════════
+Development:  Local Redis or Docker
+Staging:      Redis Cloud, DigitalOcean Managed Redis
+Production:   AWS ElastiCache, Redis Enterprise, Upstash
+
+
+NOTES
+═════
+- Following list cache is CRITICAL - used by feed, discover, stories
+- Feed caching has highest impact on user experience
+- Search caching reduces expensive regex query load
+- Consider implementing cache warming for active users
+- Monitor cache hit rates to optimize TTLs
+- Redis persistence (RDB + AOF) recommended for production
+- Consider Redis Cluster for high availability
+
+═══════════════════════════════════════════════════════════════════════════════
+                              END OF PLAN
+═══════════════════════════════════════════════════════════════════════════════

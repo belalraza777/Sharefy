@@ -1,0 +1,24 @@
+/* StoryCircles: horizontal scroll list of story avatars with unviewed gradient ring */
+.story-bar-wrapper { width: 100%; padding: 8px 12px; box-sizing: border-box; }
+.story-bar { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; }
+.story-bar::-webkit-scrollbar { display: none; }
+
+.story-circle { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; cursor: pointer; width: 70px; }
+.story-circle.add { position: relative; }
+.story-circle.add .add-inner { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: #2d2d2d; color: #fff; font-size: 28px; font-weight: 600; }
+
+.story-circle.unviewed .story-avatar { padding: 3px; background: linear-gradient(135deg,#ff7a18,#af002d 70%); border-radius: 50%; }
+.story-circle.viewed .story-avatar { padding: 3px; background: #ccc; border-radius: 50%; }
+
+.story-avatar { width: 56px; height: 56px; object-fit: cover; border-radius: 50%; box-sizing: border-box; }
+.story-username { margin-top: 4px; font-size: 12px; max-width: 100%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+
+/* Skeletons */
+.story-circle.skeleton { animation: pulse 1.2s ease-in-out infinite; }
+.skeleton-inner { width: 56px; height: 56px; border-radius: 50%; background: #444; }
+.skeleton-text { width: 40px; height: 10px; background: #444; border-radius: 4px; }
+@keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+
+.story-error { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 12px; color: #ff4d4f; }
+.story-error button { background: #ff4d4f; color:#fff; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; }
+.story-error button:hover { opacity: .85; }

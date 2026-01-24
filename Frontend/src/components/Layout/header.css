@@ -1,0 +1,349 @@
+/* Enhanced Header Styles */
+.header {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.5rem 0;
+  width: 100%;
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  transition: all var(--transition-normal);
+}
+
+.header-content {
+  display: grid;
+  grid-template-columns: 200px 1fr 200px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  gap: 2rem;
+}
+
+/* Enhanced Logo/Brand */
+.header-brand {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Logo image styles (for `<img class="brand-logo">`) */
+.brand-logo {
+  display: block;
+  height: 40px; /* desktop default */
+  width: auto;
+  object-fit: contain;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform var(--transition-normal), opacity var(--transition-normal);
+}
+
+.brand-logo:hover {
+  transform: translateY(-2px) scale(1.02);
+  opacity: 0.98;
+}
+
+.header-brand .logo {
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-extrabold);
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.header-brand .logo::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--primary-gradient);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-normal);
+}
+
+.header-brand .logo:hover::after {
+  width: 100%;
+}
+
+/* Enhanced Search Bar */
+.header-search {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Enhanced User Info */
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  justify-content: flex-end;
+  padding: var(--space-sm);
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-normal);
+  min-height: 46px; /* iOS recommended touch target */
+  min-width: 46px;
+}
+
+.user-link {
+  text-decoration: none;
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-normal);
+}
+
+.user-link:hover .header-user {
+  background: rgba(108, 92, 231, 0.05);
+  transform: translateY(-1px);
+}
+
+.user-details {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-name {
+  font-weight: var(--font-weight-semibold);
+  font-size: 0.95rem;
+  color: var(--dark);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.user-username {
+  font-size: 0.8rem;
+  color: var(--dark-light);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.user-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 2px solid transparent;
+  background: var(--primary-gradient);
+  box-shadow: var(--shadow-primary);
+  transition: all var(--transition-normal);
+  position: relative;
+}
+
+.user-avatar::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: var(--radius-full);
+  background: var(--primary-gradient);
+  z-index: -1;
+  transition: all var(--transition-normal);
+}
+
+.user-link {
+  text-decoration: none;
+  color: inherit;
+  transition: all var(--transition-normal);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xs);
+}
+
+.user-link:hover {
+  transform: translateY(-2px);
+  background: rgba(108, 92, 231, 0.05);
+}
+
+.user-link:hover .user-avatar {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-primary-hover);
+}
+
+.user-link:hover .user-name {
+  color: var(--primary);
+}
+
+/* Align avatar and username inside the link */
+.header-user-area .user-link,
+.header-content .user-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-user-area .user-name,
+.header-content .user-name {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+}
+
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+  .header-content {
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 1rem;
+    padding: 0 1.5rem;
+  }
+  
+  .search-bar {
+    max-width: 450px;
+  }
+  
+  .header-brand .logo {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0.5rem 0;
+  }
+  
+  .header-content {
+    grid-template-columns: auto 1fr auto;
+    gap: 0.75rem;
+    padding: 0 1rem;
+    align-items: center;
+  }
+  
+  .header-brand .logo {
+    font-size: 1.4rem;
+  }
+  
+  .header-search {
+    margin: 0 0.5rem;
+  }
+  
+  .search-bar {
+    max-width: none;
+  }
+  
+  .user-details {
+    display: none;
+  }
+  
+  .user-avatar {
+    width: 42px;
+    height: 42px;
+    border-width: 2px;
+  }
+  
+  .header-user {
+    padding: 0.25rem;
+    min-width: 42px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0.5rem 0;
+  }
+  
+  .header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0 1rem;
+    align-items: stretch;
+  }
+  
+  /* Line 1: Title/Logo - centered */
+  .header-brand {
+    display: flex;
+    justify-content: center;
+    padding: 0.25rem 0;
+  }
+  
+  .header-brand .logo {
+    font-size: 1.4rem;
+  }
+  
+  /* Line 2: Search bar - full width */
+  .header-search {
+    width: 100%;
+    margin: 0;
+  }
+  
+  .search-bar {
+    max-width: none;
+    width: 100%;
+  }
+  
+  /* Line 3: Account/User - centered */
+  /* Hide top profile on very small screens — profile will appear in bottom nav */
+  /* The component uses `.header-user-area` as the wrapper; ensure it's hidden on mobile */
+  .header-user-area {
+    display: none;
+  }
+  
+  .user-details {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .user-name {
+    font-size: 0.9rem;
+    color: var(--dark);
+  }
+  
+  .user-avatar {
+    width: 42px;
+    height: 42px;
+  }
+  
+  /* Search bar mobile adjustments */
+  .search-bar input {
+    padding: 0.875rem 1.25rem 0.875rem 3rem;
+    font-size: 0.95rem;
+    border-radius: 30px;
+  }
+  
+  .search-icon {
+    left: 1.1rem;
+    font-size: 1rem;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 375px) {
+  .header-content {
+    padding: 0 0.5rem;
+    gap: 0.5rem;
+  }
+  
+  .header-brand .logo {
+    font-size: 1.2rem;
+  }
+  
+  .user-avatar {
+    width: 38px;
+    height: 38px;
+  }
+  
+  .search-bar input {
+    padding: 0.7rem 1rem 0.7rem 2.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .search-icon {
+    left: 0.9rem;
+    font-size: 0.9rem;
+  }
+}
