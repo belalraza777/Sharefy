@@ -1,42 +1,147 @@
+/* ===============================
+   Container
+   =============================== */
 .suggested-block {
   background: var(--surface);
-  border-radius: 10px;
-  padding: 0.75rem;
+  border-radius: 12px;
+  padding: 1rem;
   margin-bottom: 1rem;
+  box-sizing: border-box;
 }
+
+/* Section title */
 .suggested-title {
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin: 0 0 0.5rem 0;
+  margin-bottom: 0.75rem;
 }
+
+/* ===============================
+   User List
+   =============================== */
 .suggested-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* flexible spacing between items */
 }
+
 .suggested-item {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(0,0,0,0.04);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: background 0.15s ease;
+  cursor: pointer;
+  border-radius: 8px;
 }
-.suggested-avatar img {
+
+.suggested-item:hover {
+  background: rgba(239, 68, 68, 0.05);
+}
+
+/* Avatar */
+.suggested-avatar {
+  flex-shrink: 0;
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  object-fit: cover;
+  overflow: hidden;
 }
-.suggested-meta { flex: 1; }
-.suggested-name { font-weight: 600; }
-.suggested-username { color: var(--text-color-dim); font-size: 0.9rem; }
-.suggested-action { margin-left: auto; }
 
-.suggested-posts-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
-.suggested-post-item { display: flex; gap: 0.5rem; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
-.post-thumb img, .post-thumb video { width: 80px; height: 60px; object-fit: cover; border-radius: 8px; }
-.post-meta { flex: 1; }
-.post-author { font-weight: 600; font-size: 0.9rem; }
-.post-caption { color: var(--text-color-dim); font-size: 0.85rem; }
+.suggested-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+}
 
-.suggested-loading { padding: 0.5rem; color: var(--text-color-dim); }
+/* User Meta */
+.suggested-meta {
+  flex: 1; /* take remaining space */
+  min-width: 0; /* allow text truncation */
+}
+
+.suggested-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.suggested-username {
+  color: var(--text-color-dim);
+  font-size: 0.88rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Action button */
+.suggested-action {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ===============================
+   Loading state
+   =============================== */
+.suggested-loading {
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--text-color-dim);
+}
+
+/* ===============================
+   Suggested posts (optional)
+   =============================== */
+.suggested-posts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+.suggested-post-item {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.post-thumb img,
+.post-thumb video {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.post-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.post-author {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.post-caption {
+  color: var(--text-color-dim);
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

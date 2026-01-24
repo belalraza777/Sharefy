@@ -16,10 +16,10 @@ const RightSidebar = () => {
   return (
     <aside className="right-sidebar">
       {/* Create Post Card */}
-      <div className="sidebar-card">
+      {/* <div className="sidebar-card">
         <h3 className="card-title">What is on your mind, @{user?.username}</h3>
         <button className="post-button" onClick={handlePostClick}>Post</button>
-      </div>
+      </div> */}
 
      {/* suggested users */}
       <SuggestedUsers limit={10} />
