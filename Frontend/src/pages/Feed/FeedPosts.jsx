@@ -22,7 +22,7 @@ export default function FeedPosts({ posts, fetchMorePosts }) {
       }
       endMessage={
         <div className="infinite-scroll-end">
-          <p>🎉 You've seen all posts!</p>
+          <p>You've seen all posts!!</p>
         </div>
       }
     >
