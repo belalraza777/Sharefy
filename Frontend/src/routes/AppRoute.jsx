@@ -5,7 +5,7 @@ import ProtectedRoute from './ProtectedRoute';
 import ScrollToTop from './ScrollToTop';
 import Skeleton from '../components/Skeleton/Skeleton';
 
-const LoginPage = lazy(() => import('../pages/Auth/login'));
+import LoginPage from '../pages/Auth/login';
 const SignupPage = lazy(() => import('../pages/Auth/signup'));
 import Feed from '../pages/Feed/Feed';
 const SinglePost = lazy(() => import('../pages/Post/SinglePost'));
@@ -19,8 +19,7 @@ const SavedPost = lazy(() => import('../pages/SavedPost/SavedPost'));
 const Search = lazy(() => import('../pages/Search/Search'));
 const ChatPage = lazy(() => import('../pages/Chat/ChatPage'));
 const ThemePage = lazy(() => import('../pages/Theme/Theme'));
-const OAuthSuccess = lazy(() => import('../pages/oauth/oAuth-success'));
-
+import OAuthSuccess from '../pages/Auth/OAuthSuccess';
 
 const AppRoute = () => {
   return (
