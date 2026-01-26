@@ -1,3 +1,7 @@
+import User from "../models/userModel.js";
+import Post from "../models/postModel.js";
+import Follow from "../models/followModel.js";
+
 
 /* Get Feed
 Fan-out Design:
