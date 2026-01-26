@@ -5,13 +5,13 @@ import {postLimiter} from "../middlewares/rateLimit.js";
 import { postValidation } from "../middlewares/joiValidation.js";
 
 import {
-    getFeed,
     createPost,
     getPostById,
     likePost,
     unlikePost,
     deletePost
 } from "../controllers/postController.js";
+import getFeed from "../controllers/feedController.js";
 import upload from "../middlewares/uploadMiddleware.js"; 
 
 
