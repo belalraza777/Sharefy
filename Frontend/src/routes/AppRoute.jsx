@@ -4,9 +4,8 @@ import { Suspense, lazy } from 'react';
 import ProtectedRoute from './ProtectedRoute';
 import ScrollToTop from './ScrollToTop';
 import Skeleton from '../components/Skeleton/Skeleton';
-import OAuthSuccess from '../pages/Auth/OAuthSuccess';
+import OAuthSuccess from '../pages/oauth/oAuth-success';
 import Feed from '../pages/Feed/Feed';
-
 import LoginPage from '../pages/Auth/login';
 const SignupPage = lazy(() => import('../pages/Auth/signup'));
 const SinglePost = lazy(() => import('../pages/Post/SinglePost'));
