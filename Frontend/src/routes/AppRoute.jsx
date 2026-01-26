@@ -7,7 +7,7 @@ import Skeleton from '../components/Skeleton/Skeleton';
 
 import LoginPage from '../pages/Auth/login';
 const SignupPage = lazy(() => import('../pages/Auth/signup'));
-import Feed from '../pages/Feed/Feed';
+import Feed from '../pages/Feed/Feed.jsx';
 const SinglePost = lazy(() => import('../pages/Post/SinglePost'));
 const CreatePost = lazy(() => import('../pages/New_Post/CreatePost'));
 const Profile = lazy(() => import('../pages/User_Profile/Profile'));
