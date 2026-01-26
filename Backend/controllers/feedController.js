@@ -38,10 +38,9 @@ export default async function getFeed(req, res) {
     // const followingCacheKey = `following:${req.user.id}`;
     // let followingIds = await getCache(followingCacheKey);
 
-    if (!followingIds) {
-        followingIds = await Follow.find({ follower: user._id }).distinct("following");
-        // await setCache(followingCacheKey, followingIds, 600); // 10 minutes
-    }
+    // Since cache is not used, always fetch followingIds
+    const followingIds = await Follow.find({ follower: user._id }).distinct("following");
+    // await setCache(followingCacheKey, followingIds, 600); // 10 minutes
 
     // Find all posts from the users they are following
     const posts = await Post.find({ user: { $in: followingIds } })
