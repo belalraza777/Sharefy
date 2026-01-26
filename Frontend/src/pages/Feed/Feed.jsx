@@ -1,4 +1,5 @@
 // Feed.jsx
+import './feed.css';
 import React, { useEffect, useState } from 'react';
 import usePostStore from '../../store/postStore';
 import { useAuth } from '../../context/authContext';
@@ -7,7 +8,6 @@ import CreatePostBar from './CreatePostBar';
 import FeedPosts from './FeedPosts';
 import EmptyFeed from './EmptyFeed';
 import SuggestedUsersMobile from '../../components/Discover/SuggestedUsersMobile';
-import './feed.css';
 
 export default function Feed() {
   const { user } = useAuth();
