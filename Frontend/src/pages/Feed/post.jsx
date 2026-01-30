@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from 'react';
 import SavePostButton from '../../components/Buttons/savePostButton';
 import ShareButton from '../../components/Buttons/shareButton';
 import PostOptionsMenu from '../../components/post/PostOptionsMenu';
+import getOptimizedImage from '../../helper/getOptimizedUrl';
 
 
 export default function Post({ post }) {
@@ -67,7 +68,7 @@ export default function Post({ post }) {
         <div className="insta-post-media">
           {post.media.type === "video" ? (
             <video
-              src={post.media.url}
+              src={getOptimizedImage(post.media.url, 600)}
               controls
               className="insta-media-video"
               onClick={() => navigate(`/post/${post._id}`)}
@@ -75,9 +76,14 @@ export default function Post({ post }) {
             />
           ) : (
             <img
-              src={post.media.url}
+              src={getOptimizedImage(post.media.url, 600)}
               alt="Post content"
               className="insta-media-image"
+              width={600}
+              height={600}
+              loading="eager"   // Eager loading for better LCP
+              fetchpriority="high"  // High priority fetch for post media
+              decoding="async" // Async decoding for better performance
               onClick={() => navigate(`/post/${post._id}`)}
               style={{ cursor: 'pointer' }}
             />
@@ -103,8 +109,8 @@ export default function Post({ post }) {
       {/* Actions: Like, Comment, Share, Save */}
       <div className="insta-post-actions">
         <LikeButton post={post} />
-        <button 
-          className="insta-action-btn" 
+        <button
+          className="insta-action-btn"
           onClick={() => navigate(`/post/${post._id}`)}
           aria-label="Comment on post"
         >

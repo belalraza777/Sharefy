@@ -19,13 +19,11 @@ export default function SavedPost() {
     };
 
     return (
-        <div>
-            <h1>Saved Posts</h1>
+        <div className="savedpost-container">
+            <h1 className="savedpost-title">Saved Posts</h1>
 
             {loading && (
-                <div className="profile-posts-grid">
-                    <Skeleton variant="rect" width="100%" height="300px" />
-                    <Skeleton variant="rect" width="100%" height="300px" />
+                <div className="savedpost-grid">
                     <Skeleton variant="rect" width="100%" height="300px" />
                     <Skeleton variant="rect" width="100%" height="300px" />
                     <Skeleton variant="rect" width="100%" height="300px" />
@@ -35,20 +33,20 @@ export default function SavedPost() {
             {error && <p style={{ color: "red" }}>{error}</p>}
 
             {savedPosts.length === 0 ? (
-                <p>No saved posts yet.</p>
+                <p className="savedpost-empty">No saved posts yet.</p>
             ) : (
-                <div className="profile-posts-grid">
+                <div className="savedpost-grid">
                     {savedPosts.map((post) => (
                         <div
                             key={post.post._id}
-                            className="profile-post-item"
+                            className="savedpost-card"
                             onClick={() => handlePostClick(post.post._id)}
                         >
                             {/* Show image or video */}
                             {post.post.media?.type === "video" ? (
-                                <video src={post.post.media.url} muted />
+                                <video className="savedpost-card-image" src={post.post.media.url} muted />
                             ) : (
-                                <img src={post.post.media?.url} alt={post.caption || "Post"} />
+                                <img className="savedpost-card-image" src={post.post.media?.url} alt={post.caption || "Post"} />
                             )}
 
                             {/* Overlay on hover */}
