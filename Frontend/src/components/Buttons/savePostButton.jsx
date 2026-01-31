@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import useSavedPostStore from "../../store/savedPostStore";
 import { useAuth } from "../../context/authContext";
@@ -8,11 +8,12 @@ import "./savePostButton.css";
 export default function SavePostButton({ post }) {
     // Get user from auth context
     const { user } = useAuth();
-    // Get save and unsave functions from saved post store
-    const { savePost, unSavePost, savedPosts, ensureSavedPosts } = useSavedPostStore();
 
-    // State to track if the post is saved
-    const [saved, setSaved] = useState(false);
+    // Get save and unsave functions from saved post store
+    const { savePost, unSavePost, savedPosts, ensureSavedPosts } =
+        useSavedPostStore();
+
+    // Loading state for button
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -22,19 +23,20 @@ export default function SavePostButton({ post }) {
         }
     }, [user, ensureSavedPosts]);
 
-    // Check if the post is already saved by the user
-    useEffect(() => {
-        if (post && user) {
-            setSaved(savedPosts.some((savedPost) => savedPost.post._id === post._id));
-        }
+    // Check if the post is already saved by the user (derived state)
+    const saved = useMemo(() => {
+        if (!post || !user) return false;
+
+        return savedPosts.some(
+            (savedPost) => savedPost.post._id === post._id
+        );
     }, [savedPosts, post, user]);
-    
 
-    // Handle save and unsave toggle
-    const handleSaveToggle = async () => {
+    // Handle save and unsave toggle button click
+    const handleSaveToggle = useCallback(async () => {
         if (loading) return;
-        setLoading(true);
 
+        setLoading(true);
         try {
             if (saved) {
                 await unSavePost(post._id);
@@ -49,7 +51,7 @@ export default function SavePostButton({ post }) {
         } finally {
             setLoading(false);
         }
-    };
+    }, [loading, saved, post?._id, savePost, unSavePost]);
 
     return (
         <button
@@ -59,7 +61,11 @@ export default function SavePostButton({ post }) {
             aria-label={saved ? "Unsave post" : "Save post"}
         >
             {/* Show filled or empty bookmark icon based on saved state */}
-            {saved ? <BsBookmarkFill className="saved-icon" /> : <BsBookmark className="unsaved-icon" />}
+            {saved ? (
+                <BsBookmarkFill className="saved-icon" />
+            ) : (
+                <BsBookmark className="unsaved-icon" />
+            )}
         </button>
     );
 }

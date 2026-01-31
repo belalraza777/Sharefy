@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { TbShare3 } from "react-icons/tb";
 import { toast } from "sonner";
 import "./shareButton.css";
@@ -6,7 +6,7 @@ import "./shareButton.css";
 export default function ShareButton({ post }) {
   const [loading, setLoading] = useState(false);
 
-  const handleShare = async () => {
+  const handleShare = useCallback(async () => {
     if (loading) return;
     setLoading(true);
 
@@ -17,25 +17,29 @@ export default function ShareButton({ post }) {
       if (navigator.share) {
         await navigator.share({
           title: `Post by @${post.user.username}`,
-          text: post.caption || 'Check out this post on Sharefy!',
+          text: post.caption || "Check out this post on Sharefy!",
           url: postUrl,
         });
-        // toast.success('Shared successfully!');
       } else {
         // Fallback: Copy to clipboard
         await navigator.clipboard.writeText(postUrl);
-        // toast.success('Link copied to clipboard!');
+        toast.success("Link copied to clipboard!");
       }
     } catch (err) {
       // User cancelled the share or error occurred
-      if (err.name !== 'AbortError') {
-        console.error('Share error:', err);
-        toast.error('Failed to share');
+      if (err.name !== "AbortError") {
+        console.error("Share error:", err);
+        toast.error("Failed to share");
       }
     } finally {
       setLoading(false);
     }
-  };
+  }, [
+    loading,
+    post._id,
+    post.user.username,
+    post.caption
+  ]);
 
   return (
     <button

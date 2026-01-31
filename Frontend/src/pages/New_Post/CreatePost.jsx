@@ -173,7 +173,7 @@ export default function CreatePost() {
                                     onChange={handleFileInputChange}
                                     className="create-post-page__file-input"
                                 />
-                                Select from computer
+                                Select from device
                             </label>
                         </div>
                     ) : (

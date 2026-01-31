@@ -1,5 +1,6 @@
 // pages/Chat/ChatPage.jsx
 // React hooks and router helpers
+import './ChatPage.css';
 import { useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import useChatStore from '../../store/chatStore';
@@ -8,7 +9,6 @@ import { FiArrowLeft } from 'react-icons/fi';
 import ConversationList from '../../components/chat/ConversationList';
 import MessageThread from '../../components/chat/MessageThread';
 import MessageComposer from '../../components/chat/MessageComposer';
-import './ChatPage.css';
 
 const ChatPage = () => {
   // Get chat user id from URL (/chat/:userId)
@@ -76,8 +76,8 @@ const ChatPage = () => {
                 {/* User avatar & online status */}
                 {currentUser && (
                   <div className={`chat-header-avatar ${isOnline ? 'online' : ''}`}>
-                    {currentUser.profileImage ? (
-                      <img src={currentUser.profileImage} alt="" />
+                    {currentUser?.profileImage ? (
+                      <img src={currentUser?.profileImage} alt="" />
                     ) : (
                       <div className="chat-header-avatar-placeholder">
                         {(currentUser.name?.[0] ||
