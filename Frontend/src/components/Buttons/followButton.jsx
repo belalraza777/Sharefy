@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { useAuth } from '../../context/authContext';
 import useUserStore from '../../store/userStore.js';
 import { toast } from 'sonner';
@@ -6,77 +6,75 @@ import './followButton.css';
 
 const FollowButton = ({ userId }) => {
     // Get current user from auth context
-    const { user: currentUser } = useAuth();
+    const { user: currentUser, refreshUser } = useAuth();
+
     // Get follow/unfollow functions from store
     const { followUser, unfollowUser } = useUserStore();
-    
-    // State for button
-    const [isFollowing, setIsFollowing] = useState(false);
+
+    // Loading state for button
     const [loading, setLoading] = useState(false);
 
-    // Don't show button if it's user's own profile
+    // Is this the user's own profile?
     const isOwnProfile = currentUser?._id === userId;
-    if (isOwnProfile) return null;
 
-    // Check if current user is already following this user
-    useEffect(() => {
-        if (currentUser?.following && userId) {
-            // Look through following list to see if userId is there
-            const following = currentUser.following.some(
-                follow => follow.following === userId
-            );
-            setIsFollowing(following);
-        }
-    }, [currentUser, userId]);
+    // Check if current user is already following this user (derived state)
+    const isFollowing = useMemo(() => {
+        if (!currentUser?.following || !userId) return false;
 
-    const { refreshUser } = useAuth();
+        // Look through following list to see if userId is there
+        return currentUser.following.some(
+            follow => follow.following === userId
+        );
+    }, [currentUser?.following, userId]);
 
     // Handle follow/unfollow button click
-    const handleFollow = async () => {
+    const handleFollow = useCallback(async () => {
         if (loading) return; // Prevent multiple clicks
-        
+
         setLoading(true);
         try {
             if (isFollowing) {
                 // If already following, unfollow
                 await unfollowUser(userId);
-                setIsFollowing(false);
                 toast.success('User unfollowed');
-                // Refresh auth user so other components react to the change
-                try { await refreshUser(); } catch (e) { /* ignore */ }
             } else {
                 // If not following, follow
                 await followUser(userId);
-                setIsFollowing(true);
                 toast.success('User followed');
-                // Refresh auth user so other components react to the change
-                try { await refreshUser(); } catch (e) { /* ignore */ }
             }
-            
+
+            // Refresh auth user so other components react to the change
+            try {
+                await refreshUser();
+            } catch {
+                /* ignore refresh errors */
+            }
+
         } catch (error) {
             console.error('Follow error:', error);
             toast.error('Failed to update follow status');
         } finally {
             setLoading(false);
         }
-    };
+    }, [
+        loading,
+        isFollowing,
+        userId,
+        followUser,
+        unfollowUser,
+        refreshUser
+    ]);
 
-    // Show loading dots when processing
-    if (loading) {
-        return (
-            <button className="follow-btn loading" disabled>
-                ...
-            </button>
-        );
-    }
+    // ✅ Conditional render AFTER hooks
+    if (isOwnProfile) return null;
 
-    // Show "Following" or "Follow" based on current state
     return (
         <button
-            className={`follow-btn ${isFollowing ? 'following' : ''}`}
+            className={`follow-btn ${isFollowing ? 'following' : ''} ${loading ? 'loading' : ''}`}
             onClick={handleFollow}
+            disabled={loading}
         >
-            {isFollowing ? 'Following' : 'Follow'}
+            {loading ? '...' : isFollowing ? 'Following' : 'Follow'}
         </button>
     );
 };

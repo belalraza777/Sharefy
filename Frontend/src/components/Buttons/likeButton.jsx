@@ -1,50 +1,44 @@
 import { FcLike } from "react-icons/fc";
 import { FaRegHeart } from "react-icons/fa";
+import { useMemo, useCallback } from "react";
 import usePostStore from "../../store/postStore";
 import { useAuth } from "../../context/authContext";
 import "./likeButton.css";
 
 export default function LikeButton({ post }) {
-  const { user } = useAuth();
-
-  // Zustand store
+  const { user } = useAuth(); // Get the current authenticated user
+  //Store
   const { likePost, unlikePost, likingPostId } = usePostStore();
 
-  // Is this post liked by current user?
-  const liked = post.likes.includes(user.id);
+  // Check if the current user has liked the post in Memoized way
+  const liked = useMemo(
+    () => post.likes.includes(user?.id),
+    [post.likes, user?.id]
+  );
 
-  // Number of likes
-  const likesCount = post.likes.length;
-
-  // Loading state for this specific post
+  // Number of likes in Memoized way
+  const likesCount = useMemo(() => post.likes.length, [post.likes]);
+  
   const loading = likingPostId === post._id;
 
-  // Toggle like/unlike
-  const handleLikeToggle = async () => {
-    if (loading) return; // prevent double click
+  // Handle like/unlike action with useCallback which make the function memoized
+  const handleLikeToggle = useCallback(async () => {
+    if (loading || !user) return;
+    liked ? await unlikePost(post._id) : await likePost(post._id);
+  }, [loading, liked, post._id, likePost, unlikePost, user]);
 
-    if (liked) {
-      await unlikePost(post._id);
-    } else {
-      await likePost(post._id);
-    }
-  };
+  // Choose the appropriate icon based on like status
+  const Icon = liked ? FcLike : FaRegHeart;
 
   return (
     <button
       onClick={handleLikeToggle}
-      disabled={loading}
+      disabled={loading || !user}
       className={`like-button ${loading ? "loading" : ""}`}
       aria-label={liked ? "Unlike post" : "Like post"}
     >
-      {/* Heart icon */}
-      {liked ? (
-        <FcLike className="like-icon liked-icon" />
-      ) : (
-        <FaRegHeart className="like-icon unliked-icon" />
-      )}
+      <Icon className={`like-icon ${liked ? "liked-icon" : "unliked-icon"}`} />
 
-      {/* Likes count */}
       <span className={`like-text ${likesCount > 0 ? "has-likes" : ""}`}>
         {likesCount} {likesCount === 1 ? "Like" : "Likes"}
       </span>

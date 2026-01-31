@@ -1,25 +1,24 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { MdDelete } from 'react-icons/md';
 import usePostStore from '../../store/postStore';
-import { useState } from 'react';
 import { useAuth } from '../../context/authContext';
 import { toast } from 'sonner';
 
 const DeletePostButton = ({ post }) => {
     // Get user from auth context
     const { user } = useAuth();
+
     // Get delete post function from post store
     const { deletePost } = usePostStore();
+
     // State to track loading state
     const [loading, setLoading] = useState(false);
 
-    // Only show delete button if user is the post owner
-    if (user.id !== post.user._id) {
-        return null;
-    }
+    // Check ownership (derived value)
+    const isOwner = user?.id === post.user._id;
 
     // Handle post deletion
-    const handleDelete = async () => {
+    const handleDelete = useCallback(() => {
         toast("Are you sure you want to delete this post?", {
             action: {
                 label: "Delete",
@@ -37,11 +36,14 @@ const DeletePostButton = ({ post }) => {
                 },
             },
         });
-    };
+    }, [deletePost, post._id]);
+
+    // ✅ Conditional render AFTER hooks
+    if (!isOwner) return null;
 
     return (
         <button
-            className='btn btn-danger option-item danger'
+            className="btn btn-danger option-item danger"
             onClick={handleDelete}
             disabled={loading}
         >
