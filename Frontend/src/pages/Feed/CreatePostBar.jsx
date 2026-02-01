@@ -2,11 +2,13 @@
 import React from 'react';
 import './CreatePostBar.css';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/authContext';
 import { IoImagesOutline } from 'react-icons/io5';
 import { CiVideoOn } from 'react-icons/ci';
 
 // Quick post creation entry used across feed views
-export default function CreatePostBar({ user }) {
+export default function CreatePostBar() {
+  const { user } = useAuth();
   return (
     <div className="create-post-bar">
       <div className="create-post-bar__left">

@@ -79,8 +79,8 @@
     gap: var(--space-sm);
     background: var(--card-bg);
     box-shadow: var(--shadow-md);
-    position: fixed;
-    bottom: 4rem;
+    position: -webkit-sticky;
+    bottom: 0.5rem;
     width: 100%;
   }
 
@@ -111,8 +111,8 @@
   .message-composer {
     padding: 10px;
     gap: 8px;
-    position: fixed;
-    bottom: 4rem;
+    position: -webkit-sticky;
+    bottom: 0.5rem;
     width: 100%;
   }
 

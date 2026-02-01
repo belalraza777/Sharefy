@@ -1,4 +1,3 @@
-// Feed.jsx
 import './feed.css';
 import React, { useEffect, useState, useCallback } from 'react';
 import usePostStore from '../../store/postStore';
@@ -11,16 +10,16 @@ import SuggestedUsersMobile from '../../components/Discover/SuggestedUsersMobile
 
 export default function Feed() {
   const { user } = useAuth();
-  const posts = usePostStore((s) => s.posts);
-  const loading = usePostStore((s) => s.loading);
-  const getFeed = usePostStore((s) => s.getFeed);
+  const {posts, loading, getFeed} = usePostStore();
   const [page, setPage] = useState(1);
 
+  // Initial feed load
   useEffect(() => {
     getFeed(1);
     setPage(1);
   }, [getFeed]);
 
+// Fetch more posts for infinite scrolling
   const fetchMorePosts = useCallback(async () => {
     const nextPage = page + 1;
     setPage(nextPage);
@@ -35,7 +34,7 @@ export default function Feed() {
   return (
     <div className="feed-container">
       <FeedStories />
-      <CreatePostBar user={user} />
+      <CreatePostBar />
       <SuggestedUsersMobile />
       <FeedPosts posts={posts} fetchMorePosts={fetchMorePosts} />
     </div>
