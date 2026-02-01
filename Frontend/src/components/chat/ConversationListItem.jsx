@@ -5,7 +5,6 @@ import useChatStore from '../../store/chatStore';
 
 const ConversationListItem = ({ user }) => {
   const { onlineUsers } = useChatStore();
-  console.log(onlineUsers);
   
   // onlineUsers may be an object map of userId->true; check safely
   const isOnline = !!(onlineUsers && typeof onlineUsers === 'object' && onlineUsers[user._id]);

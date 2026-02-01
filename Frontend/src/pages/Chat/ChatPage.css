@@ -162,16 +162,6 @@
   }
 }
 
-/* Tablet responsive */
-@media (max-width: 1024px) {
-  .chat-container {
-    grid-template-columns: clamp(200px, 26vw, 300px) 1fr;
-  }
-
-  .chat-layout-container {
-    grid-template-columns: clamp(180px, 22vw, 220px) 1fr;
-  }
-}
 
 /* Mobile responsive */
 @media (max-width: 768px) {
@@ -234,6 +224,9 @@
 
   .chat-header {
     padding: var(--space-md);
+    position: fixed;
+    width: 100%;
+    z-index: 2;
   }
 
   .chat-header-info h3 {
@@ -267,6 +260,9 @@
   .chat-header {
     padding: 10px 12px;
     padding-top: max(10px, env(safe-area-inset-top));
+    position: fixed;
+    width: 100%;
+    z-index: 2;
   }
 
   .back-button {

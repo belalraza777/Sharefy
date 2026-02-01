@@ -183,12 +183,11 @@ export default function Profile() {
                                         className="profile-post-item"
                                         onClick={() => handlePostClick(post._id)}
                                     >
-                                        {post.media.type === 'video' ? (
-                                            <video src={post.media.url} muted />
+                                        {post.media?.type === 'video' ? (
+                                            <video src={post.media?.url} muted />
                                         ) : (
-                                            <img src={post.media.url} alt={post.caption} />
-                                        )}
-                                        <div className="post-overlay">
+                                            <img src={post.media?.url} alt={post.caption} />
+                                        )}                                        <div className="post-overlay">
                                             <span><FaHeart />{post.likes?.length || 0}</span>
                                             <span><FaComment />{post.comments?.length || 0}</span>
                                         </div>
