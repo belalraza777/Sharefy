@@ -33,7 +33,8 @@ export const createPost = async (req, res) => {
 
     // Create new Post document in MongoDB
     const post = new Post({
-        user: user._id, // Who created the post        media: {
+        user: user._id, // Who created the post
+        media: {
             url: result.secure_url,     // Public URL
             type: result.resource_type, // e.g. "image", "video"
             publicId: result.public_id, // Needed for deletion later
