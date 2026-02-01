@@ -224,7 +224,7 @@
 
   .chat-header {
     padding: var(--space-md);
-    position: fixed;
+    position: -webkit-sticky;
     width: 100%;
     z-index: 2;
   }
@@ -260,7 +260,7 @@
   .chat-header {
     padding: 10px 12px;
     padding-top: max(10px, env(safe-area-inset-top));
-    position: fixed;
+    position: -webkit-sticky;
     width: 100%;
     z-index: 2;
   }
