@@ -1,5 +1,5 @@
 // Feed.jsx
-import './Feed.css';
+import './feed.css';
 import React, { useEffect, useState, useCallback } from 'react';
 import usePostStore from '../../store/postStore';
 import { useAuth } from '../../context/authContext';
