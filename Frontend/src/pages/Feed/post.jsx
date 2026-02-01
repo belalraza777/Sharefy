@@ -31,13 +31,13 @@ const Post = React.memo(function Post({ post }) {
     navigate(`/post/${post._id}`);
   };
 
-  const handleProfileClick = useCallback(() => {
+  const handleProfileClick = (e) => {
     navigate(`/profile/${post.user.username}`);
-  }, [navigate, post.user?.username]);
+  };
 
-  const handleMoreClick = useCallback(() => {
-    setMoreOpen((prev) => !prev);
-  }, []);
+  const handleMoreClick = () => {
+    setMoreOpen(!moreOpen);
+  };
 
   return (
     <div className="insta-post-card">
