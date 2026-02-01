@@ -25,9 +25,15 @@ export const createPost = async (req, res) => {
         resource_type: "auto",
     });
 
+    //find User 
+    const user = await User.findById(req.user.id);
+    if (!user) {
+        return res.status(404).json({ success: false, message: "User not found" });
+    }
+
     // Create new Post document in MongoDB
     const post = new Post({
-        user: req.user.id, // Who created the post
+        user: user._id, // Who created the post
         media: {
             url: result.secure_url,     // Public URL
             type: result.resource_type, // e.g. "image", "video"
