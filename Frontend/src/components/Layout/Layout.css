@@ -1,21 +1,4 @@
-/* Layout.css - Updated for header height */
-:root {
-  /* Colors */
-  --primary: #6c5ce7;
-  --primary-light: #a29bfe;
-  --secondary: #00b894;
-  --accent: #fd79a8;
-  --warning: #fdcb6e;
-  --danger: #d63031;
-  
-  --dark: #2d3436;
-  --dark-light: #636e72;
-  --gray: #b2bec3;
-  --light-gray: #dfe6e9;
-  --light: #f5f6fa;
-  --white: #ffffff;
-}
-
+/* Layout - uses global CSS variables from index.css */
 .app-layout {
   min-height: 100vh;
   background: var(--background);
@@ -24,7 +7,7 @@
 
 .auth-layout {
   min-height: 100vh;
-  background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+  background: var(--primary-gradient);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -233,8 +216,8 @@
 .user-avatar-small {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+  border-radius: var(--radius-full);
+  background: var(--primary-gradient);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -283,7 +266,7 @@
 
 .view-comments {
   font-size: 0.8rem;
-  color: #6c5ce7;
+  color: var(--primary);
   text-decoration: none;
   font-weight: 500;
 }
@@ -333,8 +316,8 @@
   position: absolute;
   top: -6px;
   right: -6px;
-  background: #dc2626;
-  color: white;
+  background: var(--danger);
+  color: var(--white);
   font-size: 0.65rem;
   font-weight: 700;
   min-width: 16px;

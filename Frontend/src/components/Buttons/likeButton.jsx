@@ -8,7 +8,9 @@ import "./likeButton.css";
 export default function LikeButton({ post }) {
   const { user } = useAuth(); // Get the current authenticated user
   //Store
-  const { likePost, unlikePost, likingPostId } = usePostStore();
+  const likePost = usePostStore((s) => s.likePost);
+  const unlikePost = usePostStore((s) => s.unlikePost);
+  const likingPostId = usePostStore((s) => s.likingPostId);
 
   // Check if the current user has liked the post in Memoized way
   const liked = useMemo(

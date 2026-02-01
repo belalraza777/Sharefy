@@ -19,8 +19,8 @@
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
-  gap: 2rem;
+  padding: 0 var(--space-xl);
+  gap: var(--space-xl);
 }
 
 /* Enhanced Logo/Brand */
@@ -121,7 +121,7 @@
 .user-name {
   font-weight: var(--font-weight-semibold);
   font-size: 0.95rem;
-  color: var(--dark);
+  color: var(--text-color);
   margin: 0;
   line-height: 1.2;
 }
@@ -300,7 +300,7 @@
   
   .user-name {
     font-size: 0.9rem;
-    color: var(--dark);
+    color: var(--text-color);
   }
   
   .user-avatar {

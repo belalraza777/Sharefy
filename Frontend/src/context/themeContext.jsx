@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
 
 const ThemeContext = createContext();
 const THEME_KEY = 'sharefy-theme';
@@ -31,18 +31,19 @@ export const ThemeProvider = ({ children }) => {
     return () => mq.removeEventListener('change', handler);
   }, [theme, applyTheme]);
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setTheme((prev) => {
       if (prev === 'light') return 'dark';
       if (prev === 'dark') return 'light';
-      // if system -> decide based on current applied theme
       const applied = document.documentElement.dataset.theme;
       return applied === 'dark' ? 'light' : 'dark';
     });
-  };
+  }, []);
+
+  const value = useMemo(() => ({ theme, setTheme, toggleTheme }), [theme, toggleTheme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );

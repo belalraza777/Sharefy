@@ -8,12 +8,17 @@ import {
   deletePost as deletePostApi,
 } from '../api/postApi';
 
-const usePostStore = create((set) => ({
+const PAGE_SIZE = 20;
+
+const usePostStore = create((set, get) => ({
   // Feed posts
   posts: [],
 
   // Single post (detail page)
   post: null,
+
+  // Pagination: has more pages for infinite scroll
+  hasMore: true,
 
   // Global loading state
   loading: false,
@@ -24,13 +29,18 @@ const usePostStore = create((set) => ({
   // Track which post is being liked/unliked
   likingPostId: null,
 
-  // Fetch feed posts from server
+  // Fetch feed posts from server (appends for page > 1)
   getFeed: async (page = 1) => {
     set({ loading: true, error: null });
     const result = await getFeedApi(page);
 
     if (result.success) {
-      set({ posts: result.data, loading: false });
+      const newPosts = result.data || [];
+      set((state) => ({
+        posts: page === 1 ? newPosts : [...state.posts, ...newPosts],
+        hasMore: newPosts.length >= PAGE_SIZE,
+        loading: false,
+      }));
     } else {
       set({ error: result.message, loading: false });
     }

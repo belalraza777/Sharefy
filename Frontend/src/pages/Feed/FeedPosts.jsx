@@ -1,5 +1,6 @@
 // FeedPosts.jsx
 import React from 'react';
+import './FeedPosts.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Post from './post';
 import { SkeletonPost } from '../../components/Skeleton/Skeleton';
@@ -7,7 +8,7 @@ import usePostStore from '../../store/postStore';
 
 // Handles infinite scrolling and post rendering
 export default function FeedPosts({ posts, fetchMorePosts }) {
-  const { hasMore } = usePostStore();
+  const hasMore = usePostStore((s) => s.hasMore);
 
   return (
     <InfiniteScroll

@@ -1,16 +1,15 @@
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import LikeButton from '../../components/Buttons/likeButton';
 import { LuMessageCircle } from "react-icons/lu";
 import { useNavigate } from 'react-router-dom';
 import './post.css';
 import defaultAvatar from '../../assets/defaultAvatar.png';
-import { useState, useRef, useEffect } from 'react';
 import SavePostButton from '../../components/Buttons/savePostButton';
 import ShareButton from '../../components/Buttons/shareButton';
 import PostOptionsMenu from '../../components/post/PostOptionsMenu';
 import getOptimizedImage from '../../helper/getOptimizedUrl';
 
-
-export default function Post({ post }) {
+const Post = React.memo(function Post({ post }) {
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef();
   const navigate = useNavigate();
@@ -32,13 +31,13 @@ export default function Post({ post }) {
     navigate(`/post/${post._id}`);
   };
 
-  const handleProfileClick = (e) => {
+  const handleProfileClick = useCallback(() => {
     navigate(`/profile/${post.user.username}`);
-  };
+  }, [navigate, post.user?.username]);
 
-  const handleMoreClick = () => {
-    setMoreOpen(!moreOpen);
-  };
+  const handleMoreClick = useCallback(() => {
+    setMoreOpen((prev) => !prev);
+  }, []);
 
   return (
     <div className="insta-post-card">
@@ -81,9 +80,8 @@ export default function Post({ post }) {
               className="insta-media-image"
               width={600}
               height={600}
-              loading="eager"   // Eager loading for better LCP
-              fetchpriority="high"  // High priority fetch for post media
-              decoding="async" // Async decoding for better performance
+              loading="lazy"
+              decoding="async"
               onClick={() => navigate(`/post/${post._id}`)}
               style={{ cursor: 'pointer' }}
             />
@@ -121,4 +119,6 @@ export default function Post({ post }) {
       </div>
     </div>
   );
-}
+});
+
+export default Post;

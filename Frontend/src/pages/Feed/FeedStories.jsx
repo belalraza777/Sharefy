@@ -1,5 +1,6 @@
 // FeedStories.jsx
 import React, { useEffect, useState } from 'react';
+import './FeedStories.css';
 import { createPortal } from 'react-dom';
 import StoryCircles from '../../components/Story/StoryCircles';
 import StoryViewer from '../../components/Story/StoryViewer';

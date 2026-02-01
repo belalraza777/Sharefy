@@ -1,0 +1,5 @@
+/* FeedStories */
+.feed-stories-section {
+  margin-bottom: var(--space-lg);
+  position: relative;
+}

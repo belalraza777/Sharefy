@@ -16,7 +16,7 @@ const Header = () => {
           <img src={logo} alt="Sharefy Logo" className="brand-logo" />
         </div>
 
-        <div className="header-center">
+        <div className="header-search">
           <SearchBar />
         </div>
 

@@ -1,0 +1,12 @@
+/* OAuthSuccess - loading state */
+.oauth-success-container {
+  text-align: center;
+  margin-top: var(--space-3xl);
+  padding: var(--space-xl);
+}
+
+.oauth-success-container p {
+  margin-top: var(--space-md);
+  color: var(--text-color-dim);
+  font-weight: var(--font-weight-medium);
+}

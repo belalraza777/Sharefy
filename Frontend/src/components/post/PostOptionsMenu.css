@@ -5,7 +5,7 @@
   right: 0.7rem;
   background: var(--card-bg);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   z-index: 100;
   padding: 0.5rem 0;
@@ -13,16 +13,7 @@
   animation: slideDown 0.2s ease-out;
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* slideDown in animations.css */
 
 .option-item {
   width: 100%;
@@ -56,11 +47,11 @@
 }
 
 .option-item.danger {
-  color: #ed4956;
+  color: var(--danger);
 }
 
 .option-item.danger svg {
-  color: #ed4956;
+  color: var(--danger);
 }
 
 .option-item.danger:hover:not(:disabled) {

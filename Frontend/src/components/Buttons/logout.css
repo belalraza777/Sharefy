@@ -1,0 +1,11 @@
+/* LogoutButton - uses global .btn, .btn-primary, .loading-spinner */
+.logout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.logout-btn .loading-spinner {
+  margin-right: var(--space-sm);
+}

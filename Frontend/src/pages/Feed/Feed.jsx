@@ -1,6 +1,6 @@
 // Feed.jsx
-import './feed.css';
-import React, { useEffect, useState } from 'react';
+import './Feed.css';
+import React, { useEffect, useState, useCallback } from 'react';
 import usePostStore from '../../store/postStore';
 import { useAuth } from '../../context/authContext';
 import FeedStories from './FeedStories';
@@ -11,20 +11,21 @@ import SuggestedUsersMobile from '../../components/Discover/SuggestedUsersMobile
 
 export default function Feed() {
   const { user } = useAuth();
-  const { posts, getFeed, loading } = usePostStore();
-  const [page, setPage] = useState(1); 
+  const posts = usePostStore((s) => s.posts);
+  const loading = usePostStore((s) => s.loading);
+  const getFeed = usePostStore((s) => s.getFeed);
+  const [page, setPage] = useState(1);
 
-  // Load first page of feed posts on mount
   useEffect(() => {
     getFeed(1);
+    setPage(1);
   }, [getFeed]);
 
-  // Fetch next page for infinite scroll
-  const fetchMorePosts = async () => {
+  const fetchMorePosts = useCallback(async () => {
     const nextPage = page + 1;
     setPage(nextPage);
     await getFeed(nextPage);
-  };
+  }, [page, getFeed]);
 
   // Show empty feed state when no posts exist
   if (posts.length === 0 && !loading) {

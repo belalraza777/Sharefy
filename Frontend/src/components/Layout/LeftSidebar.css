@@ -17,8 +17,6 @@
   transition: all var(--transition-normal);
   z-index: 2;
   pointer-events: auto;
-  ;
-
 }
 
 .left-sidebar:hover {
@@ -112,7 +110,7 @@
   top: -8px;
   right: -8px;
   background: var(--danger);
-  color: white;
+  color: var(--white);
   font-size: 0.7rem;
   font-weight: var(--font-weight-bold);
   min-width: 18px;

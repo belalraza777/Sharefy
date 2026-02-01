@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext.jsx';
 import Skeleton from '../../components/Skeleton/Skeleton';
+import './oAuth-success.css';
 
 const OAuthSuccess = () => {
     const navigate = useNavigate();
@@ -22,9 +23,9 @@ const OAuthSuccess = () => {
     }, [navigate, refreshUser]);
 
     return (
-        <div style={{ textAlign: 'center', marginTop: '4rem' }}>
+        <div className="oauth-success-container">
             <Skeleton variant="circle" width="50px" height="50px" />
-            <p style={{ marginTop: '1rem' }}>Completing login...</p>
+            <p>Completing login...</p>
         </div>
     );
 };

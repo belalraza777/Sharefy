@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { register, login, logout, checkAuth, resetPassword, requestOtp, verifyOtp } from "../api/authApi";
 import { connectSocket, disconnectSocket } from "../socket"; // Import socket functions
 
@@ -110,20 +110,21 @@ export const AuthProvider = ({ children }) => {
         return await resetPassword(passwordData);
     };
 
+    const value = useMemo(() => ({
+        user,
+        token,
+        loading,
+        handleLogin,
+        handleRegister,
+        handleLogout,
+        handleRequestOtp,
+        handleVerifyOtp,
+        handleResetPassword,
+        refreshUser
+    }), [user, token, loading]);
+
     return (
-        // Provide all auth-related values and functions to app
-        <AuthContext.Provider value={{
-            user,
-            token,
-            loading,
-            handleLogin,
-            handleRegister,
-            handleLogout,
-            handleRequestOtp,
-            handleVerifyOtp,
-            handleResetPassword,
-            refreshUser
-        }}>
+        <AuthContext.Provider value={value}>
             {!loading && children}
         </AuthContext.Provider>
     );

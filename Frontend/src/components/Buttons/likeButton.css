@@ -4,28 +4,28 @@
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  padding: 0.2rem 0.4rem;
+  padding: var(--space-xs) var(--space-sm);
   background: none;
   border: none;
   color: inherit;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
-  transition: all 0.18s ease-in-out;
-  border-radius: 6px;
+  transition: all var(--transition-fast);
+  border-radius: var(--radius-sm);
   outline: none;
   position: relative;
 }
 
 /* Hover and focus */
 .like-button:hover {
-  background: rgba(239, 68, 68, 0.08);
-  color: #ef4444;
+  background: rgba(214, 48, 49, 0.08);
+  color: var(--danger);
   transform: translateY(-1px);
 }
 
-.like-button:focus {
-  outline: 2px solid rgba(239, 68, 68, 0.3);
+.like-button:focus-visible {
+  outline: 2px solid rgba(214, 48, 49, 0.3);
   outline-offset: 2px;
 }
 
@@ -47,16 +47,16 @@
 }
 
 .liked-icon {
-  color: #ef4444;
+  color: var(--danger);
   animation: heartBeat 0.6s ease-in-out;
 }
 
 .unliked-icon {
-  color: #64748b;
+  color: var(--text-color-dim);
 }
 
 .like-button:hover .unliked-icon {
-  color: #ef4444;
+  color: var(--danger);
 }
 
 .like-button:hover .liked-icon,
@@ -77,7 +77,7 @@
   background: rgba(255, 48, 64, 0.1);
   padding: 0.15rem 0.4rem;
   border-radius: 9999px;
-  color: #ff3040;
+  color: var(--danger);
   font-weight: 600;
 }
 

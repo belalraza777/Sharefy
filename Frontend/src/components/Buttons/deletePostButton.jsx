@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { MdDelete } from 'react-icons/md';
+import './deletePostButton.css';
 import usePostStore from '../../store/postStore';
 import { useAuth } from '../../context/authContext';
 import { toast } from 'sonner';

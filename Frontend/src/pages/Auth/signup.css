@@ -11,9 +11,9 @@
 
 .signup-card {
   background: var(--card-bg);
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  padding: 3rem 2.5rem;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-2xl);
+  padding: var(--space-2xl) var(--space-xl);
   width: 100%;
   max-width: 450px;
   position: relative;
@@ -27,8 +27,8 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--primary), #a29bfe);
-  border-radius: 20px 20px 0 0;
+  background: var(--primary-gradient);
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
 }
 
 .signup-header {
@@ -133,7 +133,8 @@
 
 .strength-bar {
   height: 6px;
-  background-color: rgba(223, 230, 233, 0.5);
+  background-color: var(--light-gray);
+  opacity: 0.5;
   border-radius: var(--radius-full);
   margin-top: var(--space-sm);
   overflow: hidden;
@@ -282,19 +283,11 @@
   border-left: 4px solid var(--warning);
 }
 
-/* Enhanced Loading Spinner */
-.loading-spinner {
+/* Loading - uses global .loading-spinner */
+.signup-btn .loading-spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top: 2px solid currentColor;
-  border-radius: var(--radius-full);
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  border-width: 2px;
 }
 
 /* Responsive adjustments */

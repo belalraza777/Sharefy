@@ -1,5 +1,4 @@
 // App.jsx
-import './App.css';
 import AppRoute from './routes/AppRoute';
 import Layout from './components/Layout/Layout';
 import { Toaster } from 'sonner';
@@ -8,9 +7,9 @@ import { ThemeProvider, useTheme } from './context/themeContext';
 // AppShell component to handle theming and layout
 const AppShell = () => {
   const { theme } = useTheme();
-  // Determine system preference for dark mode
-  const prefersDark = typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const applied = theme === 'system' ? (prefersDark ? 'dark' : 'light') : theme;
+  const applied = theme === 'system'
+    ? (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)')?.matches ? 'dark' : 'light')
+    : theme;
   return (
     <>
       <Toaster

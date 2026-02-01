@@ -1,5 +1,6 @@
 // CreatePostBar.jsx
 import React from 'react';
+import './CreatePostBar.css';
 import { Link } from 'react-router-dom';
 import { IoImagesOutline } from 'react-icons/io5';
 import { CiVideoOn } from 'react-icons/ci';

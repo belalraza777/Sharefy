@@ -1,6 +1,7 @@
 import { useAuth } from '../../context/authContext';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import './logout.css';
 import { toast } from 'sonner';
 
 export default function LogoutButton() {
@@ -28,7 +29,7 @@ export default function LogoutButton() {
     return (
         <button
             onClick={logoutFunction}
-            className="btn btn-primary"
+            className="btn btn-primary logout-btn"
         >
             {loading && <div className="loading-spinner"></div>}
             {loading ? 'Logging out...' : 'Logout'}

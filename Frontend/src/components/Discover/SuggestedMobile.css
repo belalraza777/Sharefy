@@ -32,4 +32,4 @@
 
 /* Header styles for mobile suggestions */
 .s-header{display:flex;flex-direction:column;gap:2px;padding:0 8px;margin-bottom:6px}
-.s-title{font-size:13px;font-weight:600;color:var(--text)}
+.s-title{font-size:13px;font-weight:600;color:var(--text-color)}

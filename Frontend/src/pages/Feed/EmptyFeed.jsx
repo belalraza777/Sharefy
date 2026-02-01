@@ -1,5 +1,6 @@
 // EmptyFeed.jsx
 import React from 'react';
+import './EmptyFeed.css';
 import { Link } from 'react-router-dom';
 import CreatePostBar from './CreatePostBar';
 

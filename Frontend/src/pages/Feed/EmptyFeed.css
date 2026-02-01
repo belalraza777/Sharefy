@@ -1,0 +1,45 @@
+/* EmptyFeed */
+.empty-feed {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-md);
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  margin: var(--space-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: var(--space-md);
+  opacity: 0.7;
+}
+
+.empty-feed h3 {
+  color: var(--text-color);
+  margin-bottom: var(--space-sm);
+  font-size: 1.25rem;
+}
+
+.empty-feed p {
+  color: var(--text-color-dim);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-lg);
+}
+
+.create-first-post-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: var(--primary-gradient);
+  color: var(--white);
+  text-decoration: none;
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-weight-semibold);
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-primary);
+}
+
+.create-first-post-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary-hover);
+}

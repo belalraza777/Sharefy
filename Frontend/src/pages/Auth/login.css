@@ -11,9 +11,9 @@
 
 .login-card {
   background: var(--card-bg);
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  padding: 3rem 2.5rem;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-2xl);
+  padding: var(--space-2xl) var(--space-xl);
   width: 100%;
   max-width: 400px;
   position: relative;
@@ -27,8 +27,8 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--primary), #a29bfe);
-  border-radius: 20px 20px 0 0;
+  background: var(--primary-gradient);
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
 }
 
 .login-header {
@@ -129,14 +129,14 @@
 }
 
 .login-btn {
-  padding: 1rem;
+  padding: var(--space-md);
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  background: linear-gradient(135deg, var(--primary), #a29bfe);
-  color: white;
+  background: var(--primary-gradient);
+  color: var(--white);
   box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
   transition: all 0.2s ease;
   position: relative;
@@ -174,25 +174,25 @@
   box-shadow: var(--shadow-sm);
 }
 
-.btn-primary {
-  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-  color: white;
+.login-form .btn-primary {
+  background: var(--primary-gradient);
+  color: var(--white);
 }
 
-.btn-primary:hover:not(:disabled) {
+.login-form .btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+  box-shadow: var(--shadow-primary);
 }
 
-.btn-secondary {
-  background: #00b894;
-  color: white;
+.login-form .btn-secondary {
+  background: var(--secondary);
+  color: var(--white);
 }
 
-.btn-secondary:hover:not(:disabled) {
-  background: #00a085;
+.login-form .btn-secondary:hover:not(:disabled) {
+  background: var(--secondary-light);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 184, 148, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 .divider {
@@ -242,29 +242,26 @@
   flex-shrink: 0;
 }
 
-/* Light mode specific Google button styling */
 [data-theme="light"] .btn-google {
-  background: #ffffff;
-  color: #1f2937;
-  border-color: #e5e7eb;
+  background: var(--white);
+  color: var(--text-color);
+  border-color: var(--border-color);
 }
 
 [data-theme="light"] .btn-google:hover:not(:disabled) {
-  background: #f9fafb;
-  border-color: #4285f4;
+  background: var(--surface-alt);
 }
 
-/* Dark mode specific Google button styling */
-[data-theme="dark"] .btn-google {
-  background: rgba(255, 255, 255, 0.05);
-  color: #f3f4f6;
-  border-color: rgba(255, 255, 255, 0.1);
+[data-theme="dark"] .btn-google,
+html[data-theme="dark"] .btn-google {
+  background: var(--surface-alt);
+  color: var(--text-color);
+  border-color: var(--border-color);
 }
 
-[data-theme="dark"] .btn-google:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: #4285f4;
-  box-shadow: 0 4px 16px rgba(66, 133, 244, 0.3);
+[data-theme="dark"] .btn-google:hover:not(:disabled),
+html[data-theme="dark"] .btn-google:hover:not(:disabled) {
+  background: var(--btn-bg-hover);
 }
 
 .otp-actions {
@@ -301,7 +298,7 @@
 }
 
 .signup-link:hover {
-  color: #5b4cdb;
+  color: var(--primary-dark);
   text-decoration: underline;
 }
 
@@ -338,19 +335,11 @@
   border-left: 4px solid var(--warning);
 }
 
-/* Loading animation */
-.loading-spinner {
+/* Loading - uses global .loading-spinner */
+.login-btn .loading-spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid transparent;
-  border-top: 2px solid currentColor;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  border-width: 2px;
 }
 
 /* Enhanced Responsive Design */
