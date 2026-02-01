@@ -61,52 +61,51 @@ const CreateStory = ({ onSuccess, onClose }) => {
       setLocalError('Failed to upload story. Please try again.');
     }
   };
-};
 
-return (
-  <div className="create-story-container">
-    <form onSubmit={handleSubmit} className="create-story-form">
-      <h3 style={{ textAlign: 'center' }}>Create Story</h3>
-      <label className="file-picker">
-        <input
-          type="file"
-          accept="image/*,video/*"
-          onChange={handleFile}
-          disabled={creating.uploading}
-        />
-        <span>{file ? 'Change media' : 'Choose media'}</span>
-      </label>
-      {preview && (
-        <div className="preview-wrapper">
-          {file.type.startsWith('image/') ? (
-            <img src={preview} alt="preview" className="preview-media" />
-          ) : (
-            <video src={preview} className="preview-media" controls />
-          )}
-        </div>
-      )}
-      <textarea
-        placeholder="Caption (optional)"
-        value={caption}
-        onChange={(e) => setCaption(e.target.value)}
-        maxLength={150}
-        disabled={creating.uploading}
-        className="caption-input"
-      />
-      {(localError || creating.error) && (
-        <div className="story-create-error">{localError || creating.error}</div>
-      )}
-      <div className="actions-row">
-        {onClose && (
-          <button type="button" className="btn secondary" onClick={onClose} disabled={creating.uploading}>Cancel</button>
+  return (
+    <div className="create-story-container">
+      <form onSubmit={handleSubmit} className="create-story-form">
+        <h3 style={{ textAlign: 'center' }}>Create Story</h3>
+        <label className="file-picker">
+          <input
+            type="file"
+            accept="image/*,video/*"
+            onChange={handleFile}
+            disabled={creating.uploading}
+          />
+          <span>{file ? 'Change media' : 'Choose media'}</span>
+        </label>
+        {preview && (
+          <div className="preview-wrapper">
+            {file.type.startsWith('image/') ? (
+              <img src={preview} alt="preview" className="preview-media" />
+            ) : (
+              <video src={preview} className="preview-media" controls />
+            )}
+          </div>
         )}
-        <button type="submit" className="btn primary" disabled={creating.uploading}>
-          {creating.uploading ? 'Uploading…' : 'Post Story'}
-        </button>
-      </div>
-    </form>
-  </div>
-);
+        <textarea
+          placeholder="Caption (optional)"
+          value={caption}
+          onChange={(e) => setCaption(e.target.value)}
+          maxLength={150}
+          disabled={creating.uploading}
+          className="caption-input"
+        />
+        {(localError || creating.error) && (
+          <div className="story-create-error">{localError || creating.error}</div>
+        )}
+        <div className="actions-row">
+          {onClose && (
+            <button type="button" className="btn secondary" onClick={onClose} disabled={creating.uploading}>Cancel</button>
+          )}
+          <button type="submit" className="btn primary" disabled={creating.uploading}>
+            {creating.uploading ? 'Uploading…' : 'Post Story'}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 };
 
 export default CreateStory;
