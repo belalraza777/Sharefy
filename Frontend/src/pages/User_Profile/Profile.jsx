@@ -1,9 +1,9 @@
+import './Profile.css';
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import useUserStore from '../../store/userStore.js';
 import Skeleton from '../../components/Skeleton/Skeleton';
-import './Profile.css';
 import FollowButton from '../../components/Buttons/followButton.jsx';
 import defaultAvatar from '../../assets/defaultAvatar.png';
 import { FaHeart, FaComment } from 'react-icons/fa';

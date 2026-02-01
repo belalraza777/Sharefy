@@ -2,7 +2,7 @@
 .theme-page-container {
   max-width: clamp(280px, 60vw, 480px);
   margin: 2rem auto;
-  padding: 0 1rem; /* ensure content doesn't touch edges */
+  padding: 2rem 2rem; /* ensure content doesn't touch edges */
   font-family: var(--font-family, system-ui, sans-serif);
 }
 

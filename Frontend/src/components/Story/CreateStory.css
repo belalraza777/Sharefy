@@ -1,8 +1,9 @@
 /* CreateStory - uses global theme variables (Story.css provides main styles) */
 .create-story-container {
   padding: var(--space-lg);
-  max-width: 360px;
-  width: 100%;
+  max-width: 100%;
+  width: 90%;
+  height: min-content;
 }
 
 .create-story-form {
@@ -23,7 +24,8 @@
   flex-direction: column;
   gap: var(--space-sm);
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 1rem;
+  color: var(--primary);
 }
 
 .file-picker input {

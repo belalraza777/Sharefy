@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import useStoryStore from '../../store/storyStore';
+import './CreateStory.css';
 import './Story.css';
+
 
 // Simple create story form: choose media, preview, add caption, submit.
 // Uses store.createStory (original naming kept) and shows uploading state.

@@ -80,7 +80,6 @@ const Post = React.memo(function Post({ post }) {
               className="insta-media-image"
               width={600}
               height={600}
-              loading="lazy"
               decoding="async"
               onClick={() => navigate(`/post/${post._id}`)}
               style={{ cursor: 'pointer' }}
@@ -92,7 +91,7 @@ const Post = React.memo(function Post({ post }) {
       {/* Caption (now below media) */}
       {post.caption && <div className="insta-post-caption"><span className="insta-username">{post.user.username}</span> {post.caption}</div>}
 
-      {/* Stats: Likes and Comments count */}
+      {/* Stats: Likes and Comments count
       {(post.likes?.length > 0 || post.comments?.length > 0) && (
         <div className="insta-post-stats">
           {post.likes?.length > 0 && (
@@ -102,7 +101,7 @@ const Post = React.memo(function Post({ post }) {
             <span className="stat-item">{post.comments.length} {post.comments.length === 1 ? 'comment' : 'comments'}</span>
           )}
         </div>
-      )}
+      )} */}
 
       {/* Actions: Like, Comment, Share, Save */}
       <div className="insta-post-actions">
