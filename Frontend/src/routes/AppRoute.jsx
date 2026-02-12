@@ -15,7 +15,6 @@ const SinglePost = lazy(() => import('../pages/Post/SinglePost'));
 const CreatePost = lazy(() => import('../pages/New_Post/CreatePost'));
 const Settings = lazy(() => import('../pages/Settings/Settings'));
 const Explore = lazy(() => import('../pages/Explore/Explore'));
-const ResetPasswordForm = lazy(() => import('../components/user/ResetPasswordForm'));
 const SavedPost = lazy(() => import('../pages/SavedPost/SavedPost'));
 const Search = lazy(() => import('../pages/Search/Search'));
 const ChatPage = lazy(() => import('../pages/Chat/ChatPage'));
@@ -70,12 +69,6 @@ const AppRoute = () => {
           <Route path="/explore" element={
             <ProtectedRoute>
               <Explore />
-            </ProtectedRoute>
-          }
-          />
-          <Route path="/reset-password" element={
-            <ProtectedRoute>
-              <ResetPasswordForm />
             </ProtectedRoute>
           }
           />

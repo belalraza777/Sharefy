@@ -90,7 +90,19 @@
   }
 
   .create-post-bar__action {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-post-bar {
+    padding: 0.5rem 0.6rem;
+    margin: 0 0 var(--space-md) 0;
+  }
+
+  .create-post-bar__placeholder {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
   }
 }

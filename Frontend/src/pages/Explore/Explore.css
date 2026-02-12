@@ -1,3 +1,15 @@
 .explore {
   padding: 20px;
 }
+
+@media (max-width: 768px) {
+  .explore {
+    padding: var(--space-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .explore {
+    padding: var(--space-sm);
+  }
+}

@@ -98,3 +98,39 @@
   justify-content: flex-end;
   margin-top: var(--space-sm);
 }
+
+.actions-row button {
+  min-height: 44px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .create-story-container {
+    width: 95%;
+    padding: var(--space-md);
+  }
+
+  .create-story-form h3 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-story-container {
+    width: 100%;
+    padding: var(--space-sm);
+  }
+
+  .caption-input {
+    font-size: 16px; /* prevent iOS zoom */
+    min-height: 70px;
+  }
+
+  .actions-row {
+    flex-direction: column;
+  }
+
+  .actions-row button {
+    width: 100%;
+  }
+}

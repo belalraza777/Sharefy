@@ -1,11 +1,8 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import ResetPasswordForm from '../settingsForm/ResetPasswordForm';
 
 const SecuritySettings = () => {
-  const navigate = useNavigate();
-  const handleResetPassword = () => {
-    navigate('/reset-password');
-  };
+  const [showResetPassword, setShowResetPassword] = useState(false);
 
   return (
     <div className="settings-section">
@@ -22,7 +19,7 @@ const SecuritySettings = () => {
           <div className="card-content">
             <h3>Change Password</h3>
             <p>Update your password to keep your account secure</p>
-            <button className="btn btn-primary" onClick={handleResetPassword}>
+            <button className="btn btn-primary" onClick={() => setShowResetPassword(true)}>
               Reset Password
             </button>
           </div>
@@ -50,6 +47,12 @@ const SecuritySettings = () => {
           </div>
         </div>
       </div>
+
+      {/* Reset Password Modal */}
+      <ResetPasswordForm
+        isOpen={showResetPassword}
+        onClose={() => setShowResetPassword(false)}
+      />
     </div>
   );
 };

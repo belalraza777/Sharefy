@@ -1,0 +1,89 @@
+/* UpdateProfilePicForm.css
+   Modal shell styles are in UpdateProfileForm.css (.profile-modal-*)
+   This file only has upload-specific styles */
+
+/* Upload Area */
+.upload-area {
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  text-align: center;
+  transition: all var(--transition-fast);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.upload-area:hover {
+  border-color: var(--primary);
+  background: var(--surface-alt);
+}
+
+.upload-area.drag-over {
+  border-color: var(--primary);
+  background: rgba(108, 92, 231, 0.08);
+}
+
+.upload-icon {
+  font-size: 2.5rem;
+  color: var(--primary);
+  margin-bottom: var(--space-md);
+}
+
+.upload-text {
+  color: var(--text-color);
+  margin-bottom: var(--space-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.upload-subtext {
+  color: var(--text-color-dim);
+  font-size: 0.85rem;
+}
+
+.file-input {
+  display: none;
+}
+
+/* File Preview */
+.file-preview {
+  margin-top: var(--space-lg);
+  text-align: center;
+}
+
+.preview-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary);
+  margin-bottom: var(--space-md);
+}
+
+.file-info {
+  background: var(--surface-alt);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+}
+
+.file-name {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  word-break: break-all;
+}
+
+.file-size {
+  color: var(--text-color-dim);
+  font-size: 0.85rem;
+  margin-top: var(--space-xs);
+}
+
+@media (max-width: 480px) {
+  .upload-area {
+    padding: var(--space-lg);
+  }
+
+  .preview-image {
+    width: 100px;
+    height: 100px;
+  }
+}
