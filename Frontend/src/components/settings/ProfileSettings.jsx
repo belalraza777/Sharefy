@@ -1,45 +1,55 @@
 import React, { useState } from 'react';
-import UpdateProfileForm from '../user/UpdateProfileForm';
-import UpdateProfilePicForm from '../user/UpdateProfilePicForm';
+import UpdateProfileForm from '../settingsForm/UpdateProfileForm';
+import UpdateProfilePicForm from '../settingsForm/UpdateProfilePicForm';
 
 const ProfileSettings = () => {
-  const [profileView, setProfileView] = useState('info'); // 'info' or 'photo'
+  const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showEditPhoto, setShowEditPhoto] = useState(false);
 
   return (
     <div className="settings-section">
       <div className="section-header">
         <h2>Profile Settings</h2>
         <p>Manage your profile information and photo</p>
+      </div>
 
-        <div className="profile-toggle">
-          <button
-            className={`toggle-btn ${profileView === 'info' ? 'active' : ''}`}
-            onClick={() => setProfileView('info')}
-          >
+      <div className="security-grid">
+        <div className="security-card">
+          <div className="card-icon">
             <i className="fas fa-user-edit"></i>
-            Profile Info
-          </button>
-          <button
-            className={`toggle-btn ${profileView === 'photo' ? 'active' : ''}`}
-            onClick={() => setProfileView('photo')}
-          >
+          </div>
+          <div className="card-content">
+            <h3>Profile Info</h3>
+            <p>Update your name, username, and bio</p>
+            <button className="btn btn-primary" onClick={() => setShowEditProfile(true)}>
+              Edit Profile
+            </button>
+          </div>
+        </div>
+
+        <div className="security-card">
+          <div className="card-icon">
             <i className="fas fa-camera"></i>
-            Profile Photo
-          </button>
+          </div>
+          <div className="card-content">
+            <h3>Profile Photo</h3>
+            <p>Change your profile picture</p>
+            <button className="btn btn-primary" onClick={() => setShowEditPhoto(true)}>
+              Change Photo
+            </button>
+          </div>
         </div>
       </div>
 
-      {profileView === 'info' && (
-        <div className="profile-view">
-          <UpdateProfileForm />
-        </div>
-      )}
-
-      {profileView === 'photo' && (
-        <div className="profile-view">
-          <UpdateProfilePicForm />
-        </div>
-      )}
+      {/* Modals */}
+      <UpdateProfileForm
+        isOpen={showEditProfile}
+        onClose={() => setShowEditProfile(false)}
+      />
+      <UpdateProfilePicForm
+        isOpen={showEditPhoto}
+        onClose={() => setShowEditPhoto(false)}
+      />
     </div>
   );
 };

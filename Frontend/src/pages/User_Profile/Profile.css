@@ -288,6 +288,27 @@
     opacity: 1;
 }
 
+/* Touch devices: show overlay on tap via :active */
+@media (hover: none) {
+  .profile-post-item:hover::after {
+    content: none;
+  }
+
+  .profile-post-item:active .post-overlay {
+    opacity: 1;
+  }
+
+  .profile-post-item:active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+
 .profile-post-item .post-overlay span {
     display: flex;
     align-items: center;
@@ -349,13 +370,26 @@
     }
     
     .tab {
-        margin: 0 20px;
+        margin: 0 12px;
         font-size: 12px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
     }
     
     .profile-posts-grid {
         gap: 3px;
         margin-top: 16px;
+    }
+
+    .edit-profile-btn,
+    .settings-btn {
+        min-height: 44px;
+    }
+
+    .profile-actions button {
+        min-height: 44px;
+        padding: var(--space-sm) var(--space-lg);
     }
 }
 
@@ -373,5 +407,24 @@
     
     .profile-stats {
         justify-content: center;
+    }
+
+    .profile-container {
+        padding: 0 var(--space-sm);
+    }
+
+    .profile-name {
+        font-size: 20px;
+    }
+
+    .profile-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .tab {
+        margin: 0 8px;
+        font-size: 11px;
+        letter-spacing: 0.5px;
     }
 }

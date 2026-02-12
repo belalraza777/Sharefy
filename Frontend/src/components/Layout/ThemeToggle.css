@@ -3,8 +3,24 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-sm);
+  min-height: 44px;
+  min-width: 44px;
+  padding: var(--space-sm);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast);
+}
+
+.theme-toggle-btn:hover {
+  background: var(--btn-bg);
 }
 
 .theme-toggle-btn span {
   font-size: 0.75rem;
+}
+
+@media (max-width: 480px) {
+  .theme-toggle-btn span {
+    display: none;
+  }
 }

@@ -87,3 +87,26 @@
     background: var(--danger-light);
     box-shadow: 0 6px 20px rgba(214, 48, 49, 0.4);
 }
+
+/* Mobile touch target */
+@media (max-width: 768px) {
+  .follow-btn {
+    min-height: 44px;
+    padding: var(--space-sm) var(--space-lg);
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .follow-btn {
+    min-width: 88px;
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.8rem;
+  }
+}
+
+@media (hover: none) {
+  .follow-btn:hover {
+    transform: none;
+  }
+}

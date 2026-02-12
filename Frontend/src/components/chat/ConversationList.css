@@ -185,7 +185,7 @@
     padding: var(--space-md);
     position: sticky;
     top: 0;
-    background: white;
+    background: var(--card-bg);
     z-index: 10;
   }
 

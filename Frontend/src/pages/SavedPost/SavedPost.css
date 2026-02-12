@@ -68,6 +68,13 @@
   opacity: 1;
 }
 
+/* Touch devices: show overlay on tap */
+@media (hover: none) {
+  .savedpost-card:active .post-overlay {
+    opacity: 1;
+  }
+}
+
 /* Overlay Content */
 .post-overlay span {
   display: flex;
