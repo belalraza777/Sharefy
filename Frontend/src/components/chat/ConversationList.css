@@ -161,6 +161,32 @@
   white-space: nowrap;
 }
 
+.conversation-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.conversation-top {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* unread badge aligned right */
+.unread-count {
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: var(--font-weight-bold);
+  padding: 3px 7px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+
 /* Scrollbar */
 .conversation-items::-webkit-scrollbar {
   width: 6px;

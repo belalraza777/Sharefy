@@ -66,7 +66,6 @@ export const connectSocket = (token) => {
   });
 
 
-
   // Listen for online users update
   socket.on('onlineUsers', (userIds) => {
     console.log("onlineUser", userIds);

@@ -3,9 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './ConversationList.css';
 import useChatStore from '../../store/chatStore';
 
-const ConversationListItem = ({ user }) => {
+const ConversationListItem = ({ user, unreadCount }) => {
   const { onlineUsers } = useChatStore();
-  
+
   // onlineUsers may be an object map of userId->true; check safely
   const isOnline = !!(onlineUsers && typeof onlineUsers === 'object' && onlineUsers[user._id]);
 
@@ -32,12 +32,18 @@ const ConversationListItem = ({ user }) => {
           </div>
         )}
       </div>
+
       <div className="conversation-info">
-        <h4>
-          {user.name || user.username}
-          {/* {isOnline && <span className="online-chip" aria-label="Online now">Online</span>} */}
-        </h4>
-        <p className="conversation-username">@{user.username}</p>
+        <div className="conversation-top">
+          <h4>{user.name || user.username}</h4>
+          {unreadCount > 0 && (
+            <span className="unread-count">{unreadCount}</span>
+          )}
+        </div>
+
+        <p className="conversation-username">
+          @{user.username}
+        </p>
       </div>
     </div>
   );

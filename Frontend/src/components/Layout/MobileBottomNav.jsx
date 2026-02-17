@@ -10,12 +10,16 @@ import {
 } from 'react-icons/fi';
 import { useAuth } from '../../context/authContext';
 import useNotificationStore from '../../store/notificationStore';
+import useChatStore from '../../store/chatStore';
 import defaultAvatar from '../../assets/defaultAvatar.png';
 import './MobileBottomNav.css'; // Mobile bottom nav styling
 
 const MobileBottomNav = () => {
   const location = useLocation();
   const { unreadCount } = useNotificationStore();
+  // Sum all unread message counts from chat store
+  const unreadMsgCounts = useChatStore((s) => s.unreadCounts);
+  const totalUnreadMessages = Object.values(unreadMsgCounts).reduce((a, b) => a + b, 0);
   
   const { user } = useAuth();
 
@@ -52,6 +56,9 @@ const MobileBottomNav = () => {
               )}
               {item.path === '/notifications' && unreadCount > 0 && (
                 <span className="notification-badge">{unreadCount}</span>
+              )}
+              {item.path === '/chat' && totalUnreadMessages > 0 && (
+                <span className="notification-badge">{totalUnreadMessages}</span>
               )}
             </span>
           </Link>
