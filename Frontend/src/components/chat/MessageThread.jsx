@@ -12,9 +12,8 @@ const MessageThread = () => {
   const { userId } = useParams();
 
   // Messages state from chat store
-  const { messages, loading } = useChatStore();
+  const { messages, loading, markAsRead, unreadCounts } = useChatStore();
 
-  
   // Logged-in user (to detect own messages)
   const { user } = useAuth();
 
@@ -23,6 +22,16 @@ const MessageThread = () => {
 
   // Messages for the active chat
   const currentMessages = messages[userId] || [];
+
+  // Mark messages as read when thread is opened
+  useEffect(() => {
+    if (userId) {
+      // Only mark as read if there are unread messages
+      if (unreadCounts[userId] > 0) {
+        markAsRead(userId);
+      }
+    }
+  }, [userId, unreadCounts]);
 
   // Auto-scroll when new messages arrive
   useEffect(() => {

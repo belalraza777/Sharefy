@@ -11,6 +11,7 @@ import {
   FiSettings,
 } from 'react-icons/fi';
 import useNotificationStore from '../../store/notificationStore';
+import useChatStore from '../../store/chatStore';
 import './LeftSidebar.css';
 
 const MENU_ITEMS = [
@@ -26,7 +27,10 @@ const MENU_ITEMS = [
 const LeftSidebar = memo(function LeftSidebar() {
   const location = useLocation();
   const unreadCount = useNotificationStore((s) => s.unreadCount);
-
+  // Sum all unread message counts from chat store
+  const unreadMsgCounts = useChatStore((s) => s.unreadCounts);
+  const totalUnreadMessages = Object.values(unreadMsgCounts).reduce((a, b) => a + b, 0);
+  
   return (
     <aside className="left-sidebar">
       <nav className="sidebar-nav">
@@ -41,6 +45,9 @@ const LeftSidebar = memo(function LeftSidebar() {
                   <item.Icon />
                   {item.path === '/notifications' && unreadCount > 0 && (
                     <span className="notification-badge">{unreadCount}</span>
+                  )}
+                  {item.path === '/chat' && totalUnreadMessages > 0 && (
+                    <span className="notification-badge">{totalUnreadMessages}</span>
                   )}
                 </span>
                 <span className="nav-label">{item.label}</span>

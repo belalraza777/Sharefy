@@ -49,14 +49,15 @@ const ChatPage = () => {
   }, [userId, setActiveUser]);
 
   // Listen for real-time incoming messages
+  // We use getSocket() to access the shared socket instance created in socket.js
   useEffect(() => {
     const socket = getSocket();
     if (!socket) return;
-
     socket.on('newMessage', addIncomingMessage);
     return () => socket.off('newMessage', addIncomingMessage);
   }, [addIncomingMessage]);
 
+  
   return (
     <div className="chat-page">
       <div className={`chat-container ${userId ? 'show-thread' : 'show-list'}`}>

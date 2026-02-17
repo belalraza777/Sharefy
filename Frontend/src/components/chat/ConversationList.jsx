@@ -5,7 +5,7 @@ import { SkeletonUser } from '../Skeleton/Skeleton';
 import './ConversationList.css';
 
 const ConversationList = () => {
-  const { conversations, loading } = useChatStore();
+  const { conversations, loading, unreadCounts } = useChatStore();
   
 
   if (loading) {
@@ -37,7 +37,7 @@ const ConversationList = () => {
           </div>
         ) : (
           conversations.map((user) => (
-            <ConversationListItem key={user._id} user={user} />
+            <ConversationListItem key={user._id} user={user} unreadCount={unreadCounts[user._id] || 0} />
           ))
         )}
       </div>
