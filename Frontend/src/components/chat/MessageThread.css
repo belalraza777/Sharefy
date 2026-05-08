@@ -135,8 +135,11 @@
 
   .message-list {
     gap: var(--space-sm);
-    /* Space for composer + fixed mobile bottom nav */
-    padding-bottom: calc(120px + env(safe-area-inset-bottom));
+    /*
+      Clearance for fixed composer above fixed bottom nav.
+      At <=768px: composer min height (~76px) + bottom offset (80px + safe-area) = 156px + safe-area
+    */
+    padding-bottom: calc(156px + env(safe-area-inset-bottom));
   }
 
   .message-time {
@@ -170,6 +173,15 @@
 
   .message-bubble.theirs .message-content {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  }
+
+  .message-list {
+    /*
+      At <=480px composer adds extra bottom padding (10px + safe-area):
+      composer min height (~64px + safe-area) + bottom offset (80px + safe-area)
+      = 144px + 2*safe-area
+    */
+    padding-bottom: calc(144px + env(safe-area-inset-bottom) + env(safe-area-inset-bottom));
   }
 
   .message-time {
