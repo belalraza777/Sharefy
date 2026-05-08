@@ -135,7 +135,8 @@
 
   .message-list {
     gap: var(--space-sm);
-    padding-bottom: var(--space-lg);
+    /* Space for composer + fixed mobile bottom nav */
+    padding-bottom: calc(120px + env(safe-area-inset-bottom));
   }
 
   .message-time {

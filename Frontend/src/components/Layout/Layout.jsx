@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
   // Chat page gets full width layout
   if (isChatPage) {
     return (
-      <div className="app-layout">
+      <div className="app-layout app-layout--chat">
         <Header />
         <div className="chat-layout-container">
           <LeftSidebar />

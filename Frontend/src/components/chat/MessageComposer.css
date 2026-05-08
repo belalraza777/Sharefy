@@ -9,10 +9,13 @@
   flex-shrink: 0;
   position: relative;
   z-index: 10;
+  width: 100%;
+  max-width: 100%;
 }
 
 .message-input {
-  flex: 1;
+  flex: 1 1 auto;
+  min-width: 0;
   padding: 12px 16px;
   border: 2px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -56,6 +59,7 @@
   cursor: pointer;
   transition: all var(--transition-fast);
   font-size: 1.2rem;
+  flex: 0 0 auto;
 }
 
 .send-button:hover:not(:disabled) {
@@ -79,10 +83,13 @@
     gap: var(--space-sm);
     background: var(--card-bg);
     box-shadow: var(--shadow-md);
-    position: sticky;
-    position: -webkit-sticky;
-    bottom: 0;
+    /* Use fixed on mobile to avoid sticky+overflow issues */
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(80px + env(safe-area-inset-bottom));
     width: 100%;
+    max-width: 100%;
   }
 
   .message-input {
@@ -112,9 +119,8 @@
   .message-composer {
     padding: 10px;
     gap: 8px;
-    position: sticky;
-    position: -webkit-sticky;
-    bottom: 0;
+    position: fixed;
+    bottom: calc(80px + env(safe-area-inset-bottom));
     width: 100%;
     padding-bottom: calc(10px + env(safe-area-inset-bottom));
   }
