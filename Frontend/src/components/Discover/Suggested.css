@@ -145,3 +145,22 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* Desktop: constrain height and allow scrolling when many suggestions */
+@media (min-width: 1024px) {
+  .suggested-list {
+    max-height: 56vh; /* adjust as needed */
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: 8px; /* avoid content hiding behind scrollbar */
+  }
+
+  .suggested-list::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .suggested-list::-webkit-scrollbar-thumb {
+    background: var(--primary-light);
+    border-radius: 999px;
+  }
+}
