@@ -13,6 +13,8 @@ import './SearchBar.css';
 const SearchBar = ({ isDropdown = true }) => {
     const [query, setQuery] = useState('');
     const { search, result, loading } = useSearchStore();
+    const searchBarClassName = `search-bar ${isDropdown ? 'search-bar--dropdown' : 'search-bar--page'}`;
+    const inputClassName = `search-input ${isDropdown ? 'search-input--dropdown' : 'search-input--page'}`;
 
     // Debounced search function to avoid too many API calls
     // only after the user stops typing for a specified delay (800ms here).
@@ -35,15 +37,19 @@ const SearchBar = ({ isDropdown = true }) => {
     
 
     return (
-        <div className="search-bar">
+        <div className={searchBarClassName}>
             <div className="search-input-container">
                 <HiSearch className="search-icon" />
                 <input
                     type="text"
+                    className={inputClassName}
                     value={query}
                     onChange={handleInputChange}
                     placeholder="Search for users..."
                     aria-label="Search users"
+                    autoComplete="off"
+                    spellCheck="false"
+                    inputMode="search"
                 />
             </div>
 

@@ -3,8 +3,10 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-height: 0;
   background: var(--card-bg);
   border-right: 1px solid var(--border-color);
+  overflow: hidden;
 }
 
 .conversation-list-header {
@@ -21,7 +23,9 @@
 
 .conversation-items {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .conversation-loading,
@@ -205,6 +209,7 @@
 @media (max-width: 768px) {
   .conversation-list {
     height: 100%;
+    min-height: 0;
   }
 
   .conversation-list-header {
@@ -220,7 +225,8 @@
   }
 
   .conversation-items {
-    height: calc(100% - 70px);
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import SearchBar from '../../components/search/SearchBar';
 import UserSearchResult from '../../components/search/UserSearchResult';
 import './Search.css';
@@ -8,12 +7,6 @@ import './Search.css';
  * Combines SearchBar and UserSearchResult for full search experience
  */
 const Search = () => {
-    const [searchQuery, setSearchQuery] = useState('');
-
-    const handleSearchSubmit = (query) => {
-        setSearchQuery(query);
-    };
-
     return (
         <div className="search-page">
             <div className="search-container">

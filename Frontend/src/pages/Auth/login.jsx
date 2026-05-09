@@ -73,7 +73,16 @@ return (
         <div className="login-card">
             <div className="login-header">
                 <div className="login-logo">
-            <img src={logo} alt="Sharefy Logo" className="brand-logo" />
+                        <img
+                            src={logo}
+                            alt="Sharefy Logo"
+                            className="brand-logo"
+                            width="1196"
+                            height="387"
+                            loading="eager"
+                            fetchPriority="high"
+                            decoding="async"
+                        />
                 </div>
                 <h2 className="login-title">Login to your account</h2>
                 <p className="login-subtitle">Welcome back! Please enter your details.</p>

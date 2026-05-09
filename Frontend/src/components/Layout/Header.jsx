@@ -13,7 +13,16 @@ const Header = () => {
     <header className="header">
       <div className="header-content">
         <div className="header-brand">
-          <img src={logo} alt="Sharefy Logo" className="brand-logo" />
+          <img
+            src={logo}
+            alt="Sharefy Logo"
+            className="brand-logo"
+            width="1196"
+            height="387"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+          />
         </div>
 
         <div className="header-search">

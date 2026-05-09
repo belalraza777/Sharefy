@@ -75,7 +75,16 @@ const SignupPage = () => {
       <div className="signup-card">
         <div className="signup-header">
           <div className="signup-logo">
-            <img src={logo} alt="Sharefy Logo" className="brand-logo" />
+            <img
+              src={logo}
+              alt="Sharefy Logo"
+              className="brand-logo"
+              width="1196"
+              height="387"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
           </div>
           <h2 className="signup-title">Create your account</h2>
           <p className="signup-subtitle">Join our community today</p>

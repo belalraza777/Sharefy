@@ -46,7 +46,6 @@ const UserSearchResult = () => {
                             to={`/profile/${user.username}`}
                             key={user._id}
                             className="search-result-item-full"
-                            onClick={() => setQuery('')}
                         >
                             <img src={user?.profileImage} alt={user.username} />
                             <div className="user-info">
