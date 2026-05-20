@@ -6,7 +6,7 @@ import ScrollToTop from './ScrollToTop';
 import Skeleton from '../components/Skeleton/Skeleton';
 import OAuthSuccess from '../pages/oauth/oAuth-success';
 import Feed from '../pages/Feed/Feed';
-import Profile from '../pages/User_Profile/Profile';
+import Profile from '../pages/Profile/Profile';
 import Notification from '../pages/Notification/Notification';
 
 import LoginPage from '../pages/Auth/login';

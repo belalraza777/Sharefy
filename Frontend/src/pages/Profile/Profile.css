@@ -164,6 +164,83 @@
     color: var(--text-color);
 }
 
+.stat-button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: inherit;
+}
+
+.stat-button:hover span:last-child {
+    color: var(--text-color);
+}
+
+.stat-button.active span:first-child {
+    color: var(--primary);
+}
+
+.follow-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.follow-modal-content {
+    width: min(520px, 92vw);
+    max-height: 80vh;
+    background: var(--surface);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    padding: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.follow-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    flex: 0 0 auto;
+}
+
+.follow-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.follow-modal-close {
+    border: none;
+    cursor: pointer;
+    background: transparent;
+}
+.follow-model-close-icon {
+    width: 25px;
+    height: 25px;
+    color: red;
+    font-weight: bold;
+}
+.follow-model-close-icon:hover {
+   transform: scale(1.1);
+}
+
+.follow-modal-close:hover {
+    background: var(--surface);
+}
+
 /* Bio Section */
 .profile-details {
     font-size: 16px;

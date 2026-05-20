@@ -49,7 +49,16 @@ export const getUserProfile = async (req, res) => {
     // Get posts of this user
     const posts = await Post.find({ user: user._id }).lean();
 
-    const profileData = { user, posts };
+    const followersCount = user.followers?.length || 0;
+    const followingCount = user.following?.length || 0;
+    const isOwnProfile = req.user?.id?.toString() === user._id.toString();
+
+    if (!isOwnProfile) {
+        user.followers = [];
+        user.following = [];
+    }
+
+    const profileData = { user, posts, followersCount, followingCount };
 
     // Cache profile for 5 minutes
     await setCache(cacheKey, profileData, 300);
@@ -133,7 +142,8 @@ export const followUser = async (req, res) => {
     });
 
     // Invalidate caches
-    await deleteCache(`following:${currentUser._id}`);
+    await deleteCachePattern(`following:${currentUser._id}:*`);
+    await deleteCachePattern(`followers:${userToFollow._id}:*`);
     await deleteCache(`profile:${currentUser.username}`);
     await deleteCache(`profile:${userToFollow.username}`);
     await deleteCachePattern(`feed:${currentUser._id}:*`);
@@ -175,7 +185,8 @@ export const unfollowUser = async (req, res) => {
     }
 
     // Invalidate caches
-    await deleteCache(`following:${currentUser._id}`);
+    await deleteCachePattern(`following:${currentUser._id}:*`);
+    await deleteCachePattern(`followers:${userToUnfollow._id}:*`);
     await deleteCache(`profile:${currentUser.username}`);
     await deleteCache(`profile:${userToUnfollow.username}`);
     await deleteCachePattern(`feed:${currentUser._id}:*`);
@@ -186,8 +197,16 @@ export const unfollowUser = async (req, res) => {
 
 //Get followers list of a user
 export const getFollowers = async (req, res) => {
+    if (req.user?.id !== req.params.id) {
+        return res.status(403).json({ success: false, message: 'Not allowed to view followers' });
+    }
+
+    const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+    const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 20, 1), 50);
+    const skip = (page - 1) * limit;
+
     // Check cache first
-    const cacheKey = `followers:${req.params.id}`;
+    const cacheKey = `followers:${req.params.id}:page:${page}:limit:${limit}`;
     const cachedFollowers = await getCache(cacheKey);
     if (cachedFollowers) {
         return res.status(200).json({ success: true, message: 'Followers fetched successfully', data: cachedFollowers });
@@ -198,23 +217,45 @@ export const getFollowers = async (req, res) => {
         return res.status(404).json({ success: false, message: 'User not found' });
     }
 
+    const total = await Follow.countDocuments({ following: user._id });
+
     // Find all Follow documents where 'following' is the current user's ID
-    const followerRelationships = await Follow.find({ following: user._id }).populate('follower', '-passwordHash').lean();
+    const followerRelationships = await Follow.find({ following: user._id })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .populate('follower', 'username profileImage _id')
+        .lean();
 
     // Extract the follower user objects
     const followers = followerRelationships.map(rel => rel.follower);
+    const payload = {
+        users: followers,
+        page,
+        limit,
+        total,
+        hasMore: page * limit < total
+    };
 
     // Cache followers list for 5 minutes
-    await setCache(cacheKey, followers, 300);
+    await setCache(cacheKey, payload, 300);
 
-    res.status(200).json({ success: true, message: 'Followers fetched successfully', data: followers });
+    res.status(200).json({ success: true, message: 'Followers fetched successfully', data: payload });
 };
 
 
 //Get following list of a user
 export const getFollowing = async (req, res) => {
+    if (req.user?.id !== req.params.id) {
+        return res.status(403).json({ success: false, message: 'Not allowed to view following' });
+    }
+
+    const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+    const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 20, 1), 50);
+    const skip = (page - 1) * limit;
+
     // Check cache first
-    const cacheKey = `following:${req.params.id}`;
+    const cacheKey = `following:${req.params.id}:page:${page}:limit:${limit}`;
     const cachedFollowing = await getCache(cacheKey);
     if (cachedFollowing) {
         return res.status(200).json({ success: true, message: 'Following fetched successfully', data: cachedFollowing });
@@ -225,14 +266,28 @@ export const getFollowing = async (req, res) => {
         return res.status(404).json({ success: false, message: 'User not found' });
     }
 
+    const total = await Follow.countDocuments({ follower: user._id });
+
     // Find all Follow documents where 'follower' is the current user's ID
-    const followingRelationships = await Follow.find({ follower: user._id }).populate('following', '-passwordHash').lean();
+    const followingRelationships = await Follow.find({ follower: user._id })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .populate('following', 'username profileImage _id')
+        .lean();
 
     // Extract the following user objects
     const following = followingRelationships.map(rel => rel.following);
+    const payload = {
+        users: following,
+        page,
+        limit,
+        total,
+        hasMore: page * limit < total
+    };
 
     // Cache following list for 5 minutes
-    await setCache(cacheKey, following, 300);
+    await setCache(cacheKey, payload, 300);
 
-    res.status(200).json({ success: true, message: 'Following fetched successfully', data: following });
+    res.status(200).json({ success: true, message: 'Following fetched successfully', data: payload });
 };

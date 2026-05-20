@@ -81,9 +81,9 @@ export const unfollowUser = async (id) => {
 };
 
 
-export const getFollowers = async (id) => {
+export const getFollowers = async (id, params = {}) => {
   try {
-    const response = await axiosInstance.get(`/users/${id}/followers`);
+    const response = await axiosInstance.get(`/users/${id}/followers`, { params });
     return { success: true, message: response.data.message, data: response.data.data };
   } catch (error) {
     console.error(`Error getting followers for user with ID ${id}:`, error);
@@ -92,9 +92,9 @@ export const getFollowers = async (id) => {
 };
 
 
-export const getFollowing = async (id) => {
+export const getFollowing = async (id, params = {}) => {
   try {
-    const response = await axiosInstance.get(`/users/${id}/following`);
+    const response = await axiosInstance.get(`/users/${id}/following`, { params });
     return { success: true, message: response.data.message, data: response.data.data };
   } catch (error) {
     console.error(`Error getting following for user with ID ${id}:`, error);
