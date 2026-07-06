@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import LikeButton from '../../components/Buttons/likeButton';
 import { LuMessageCircle } from "react-icons/lu";
 import { useNavigate } from 'react-router-dom';
-import './Post.css';
+import './post.css';
 import defaultAvatar from '../../assets/defaultAvatar.png';
 import SavePostButton from '../../components/Buttons/savePostButton';
 import ShareButton from '../../components/Buttons/shareButton';
