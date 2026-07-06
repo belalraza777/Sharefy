@@ -65,12 +65,12 @@ const AppRoute = () => {
             </ProtectedRoute>
           }
           />
-          <Route path="/explore" element={
+          {/* <Route path="/explore" element={
             <ProtectedRoute>
               <Explore />
             </ProtectedRoute>
           }
-          />
+          /> */}
           <Route path="/saved" element={
             <ProtectedRoute>
               <SavedPost />
