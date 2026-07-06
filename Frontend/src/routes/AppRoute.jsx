@@ -14,7 +14,6 @@ const SignupPage = lazy(() => import('../pages/Auth/signup'));
 const SinglePost = lazy(() => import('../pages/Post/SinglePost'));
 const CreatePost = lazy(() => import('../pages/New_Post/CreatePost'));
 const Settings = lazy(() => import('../pages/Settings/Settings'));
-const Explore = lazy(() => import('../pages/Explore/Explore'));
 const SavedPost = lazy(() => import('../pages/SavedPost/SavedPost'));
 const Search = lazy(() => import('../pages/Search/Search'));
 const ChatPage = lazy(() => import('../pages/Chat/ChatPage'));
