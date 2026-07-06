@@ -103,6 +103,16 @@
   min-height: 44px;
 }
 
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-left-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .create-story-container {

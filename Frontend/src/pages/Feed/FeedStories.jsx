@@ -18,9 +18,11 @@ export default function FeedStories() {
 
   return (
     <div className="feed-stories-section">
+      {/* StoryCircles shows the story circles and handles opening the StoryViewer */}
       <StoryCircles onAddClick={() => setShowCreateStory(true)} />
       <StoryViewer />
-
+      
+      {/* CreateStory modal */}
       {showCreateStory &&
         createPortal(
           <div className="story-create-overlay" onClick={() => setShowCreateStory(false)}>

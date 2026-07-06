@@ -12,7 +12,7 @@ import './Story.css';
 // onSuccess: called with newly created story object after successful upload.
 // onClose: optional close handler (e.g., close modal).
 const CreateStory = ({ onSuccess, onClose }) => {
-  const { createStory, creating } = useStoryStore();
+  const { createStory, creating, loading } = useStoryStore();
   const [file, setFile] = useState(null);
   const [caption, setCaption] = useState('');
   const [preview, setPreview] = useState(null);
@@ -61,6 +61,21 @@ const CreateStory = ({ onSuccess, onClose }) => {
       setLocalError('Failed to upload story. Please try again.');
     }
   };
+  // Render loading state if uploading or fetching stories.
+  if (loading || creating.uploading) {
+    return (
+      <div className="create-story-container">
+        <div className="create-story-loading">
+          <div className="spinner"></div>
+          <p>
+            {creating.uploading
+              ? "Uploading story..."
+              : "Loading..."}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="create-story-container">

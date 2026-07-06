@@ -33,8 +33,8 @@ const Header = () => {
           {user ? (
             <Link to={`/profile/${user.username}`} className="user-link">
               <img
-                src={user.profileImage || defaultAvatar}
-                alt={user.username || 'User'}
+                src={user?.profileImage}
+                alt={user?.username}
                 className="user-avatar"
                 onError={(e) => { e.currentTarget.src = defaultAvatar; }}
               />

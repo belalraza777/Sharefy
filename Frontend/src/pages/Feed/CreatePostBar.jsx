@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import { IoImagesOutline } from 'react-icons/io5';
 import { CiVideoOn } from 'react-icons/ci';
+import defaultAvatar from '../../assets/defaultAvatar.png';
 
 // Quick post creation entry used across feed views
 export default function CreatePostBar() {
@@ -13,11 +14,12 @@ export default function CreatePostBar() {
     <div className="create-post-bar">
       <div className="create-post-bar__left">
         <div className="create-post-bar__avatar">
-          {user?.profileImage ? (
-            <img src={user.profileImage} alt={user.username} />
-          ) : (
-            <span>{user?.username?.charAt(0)?.toUpperCase() || 'U'}</span>
-          )}
+            <img
+              src={user?.profileImage || defaultAvatar}
+              alt={user?.username || 'User'}
+              className="user-avatar"
+              onError={(e) => { e.currentTarget.src = defaultAvatar; }}
+            />
         </div>
 
         <Link to="/new-post" className="create-post-bar__placeholder">

@@ -1,9 +1,8 @@
 import express from "express";
 import verifyAuth from "../middlewares/verifyAuth.js";
 import asyncWrapper from "../utils/asyncWrapper.js";
-import {postLimiter} from "../middlewares/rateLimit.js";
+import { postLimiter } from "../middlewares/rateLimit.js";
 import { postValidation } from "../middlewares/joiValidation.js";
-
 import {
     createPost,
     getPostById,
@@ -11,9 +10,8 @@ import {
     unlikePost,
     deletePost
 } from "../controllers/postController.js";
-import getFeed from "../controllers/feedController.js";
-import upload from "../middlewares/uploadMiddleware.js"; 
-
+import { getFeed } from "../controllers/feedController.js";
+import upload from "../middlewares/uploadMiddleware.js";
 
 const router = express.Router();
 

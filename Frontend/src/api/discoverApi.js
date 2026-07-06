@@ -18,9 +18,9 @@ axiosInstance.interceptors.request.use((config) => {
     return config;
 });
 
-export const getSuggestedUsers = async (limit = 20) => {
+export const getSuggestedUsers = async () => {
   try {
-    const response = await axiosInstance.get(`/discover/users?limit=${limit}`);
+    const response = await axiosInstance.get(`/discover/users`);
     return { success: true, data: response.data.data };
   } catch (error) {
     console.error('Error fetching suggested users', error);

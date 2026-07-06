@@ -17,9 +17,9 @@ const UpdateProfileForm = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen && user) {
       setFormData({
-        fullName: user.fullName || '',
-        username: user.username || '',
-        bio: user.bio || '',
+        fullName: user?.fullName || '',
+        username: user?.username || '',
+        bio: user?.bio || '',
       });
     }
   }, [isOpen, user]);

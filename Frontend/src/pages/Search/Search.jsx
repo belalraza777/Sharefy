@@ -1,3 +1,4 @@
+import SuggestedPosts from '../../components/Discover/SuggestedPosts';
 import SearchBar from '../../components/search/SearchBar';
 import UserSearchResult from '../../components/search/UserSearchResult';
 import './Search.css';
@@ -21,6 +22,9 @@ const Search = () => {
 
                 {/* Full page search results */}
                 <UserSearchResult />
+
+                {/*Suggested posts section */}
+                <SuggestedPosts page={1} />
             </div>
         </div>
     );

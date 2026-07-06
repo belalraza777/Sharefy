@@ -16,7 +16,9 @@ const ProfileHeader = ({
   onOpenSettings,
 }) => {
   return (
+
     <div className="profile-header">
+      {/* Profile avatar section */}
       <div className="profile-avatar-section">
         <img
           className="profile-avatar"
@@ -27,7 +29,7 @@ const ProfileHeader = ({
           }}
         />
       </div>
-
+{/* Profile information section */}
       <div className="profile-info">
         <div className="profile-name-section">
           <span className="profile-name">@{user.username}</span>
@@ -49,7 +51,7 @@ const ProfileHeader = ({
             </div>
           )}
         </div>
-
+{/* Profile stats section */}
         <div className="profile-stats">
           <div className="stat-item">
             <span>{postsCount}</span>

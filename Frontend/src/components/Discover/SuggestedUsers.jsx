@@ -5,13 +5,13 @@ import { SkeletonUser } from '../../components/Skeleton/Skeleton';
 import FollowButton from '../Buttons/followButton.jsx';
 import './Suggested.css';
 
-const SuggestedUsers = ({ limit = 20 }) => {
+const SuggestedUsers = () => {
     const navigator = useNavigate();
     const { suggestedUsers, fetchSuggestedUsers, loadingUsers } = useDiscoverStore();
 
     useEffect(() => {
-        fetchSuggestedUsers(limit);
-    }, [limit]);
+        fetchSuggestedUsers();
+    }, [fetchSuggestedUsers]);
 
     function handleProfileClick(username) {
         navigator(`/profile/${username}`);
@@ -38,12 +38,12 @@ const SuggestedUsers = ({ limit = 20 }) => {
             <ul className="suggested-list">
                 {suggestedUsers.map((u) => (
                     <li key={u._id} className="suggested-item">
-                        <div className="suggested-avatar" onClick={() => handleProfileClick(u.username)}>
-                            <img src={u.profileImage} alt={u.username} />
+                        <div className="suggested-avatar" onClick={() => handleProfileClick(u?.username)}>
+                            <img src={u?.profileImage} alt={u?.username} />
                         </div>
                         <div className="suggested-meta">
-                            <div className="suggested-name">{u.fullName}</div>
-                            <div className="suggested-username">@{u.username}</div>
+                            <div className="suggested-name">{u?.fullName}</div>
+                            <div className="suggested-username">@{u?.username}</div>
                         </div>
                         <div className="suggested-action">
                             <FollowButton userId={u._id} />

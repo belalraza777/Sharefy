@@ -27,9 +27,9 @@ const SuggestedUsersMobile = () => {
             onClick={() => navigate(`/profile/${u.username}`)}
           >
             <div className="s-avatar">
-              <img src={u.profileImage} alt={u.username} />
+              <img src={u?.profileImage} alt={u?.username} />
             </div>
-            <div className="s-username">@{u.username}</div>
+            <div className="s-username">@{u?.username}</div>
             <div
               className="s-action"
               onClick={(e) => { e.stopPropagation(); }}

@@ -145,12 +145,15 @@
     display: flex;
     margin-bottom: 20px;
     gap: 40px;
+    align-items: flex-start; /* prevent items from stretching to full row height */
 }
 
 .stat-item {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start; /* pin content to the top regardless of item height */
+    gap: 2px; /* match .stat-button's gap so plain spans and button-wrapped spans line up */
 }
 
 .stat-item span:first-child {
@@ -174,6 +177,8 @@
     align-items: center;
     gap: 2px;
     color: inherit;
+    font: inherit; /* reset browser default button font so it matches the plain spans */
+    line-height: inherit; /* remove the UA-stylesheet line-height mismatch */
 }
 
 .stat-button:hover span:last-child {

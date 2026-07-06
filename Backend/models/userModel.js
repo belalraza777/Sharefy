@@ -8,14 +8,14 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true,
+    unique: [true, "Username already exists"],
     lowercase: true,
     index: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true,
+    unique: [true, "Email already exists"],
     lowercase: true,
   },
   passwordHash: {

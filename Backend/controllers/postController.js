@@ -1,74 +1,10 @@
-import User from "../models/userModel.js";
-import Post from "../models/postModel.js";
-import Comment from "../models/commentModel.js";
-import { cloudinary } from "../utils/cloudinary.js";
-import Notification from "../models/notificationModel.js";
-import Follow from "../models/followModel.js";
-import { io, onlineUsers } from "../socket.js";
-import { getCache, setCache, deleteCache, deleteCachePattern } from "../utils/cache.js";
-
-
+import postService from "../services/postService.js";
 
 //Create a new post
 export const createPost = async (req, res) => {
     const file = req.file; // Multer provides this
     const caption = req.body?.caption || "";
-    if (caption.length > 2200) {
-        return res.status(400).json({ success: false, message: "Caption exceeds maximum length of 2200 characters" });
-    }
-    //Important: Validate file existence
-    if (!file) {
-        return res.status(400).json({ success: false, message: "File is required" });
-    }
-    //Upload file to Cloudinary (auto-detects image/video/etc.)
-    const result = await cloudinary.uploader.upload(file.path, {
-        resource_type: "auto",
-    });
-
-    //find User 
-    const user = await User.findById(req.user.id);
-    if (!user) {
-        return res.status(404).json({ success: false, message: "User not found" });
-    }
-
-    // Create new Post document in MongoDB
-    const post = new Post({
-        user: user._id, // Who created the post
-        media: {
-            url: result.secure_url,     // Public URL
-            type: result.resource_type, // e.g. "image", "video"
-            publicId: result.public_id, // Needed for deletion later
-        },
-        caption,
-    });
-    // Save post in DB
-    await post.save();
-
-    // Invalidate feed caches for all followers
-    await deleteCachePattern(`feed:*`);
-    await deleteCache(`profile:${user.username}`);
-
-    // 🔔 Create notifications for followers
-    const followersRelationships = await Follow.find({ following: req.user.id });
-    const followers = followersRelationships.map(rel => rel.follower);
-    if (followers.length > 0) {
-        const notifications = followers.map(id => ({
-            receiver: id,
-            sender: req.user.id,
-            message: `created a new post`,
-        }));
-    const insertedNotifications = await Notification.insertMany(notifications);  // bulk insert
-
-        // Emit real-time notifications to online followers
-        for (const notification of insertedNotifications) {
-            const recipientSocketId = onlineUsers[notification.receiver.toString()];
-            if (recipientSocketId) {
-                io.to(recipientSocketId).emit("new_notification", notification);
-            }
-        }
-    }
-
-    // Respond to client
+    const post = await postService.createPostService(req.user.id, file, caption);
     res.status(201).json({
         success: true,
         message: "Post created successfully",
@@ -76,39 +12,9 @@ export const createPost = async (req, res) => {
     });
 };
 
-
-
 //Get a single post by ID
 export const getPostById = async (req, res) => {
-    // Check cache first
-    const cacheKey = `post:${req.params.id}`;
-    const cachedPost = await getCache(cacheKey);
-    if (cachedPost) {
-        return res.status(200).json({
-            success: true,
-            message: "Post fetched successfully",
-            data: cachedPost,
-        });
-    }
-
-    // Populate: fetch user info + comments linked to this post
-    const post = await Post.findById(req.params.id).populate([
-        { path: "user" },       // Post owner info
-        {
-            path: "comments",
-            populate: {
-                path: "user",
-                select: "username profileImage",
-            },
-        },
-    ]);
-    if (!post) {
-        return res.status(404).json({ success: false, message: "Post not found" });
-    }
-
-    // Cache post for 5 minutes
-    await setCache(cacheKey, post, 300);
-
+    const post = await postService.getPostByIdService(req.params.id);
     res.status(200).json({
         success: true,
         message: "Post fetched successfully",
@@ -116,36 +22,9 @@ export const getPostById = async (req, res) => {
     });
 };
 
-
 //Like a post
 export const likePost = async (req, res) => {
-    const post = await Post.findById(req.params.id).populate("user");
-    // Important: Prevent duplicate likes
-    if (post.likes.includes(req.user.id)) {
-        return res.status(400).json({ success: false, message: "You already liked this post" });
-    }
-    // Add user ID to post.likes
-    post.likes.push(req.user.id);
-    await post.save();
-
-    // Invalidate post cache
-    await deleteCache(`post:${req.params.id}`);
-
-    // 🔔 Notify post owner
-    if (post.user._id.toString() !== req.user.id) {
-        const newNotification = await Notification.create({
-            receiver: post.user._id,
-            sender: req.user.id,
-            message: `liked your post`,
-        });
-
-        // Emit a real-time notification to the post author if they are online
-        const recipientSocketId = onlineUsers[post.user._id.toString()];
-        if (recipientSocketId) {
-            io.to(recipientSocketId).emit("new_notification", newNotification);
-        }
-    }
-
+    const post = await postService.likePostService(req.params.id, req.user.id);
     res.status(200).json({
         success: true,
         message: "Post liked successfully",
@@ -153,21 +32,9 @@ export const likePost = async (req, res) => {
     });
 };
 
-
 //Unlike a post
 export const unlikePost = async (req, res) => {
-    const post = await Post.findById(req.params.id);
-    //  Important: Prevent unliking if not liked
-    if (!post.likes.includes(req.user.id)) {
-        return res.status(400).json({ success: false, message: "You haven't liked this post yet" });
-    }
-    // Remove user ID from post.likes
-    post.likes.pull(req.user.id);
-    await post.save();
-
-    // Invalidate post cache
-    await deleteCache(`post:${req.params.id}`);
-
+    const post = await postService.unlikePostService(req.params.id, req.user.id);
     res.status(200).json({
         success: true,
         message: "Post unliked successfully",
@@ -175,30 +42,8 @@ export const unlikePost = async (req, res) => {
     });
 };
 
-
 //Delete a post (only the owner can delete)
 export const deletePost = async (req, res) => {
-    const post = await Post.findById(req.params.id);
-    if (!post) {
-        return res.status(404).json({ success: false, message: "Post not found" });
-    }
-    //  Important: Authorization check
-    if (post.user.toString() !== req.user.id) {
-        return res.status(401).json({
-            success: false,
-            message: "You are not authorized to delete this post",
-        });
-    }
-    //  Delete file from Cloudinary (so storage is not wasted)
-    await cloudinary.uploader.destroy(post.media.publicId);
-    //  Delete post from MongoDB
-    await Post.findByIdAndDelete(req.params.id);
-    //Delete all comments related to this post
-    await Comment.deleteMany({ post: req.params.id });
-
-    // Invalidate caches
-    await deleteCache(`post:${req.params.id}`);
-    await deleteCachePattern(`feed:*`);
-
+    await postService.deletePostService(req.params.id, req.user.id);
     res.status(200).json({ success: true, message: "Post deleted successfully" });
 };

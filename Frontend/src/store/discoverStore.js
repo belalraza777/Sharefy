@@ -15,9 +15,9 @@ const useDiscoverStore = create((set, get) => ({
 
     // Actions: fetch suggested users from the API
     // limit: number of users to request (default 20)
-    fetchSuggestedUsers: async (limit = 20) => {
+    fetchSuggestedUsers: async () => {
         set({ loadingUsers: true, error: null });
-        const res = await getSuggestedUsersApi(limit);
+        const res = await getSuggestedUsersApi();
         if (res.success) {
             set({ suggestedUsers: res.data, loadingUsers: false });
         } else {

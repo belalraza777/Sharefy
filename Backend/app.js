@@ -78,7 +78,7 @@ app.use((req, res, next) => {
 
 // Error handling
 app.use((err, req, res, next) => {
-  const status = err.status || 500;
+  const status = err.statusCode || err.status || 500;
   const message = err.message || "Internal Server Error";
   const isProd = process.env.NODE_ENV === 'production';
 
@@ -93,7 +93,6 @@ app.use((err, req, res, next) => {
     error: message,
     ...(isProd ? {} : { stack: err.stack })
   };
-
   return res.status(status).json(payload);
 });
 

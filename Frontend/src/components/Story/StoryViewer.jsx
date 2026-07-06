@@ -1,6 +1,7 @@
-// StoryViewer: fullscreen modal to play a single story.
-// Uses the flat `stories` list and the store's `viewer.index`.
-// Supports next/prev, close on backdrop/ESC, and delete (owner only).
+// Fullscreen story viewer.
+// Uses the global story store for the current story and navigation.
+// Supports keyboard navigation, backdrop close, and owner-only delete.
+
 import React, { useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import useStoryStore from '../../store/storyStore';
@@ -10,26 +11,17 @@ import { IoMdClose } from "react-icons/io";
 import { FiEye } from "react-icons/fi";
 import { toast } from 'sonner';
 
-
-// Fullscreen overlay to display a single story media with caption.
-// Navigation: left/right arrows. Close on backdrop click or ESC.
-// Delete button visible only for owner's story.
-
-// No props: uses global store viewer state.
 const StoryViewer = () => {
   const { user } = useAuth();
-  console.log(user);
-  
   const { stories, viewer, closeViewer, openViewer, deleteStory } = useStoryStore();
 
-  console.log(stories);
-  
-  const index = viewer.index;
-  const story = index !== null ? stories[index] : null;
-  const isOpen = viewer.open && !!story;
-  const isOwner = story && story.user && user && story.user._id === user.id;
+  // Current story from the viewer index
+  const index = viewer.index;  //Index of the currently viewed story
+  const story = index !== null ? stories[index] : null;  //Current story object based on the index
+  const isOpen = viewer.open && !!story;  //Is the viewer open and is there a valid story to display
+  const isOwner = story?.user?._id === user?.id;
 
-  // Keyboard shortcuts: ESC close, arrows navigate
+  // ESC closes the viewer, arrow keys navigate stories
   const handleKey = useCallback((e) => {
     if (!isOpen) return;
     if (e.key === 'Escape') closeViewer();
@@ -42,29 +34,32 @@ const StoryViewer = () => {
     return () => window.removeEventListener('keydown', handleKey);
   }, [handleKey]);
 
-  // Lock body scroll while open
+  // Prevent background scrolling while the viewer is open
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add('modal-open');
     } else {
       document.body.classList.remove('modal-open');
     }
+
     return () => document.body.classList.remove('modal-open');
   }, [isOpen]);
 
-  // Previous story
+  // Open previous story
   const prev = () => {
-    if (index === null) return;
-    if (index > 0) openViewer(index - 1);
+    if (index !== null && index > 0) {
+      openViewer(index - 1);
+    }
   };
 
-  // Next story
+  // Open next story
   const next = () => {
-    if (index === null) return;
-    if (index < stories.length - 1) openViewer(index + 1);
+    if (index !== null && index < stories.length - 1) {
+      openViewer(index + 1);
+    }
   };
 
-  // Delete story via sonner toast confirmation (owner only)
+  // Delete current story after confirmation
   const handleDelete = () => {
     if (index === null) return;
     toast("Delete this story?", {
@@ -72,20 +67,22 @@ const StoryViewer = () => {
         label: "Delete",
         onClick: async () => {
           const res = await deleteStory(index);
+
           if (res.success) {
-            toast.success('Story deleted');
+            toast.success("Story deleted");
+            // After deletion, close viewer if it was the last story
             if (index >= stories.length - 1) {
               closeViewer();
             } else {
-              openViewer(index); // viewer index now points at next story after removal
+              openViewer(index);
             }
           } else {
-            toast.error(res.message || 'Failed to delete story');
+            toast.error(res.message || "Failed to delete story");
           }
         }
       },
       cancel: {
-        label: 'Cancel'
+        label: "Cancel"
       }
     });
   };
@@ -93,41 +90,101 @@ const StoryViewer = () => {
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="story-viewer-overlay" onClick={closeViewer} role="dialog" aria-modal="true">
-      <div className="story-viewer" onClick={(e) => e.stopPropagation()}>
+    // Click outside to close
+    <div
+      className="story-viewer-overlay"
+      onClick={closeViewer}
+      role="dialog"
+      aria-modal="true"
+    >
+      {/* Prevent closing when clicking inside */}
+      <div
+        className="story-viewer"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="story-viewer-header">
           <div className="story-user">
-            <img src={story.user?.profileImage || '/default-avatar.png'} alt={story.user?.username} />
-            <span className="story-username-viewer">{story.user?.username}</span>
+            <img
+              src={story.user?.profileImage || '/default-avatar.png'}
+              alt={story.user?.username}
+            />
+            <span className="story-username-viewer">
+              {story.user?.username}
+            </span>
           </div>
+
           <div className="story-header-right">
+            {/* Show total views only to the story owner */}
             {isOwner && story.viewCount !== undefined && (
-              <span className="story-views-pill" title="Total views"><FiEye /> {story.viewCount}</span>
+              <span
+                className="story-views-pill"
+                title="Total views"
+              >
+                <FiEye /> {story.viewCount}
+              </span>
             )}
+
             <div className="story-actions">
               {isOwner && (
-                <button className="btn danger" onClick={handleDelete}>Delete</button>
+                <button
+                  className="btn danger"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
               )}
-              <button className="btn close" onClick={closeViewer} aria-label="Close story viewer"><IoMdClose /></button>
+
+              <button
+                className="btn close"
+                onClick={closeViewer}
+                aria-label="Close story viewer"
+              >
+                <IoMdClose />
+              </button>
             </div>
           </div>
         </div>
+
         <div className="story-media-wrapper">
+          {/* Render image or video based on media type */}
           {story.media?.type?.startsWith('video') ? (
-            <video src={story.media?.url} controls autoPlay />
+            <video
+              src={story.media?.url}
+              controls
+              autoPlay
+            />
           ) : (
-            <img src={story.media?.url} alt={story.caption || 'story'} />
+            <img
+              src={story.media?.url}
+              alt={story.caption || 'story'}
+            />
           )}
+
           {story.caption && (
             <div className="story-caption-overlay">
               <p>{story.caption}</p>
             </div>
           )}
         </div>
-        {/* Footer removed; views now shown in header pill */}
+
         <div className="nav-buttons">
-          <button className="nav prev" aria-label="Previous story" onClick={prev} disabled={index === 0}>◀</button>
-          <button className="nav next" aria-label="Next story" onClick={next} disabled={index === stories.length - 1}>▶</button>
+          <button
+            className="nav prev"
+            aria-label="Previous story"
+            onClick={prev}
+            disabled={index === 0}
+          >
+            ◀
+          </button>
+
+          <button
+            className="nav next"
+            aria-label="Next story"
+            onClick={next}
+            disabled={index === stories.length - 1}
+          >
+            ▶
+          </button>
         </div>
       </div>
     </div>,
