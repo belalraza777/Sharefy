@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import Post from "../models/postModel.js";
 import Comment from "../models/commentModel.js";
-import { cloudinary } from "../utils/cloudinary.js";
+import { cloudinary } from "../config/cloudinary.js";
 import Notification from "../models/notificationModel.js";
 import Follow from "../models/followModel.js";
 import { io, onlineUsers } from "../socket.js";
