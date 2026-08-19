@@ -1,5 +1,5 @@
 import multer from "multer";
-import { storage } from "../utils/cloudinary.js";
+import { storage } from "../config/cloudinary.js";
 
 // Allowed file types
 const allowedMimeTypes = [
