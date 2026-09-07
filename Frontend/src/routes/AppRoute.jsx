@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import ProtectedRoute from './ProtectedRoute';
 import ScrollToTop from './ScrollToTop';
-import Skeleton from '../components/Skeleton/Skeleton';
+import { SkeletonPage } from '../components/Skeleton/Skeleton';
 import OAuthSuccess from '../pages/oauth/oAuth-success';
 import Feed from '../pages/Feed/Feed';
 import Profile from '../pages/Profile/Profile';
@@ -23,7 +23,7 @@ const AppRoute = () => {
   return (
     <>
       <ScrollToTop />
-      <Suspense fallback={<Skeleton />}>
+      <Suspense fallback={<SkeletonPage />}>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />

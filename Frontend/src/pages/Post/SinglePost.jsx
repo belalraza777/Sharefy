@@ -11,7 +11,7 @@ import CommentForm from './commentForm';
 import './singlePost.css';
 import PostOptionsMenu from '../../components/post/PostOptionsMenu';
 import { toast } from 'sonner';
-import Skeleton from '../../components/Skeleton/Skeleton';
+import { SkeletonPost } from '../../components/Skeleton/Skeleton';
 
 
 export default function SinglePost() {
@@ -44,11 +44,7 @@ export default function SinglePost() {
   }, [postId, getPostById]);
 
 
-  if (!post) return <div className="loading-container">
-     <Skeleton variant="post" className="loading-skeleton" />
-     <Skeleton variant="text" className="loading-skeleton" />
-     <Skeleton variant="text" className="loading-skeleton" />
-  </div>;
+  if (!post) return <div className="loading-container"><SkeletonPost /></div>;
 
   const refreshPost = async () => await getPostById(postId);
 

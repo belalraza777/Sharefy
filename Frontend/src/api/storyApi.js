@@ -1,25 +1,4 @@
-import axios from "axios";
-
-// Base API URL (keep consistent with other API modules)
-const API_BASE_URL = (import.meta && import.meta.env && import.meta.env.VITE_API_URL) || (typeof process !== 'undefined' && process.env && process.env.VITE_API_URL) || "http://localhost:8000/api/v1";
-
-// Axios instance for story endpoints
-const axiosInstance = axios.create({
-  baseURL: API_BASE_URL,
-  withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
-// Add token from localStorage if available (simple auth layer)
-axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+import axiosInstance from './client';
 
 // Create a story (image or video)
 // Create a new story (image or video upload + optional caption)

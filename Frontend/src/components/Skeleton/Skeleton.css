@@ -108,6 +108,18 @@
   margin-right: 12px;
 }
 
+.skeleton-feed {
+  width: 100%;
+}
+
+.skeleton-page {
+  width: min(100% - 32px, 650px);
+  margin: 32px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 /* Dark mode - removed to keep light theme always */
 
 /* Responsive */

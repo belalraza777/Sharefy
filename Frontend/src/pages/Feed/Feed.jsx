@@ -7,6 +7,7 @@ import CreatePostBar from './CreatePostBar';
 import FeedPosts from './FeedPosts';
 import EmptyFeed from './EmptyFeed';
 import SuggestedUsersMobile from '../../components/Discover/SuggestedUsersMobile';
+import { SkeletonFeed } from '../../components/Skeleton/Skeleton';
 
 export default function Feed() {
   const { user } = useAuth();
@@ -36,7 +37,9 @@ export default function Feed() {
       <FeedStories />
       <CreatePostBar />
       <SuggestedUsersMobile />
-      <FeedPosts posts={posts} fetchMorePosts={fetchMorePosts} />
+      {loading && posts.length === 0
+        ? <SkeletonFeed />
+        : <FeedPosts posts={posts} fetchMorePosts={fetchMorePosts} />}
     </div>
   );
 }

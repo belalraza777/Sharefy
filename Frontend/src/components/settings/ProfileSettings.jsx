@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import UpdateProfileForm from '../settingsForm/UpdateProfileForm';
-import UpdateProfilePicForm from '../settingsForm/UpdateProfilePicForm';
+import UpdateProfileForm from './UpdateProfileForm';
+import UpdateProfilePicForm from './UpdateProfilePicForm';
 
 const ProfileSettings = () => {
   const [showEditProfile, setShowEditProfile] = useState(false);

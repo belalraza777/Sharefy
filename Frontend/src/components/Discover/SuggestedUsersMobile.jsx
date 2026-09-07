@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useDiscoverStore from '../../store/discoverStore.js';
 import FollowButton from '../../components/Buttons/followButton.jsx';
+import { SkeletonUser } from '../Skeleton/Skeleton';
 import './SuggestedMobile.css';
 
 const SuggestedUsersMobile = () => {
@@ -12,7 +13,18 @@ const SuggestedUsersMobile = () => {
     fetchSuggestedUsers(8);
   }, []);
 
-  if (loadingUsers || !suggestedUsers || suggestedUsers.length === 0) return null;
+  if (loadingUsers) {
+    return (
+      <div className="suggested-mobile" aria-label="Loading suggested users" aria-busy="true">
+        <div className="s-header"><div className="s-title">Suggested Users</div></div>
+        <div className="suggested-mobile-skeletons">
+          {Array.from({ length: 4 }).map((_, index) => <SkeletonUser key={index} />)}
+        </div>
+      </div>
+    );
+  }
+
+  if (!suggestedUsers?.length) return null;
 
   return (
     <div className="suggested-mobile">

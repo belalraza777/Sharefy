@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ResetPasswordForm from '../settingsForm/ResetPasswordForm';
+import ResetPasswordForm from './ResetPasswordForm';
 
 const SecuritySettings = () => {
   const [showResetPassword, setShowResetPassword] = useState(false);

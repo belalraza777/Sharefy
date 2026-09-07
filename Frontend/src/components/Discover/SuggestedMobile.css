@@ -26,6 +26,8 @@
   color:var(--primary) !important;
 }
 .suggested-mobile-list{margin:0;list-style:none}
+.suggested-mobile-skeletons{display:flex;gap:10px;overflow:hidden;padding:6px 8px}
+.suggested-mobile-skeletons .skeleton-user-card{min-width:160px;margin:0}
 .suggested-mobile-item{background:transparent;padding-bottom:4px}
 .suggested-mobile-list::-webkit-scrollbar{height:6px}
 .suggested-mobile-list::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:6px}

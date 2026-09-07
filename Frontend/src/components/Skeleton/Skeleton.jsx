@@ -1,7 +1,7 @@
 import './Skeleton.css';
 
 // Reusable skeleton component for loading states
-// variant: circle, rect, text, avatar, post, user
+// variant: circle, rect, text, avatar
 // width/height: custom dimensions (e.g., "100px", "50%")
 // count: number of skeleton items to render
 const Skeleton = ({ 
@@ -19,10 +19,6 @@ const Skeleton = ({
         return 'skeleton-text';
       case 'avatar':
         return 'skeleton-avatar';
-      case 'post':
-        return 'skeleton-post';
-      case 'user':
-        return 'skeleton-user';
       default:
         return 'skeleton-rect';
     }
@@ -89,6 +85,22 @@ export const SkeletonStory = () => (
     <Skeleton variant="circle" width="70px" height="70px" />
     <Skeleton variant="text" width="60px" height="12px" />
   </div>
+);
+
+export const SkeletonFeed = ({ count = 3 }) => (
+  <div className="skeleton-feed" aria-label="Loading posts" aria-busy="true">
+    {Array.from({ length: count }).map((_, index) => (
+      <SkeletonPost key={index} />
+    ))}
+  </div>
+);
+
+export const SkeletonPage = () => (
+  <main className="skeleton-page" aria-label="Loading page" aria-busy="true">
+    <Skeleton variant="text" width="35%" height="28px" />
+    <Skeleton variant="text" width="100%" height="16px" count={2} />
+    <Skeleton variant="rect" width="100%" height="280px" />
+  </main>
 );
 
 export default Skeleton;
