@@ -58,6 +58,7 @@ Sharefy is a feature-rich, Instagram-inspired social platform built with the MER
 - **Dark/Light/System Theme** — Persisted user preference with CSS variables
 - **Responsive Design** — Desktop 3-column → tablet 2-column → mobile single-column + bottom nav
 - **Skeleton Loaders** — Smooth loading states for posts, profiles, and stories
+- **Installable PWA** — Add Sharefy to a device home screen with automatic service-worker updates
 
 ---
 
@@ -86,6 +87,7 @@ Sharefy is a feature-rich, Instagram-inspired social platform built with the MER
 | **Axios** | HTTP client with auth interceptors |
 | **Socket.IO Client** | Real-time event handling |
 | **Vite 7** | Build tool & dev server |
+| **vite-plugin-pwa** | Web app manifest, installability, and service worker |
 | **Sonner** | Toast notifications |
 | **React Icons** | Icon library (Feather icons) |
 | **React Infinite Scroll** | Infinite pagination |
